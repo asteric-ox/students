@@ -1,0 +1,7934 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Church Student & Teacher Register</title>
+
+<style>
+:root {
+    --navy: #183b65;
+    --navy-dark: #102b4b;
+    --blue: #2563eb;
+    --bg: #f3f6fb;
+    --white: #ffffff;
+    --text: #263445;
+    --muted: #718096;
+    --border: #e2e8f0;
+    --green: #16834a;
+    --shadow: 0 4px 18px rgba(15, 35, 65, .06);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background: var(--bg);
+    color: var(--text);
+}
+
+button, input, select {
+    font: inherit;
+}
+
+/* MAIN LAYOUT */
+
+.app {
+    display: flex;
+    min-height: 100vh;
+}
+
+.sidebar {
+    width: 250px;
+    background: var(--navy-dark);
+    color: white;
+    padding: 25px 16px;
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+}
+
+.brand {
+    padding: 5px 12px 30px;
+    border-bottom: 1px solid rgba(255,255,255,.15);
+}
+
+.brand h2 {
+    font-size: 20px;
+    line-height: 1.4;
+}
+
+.brand p {
+    font-size: 12px;
+    color: #b8c8dc;
+    margin-top: 7px;
+}
+
+.nav-title {
+    font-size: 11px;
+    color: #91a9c5;
+    padding: 25px 12px 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.nav-btn {
+    width: 100%;
+    text-align: left;
+    padding: 13px 14px;
+    margin-bottom: 7px;
+    color: #dce7f4;
+    background: transparent;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.nav-btn:hover,
+.nav-btn.active {
+    background: #28517d;
+    color: white;
+}
+
+.sidebar-footer {
+    margin-top: auto;
+    padding: 15px 12px 0;
+    color: #a9bdd5;
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+/* MAIN CONTENT */
+
+.main {
+    flex: 1;
+    min-width: 0;
+    padding: 28px;
+}
+
+.topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 28px;
+    flex-wrap: wrap;
+}
+
+.page-title h1 {
+    font-size: 25px;
+    color: var(--navy);
+}
+
+.page-title p {
+    color: var(--muted);
+    font-size: 13px;
+    margin-top: 7px;
+}
+
+.top-actions {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.date-label {
+    color: var(--muted);
+    font-size: 13px;
+}
+
+/* BUTTONS */
+
+.btn {
+    border: none;
+    padding: 11px 17px;
+    border-radius: 7px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 700;
+    transition: .2s;
+}
+
+.btn-primary {
+    background: var(--blue);
+    color: white;
+}
+
+.btn-primary:hover {
+    background: #1d4ed8;
+}
+
+.btn-green {
+    background: var(--green);
+    color: white;
+}
+
+.btn-dark {
+    background: var(--navy);
+    color: white;
+}
+
+.btn-light {
+    background: #eef3fa;
+    color: var(--navy);
+}
+
+.view-btn {
+    background: var(--blue);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 7px;
+    border: none;
+    font-weight: 700;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.view-btn:hover {
+    background: #1d4ed8;
+}
+
+/* DASHBOARD STATS */
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 17px;
+    margin-bottom: 25px;
+}
+
+.stat-card {
+    background: white;
+    padding: 21px;
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border);
+    min-width: 0;
+}
+
+.stat-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+}
+
+.stat-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 10px;
+    display: grid;
+    place-items: center;
+    background: #eaf1ff;
+    color: var(--blue);
+    font-size: 20px;
+}
+
+.stat-card:nth-child(2) .stat-icon {
+    background: #e8f8ef;
+    color: var(--green);
+}
+
+.stat-card:nth-child(3) .stat-icon {
+    background: #fff4e5;
+    color: #d97706;
+}
+
+.stat-card:nth-child(4) .stat-icon {
+    background: #f2eaff;
+    color: #7c3aed;
+}
+
+.stat-number {
+    font-size: 29px;
+    color: var(--navy);
+    font-weight: 800;
+    margin-top: 16px;
+}
+
+.stat-label {
+    font-size: 13px;
+    color: var(--muted);
+    margin-top: 5px;
+}
+
+/* CONTENT CARD */
+
+.card {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+    padding: 22px;
+    margin-bottom: 22px;
+    min-width: 0;
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.card-header h2 {
+    font-size: 18px;
+    color: var(--navy);
+}
+
+.card-header p {
+    color: var(--muted);
+    font-size: 13px;
+    margin-top: 5px;
+}
+
+/* FILTERS */
+
+.filters {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(140px, 1fr)) auto;
+    gap: 13px;
+    align-items: end;
+    margin-bottom: 20px;
+}
+
+.field {
+    min-width: 0;
+}
+
+.field label {
+    display: block;
+    font-size: 12px;
+    font-weight: 700;
+    color: #526174;
+    margin-bottom: 7px;
+}
+
+.field input,
+.field select {
+    width: 100%;
+    padding: 11px 12px;
+    border: 1px solid #d8e0eb;
+    border-radius: 7px;
+    outline: none;
+    background: white;
+    min-width: 0;
+    font-size: 13px;
+}
+
+.field input:focus,
+.field select:focus {
+    border-color: var(--blue);
+    box-shadow: 0 0 0 3px rgba(37,99,235,.08);
+}
+
+/* TABLE */
+
+.table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+}
+
+table {
+    width: 100%;
+    min-width: 1200px;
+    border-collapse: collapse;
+    table-layout: auto;
+}
+
+thead th {
+    background: var(--navy);
+    color: white;
+    padding: 14px 11px;
+    text-align: center;
+    font-size: 12px;
+    border: 1px solid #31577f;
+    white-space: nowrap;
+}
+
+tbody td {
+    padding: 13px 11px;
+    text-align: center;
+    font-size: 12px;
+    border: 1px solid var(--border);
+    color: #344054;
+    vertical-align: middle;
+    white-space: nowrap;
+}
+
+tbody tr:nth-child(even) {
+    background: #f8faff;
+}
+
+tbody tr:hover {
+    background: #edf4ff;
+}
+
+.empty {
+    display: none;
+    text-align: center;
+    padding: 35px;
+    color: var(--muted);
+    font-size: 14px;
+}
+
+.total-count {
+    color: var(--blue);
+    font-weight: 800;
+}
+
+/* REGISTER VISIBILITY */
+
+.register-section {
+    display: none;
+}
+
+.register-section.active {
+    display: block;
+}
+
+/* DASHBOARD WELCOME */
+
+.welcome {
+    background: linear-gradient(120deg, #183b65, #2b5c91);
+    color: white;
+    border-radius: 13px;
+    padding: 26px;
+    margin-bottom: 23px;
+}
+
+.welcome h2 {
+    font-size: 21px;
+    margin-bottom: 8px;
+}
+
+.welcome p {
+    color: #d8e7f8;
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+/* MODAL */
+
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(12, 27, 47, .65);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 15px;
+    z-index: 9999;
+}
+
+.modal {
+    width: 100%;
+    max-width: 760px;
+    max-height: 90vh;
+    overflow-y: auto;
+    background: white;
+    border-radius: 13px;
+    box-shadow: 0 20px 60px rgba(0,0,0,.2);
+}
+
+.modal-header {
+    padding: 21px 24px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+}
+
+.modal-header h2 {
+    color: var(--navy);
+    font-size: 19px;
+}
+
+.close-btn {
+    border: none;
+    background: #edf2f7;
+    color: var(--navy);
+    padding: 9px 12px;
+    border-radius: 7px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.modal-content {
+    padding: 24px;
+}
+
+.modal-name {
+    font-size: 23px;
+    color: var(--navy);
+    margin-bottom: 7px;
+}
+
+.modal-subtitle {
+    color: var(--green);
+    font-weight: bold;
+    margin-bottom: 20px;
+    font-size: 14px;
+}
+
+.details-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.detail-box {
+    background: #f5f8fc;
+    border: 1px solid var(--border);
+    border-radius: 9px;
+    padding: 15px;
+    min-width: 0;
+}
+
+.detail-label {
+    color: var(--muted);
+    font-size: 12px;
+    margin-bottom: 7px;
+}
+
+.detail-value {
+    color: var(--navy);
+    font-weight: 700;
+    font-size: 14px;
+    overflow-wrap: anywhere;
+}
+
+.modal-footer {
+    border-top: 1px solid var(--border);
+    padding: 16px 24px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+/* FOOTER */
+
+.footer {
+    color: var(--muted);
+    text-align: center;
+    font-size: 11px;
+    padding: 15px;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:1100px) {
+    .sidebar {
+        width: 210px;
+    }
+
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .filters {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media(max-width:700px) {
+    .app {
+        display: block;
+    }
+
+    .sidebar {
+        width: 100%;
+        padding: 15px;
+    }
+
+    .brand {
+        padding: 5px 8px 15px;
+    }
+
+    .nav-title {
+        padding-top: 15px;
+    }
+
+    .nav-btn {
+        width: auto;
+        display: inline-block;
+        padding: 10px 12px;
+        margin: 5px 3px 0 0;
+    }
+
+    .sidebar-footer {
+        display: none;
+    }
+
+    .main {
+        padding: 15px;
+    }
+
+    .topbar {
+        align-items: flex-start;
+    }
+
+    .page-title h1 {
+        font-size: 21px;
+    }
+
+    .stats-grid {
+        gap: 10px;
+    }
+
+    .stat-card {
+        padding: 15px;
+    }
+
+    .stat-number {
+        font-size: 24px;
+    }
+
+    .filters {
+        grid-template-columns: 1fr;
+    }
+
+    .card {
+        padding: 14px;
+    }
+
+    .details-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* PRINT */
+
+@media print {
+    body {
+        background: white;
+    }
+
+    .sidebar,
+    .top-actions,
+    .filters,
+    .no-print,
+    .welcome,
+    .stats-grid,
+    .footer {
+        display: none !important;
+    }
+
+    .app {
+        display: block;
+    }
+
+    .main {
+        padding: 0;
+    }
+
+    .card {
+        border: none;
+        box-shadow: none;
+        padding: 0;
+    }
+
+    .table-wrapper {
+        overflow: visible;
+    }
+
+    table {
+        min-width: 100%;
+        width: 100%;
+    }
+
+    thead th {
+        background: #183b65 !important;
+        color: white !important;
+        print-color-adjust: exact;
+        -webkit-print-color-adjust: exact;
+    }
+
+    tbody td,
+    thead th {
+        padding: 6px 4px;
+        font-size: 8px;
+        white-space: normal;
+    }
+
+    .register-section {
+        display: none !important;
+    }
+
+    .register-section.active {
+        display: block !important;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar">
+
+        <div class="brand">
+            <h2>CHURCH REGISTER</h2>
+            <p>INFANT JESUS CHURCH<br>KALLETTUMKARA</p>
+        </div>
+
+        <div class="nav-title">Main Menu</div>
+
+        <button class="nav-btn active" onclick="showSection('dashboard', this)">
+            ▦ &nbsp; Dashboard
+        </button>
+
+        <button class="nav-btn" onclick="showSection('students', this)">
+            ▣ &nbsp; Student Register
+        </button>
+
+        <button class="nav-btn" onclick="showSection('teachers', this)">
+            ◉ &nbsp; Teacher Register
+        </button>
+
+        <div class="sidebar-footer">
+            Student & Teacher Management<br>
+            Academic Year 2026-27
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN AREA -->
+
+    <main class="main">
+
+        <header class="topbar">
+
+            <div class="page-title">
+                <h1>Student & Teacher Details</h1>
+                <p>Infant Jesus Church Kallettumkara | Academic Year 2026-27</p>
+            </div>
+
+            <div class="top-actions">
+                <span class="date-label">Academic Year 2026-27</span>
+
+                <button class="btn btn-green no-print" onclick="window.print()">
+                    Print Register
+                </button>
+            </div>
+
+        </header>
+
+
+        <!-- DASHBOARD -->
+
+        <section id="dashboard" class="register-section active">
+
+            <div class="welcome">
+                <h2>Welcome to the Church Register Dashboard</h2>
+                <p>
+                    Manage catechism student records and teacher information
+                    in one place. Select a register from the sidebar to view
+                    detailed information.
+                </p>
+            </div>
+
+            <div class="stats-grid">
+
+                <div class="stat-card">
+                    <div class="stat-top">
+                        <span class="stat-label">Total Students</span>
+                        <div class="stat-icon">♟</div>
+                    </div>
+                    <div class="stat-number" id="dashboardStudents">0</div>
+                    <div class="stat-label">Registered students</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-top">
+                        <span class="stat-label">Total Teachers</span>
+                        <div class="stat-icon">♙</div>
+                    </div>
+                    <div class="stat-number" id="dashboardTeachers">0</div>
+                    <div class="stat-label">Registered teachers</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-top">
+                        <span class="stat-label">Total Classes</span>
+                        <div class="stat-icon">▤</div>
+                    </div>
+                    <div class="stat-number" id="dashboardClasses">13</div>
+                    <div class="stat-label">BN to Class XII</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-top">
+                        <span class="stat-label">Divisions</span>
+                        <div class="stat-icon">▦</div>
+                    </div>
+                    <div class="stat-number">2</div>
+                    <div class="stat-label">Division A and B</div>
+                </div>
+
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div>
+                        <h2>Register Overview</h2>
+                        <p>Select a register to see its complete records.</p>
+                    </div>
+                </div>
+
+                <div class="stats-grid">
+
+                    <div class="stat-card">
+                        <h3 style="color:#183b65;font-size:16px;">
+                            Student Register
+                        </h3>
+                        <p class="stat-label">
+                            View students, classes, divisions, units and
+                            assigned teachers.
+                        </p>
+                        <br>
+                        <button class="btn btn-primary"
+                            onclick="showSection('students')">
+                            View Students
+                        </button>
+                    </div>
+
+                    <div class="stat-card">
+                        <h3 style="color:#183b65;font-size:16px;">
+                            Teacher Register
+                        </h3>
+                        <p class="stat-label">
+                            View teacher names, units, charge, house name,
+                            DOB and phone numbers.
+                        </p>
+                        <br>
+                        <button class="btn btn-green"
+                            onclick="showSection('teachers')">
+                            View Teachers
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+
+        </section>
+
+
+        <!-- STUDENT REGISTER -->
+
+        <section id="students" class="register-section">
+
+            <div class="card">
+
+                <div class="card-header">
+                    <div>
+                        <h2>Student Register</h2>
+                        <p>Complete catechism student information</p>
+                    </div>
+
+                    <div>
+                        Total Students:
+                        <span class="total-count" id="studentCount">0</span>
+                    </div>
+                </div>
+
+                <div class="filters no-print">
+
+                    <div class="field">
+                        <label>Select Class</label>
+                        <select id="classSelect" onchange="renderStudents()">
+                            <option value="all">All Classes</option>
+                        </select>
+                    </div>
+
+                    <div class="field">
+                        <label>Select Division</label>
+                        <select id="divisionSelect" onchange="renderStudents()">
+                            <option value="all">All Divisions</option>
+                            <option value="A">Division A</option>
+                            <option value="B">Division B</option>
+                        </select>
+                    </div>
+
+                    <div class="field">
+                        <label>Search Student</label>
+                        <input type="text" id="studentSearch"
+                            placeholder="Reg No / Name / House / Unit"
+                            oninput="renderStudents()">
+                    </div>
+
+                    <div class="field">
+                        <label>Sort By</label>
+                        <select id="studentSort" onchange="renderStudents()">
+                            <option value="class">Class</option>
+                            <option value="name">Student Name</option>
+                            <option value="regNo">Register Number</option>
+                        </select>
+                    </div>
+
+                    <button class="btn btn-primary" onclick="exportStudents()">
+                        Export CSV
+                    </button>
+
+                </div>
+
+                <div class="table-wrapper">
+
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Sl No</th>
+                                <th>Reg No</th>
+                                <th>Class</th>
+                                <th>Division</th>
+                                <th>Student Name</th>
+                                <th>Baptism Name</th>
+                                <th>House Name</th>
+                                <th>Unit</th>
+                                <th>Father Name</th>
+                                <th>Mother Name</th>
+                                <th>Date of Birth</th>
+                                <th>Date of Baptism</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="studentBody"></tbody>
+                    </table>
+
+                </div>
+
+                <div id="studentEmpty" class="empty">
+                    No student records found.
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- TEACHER REGISTER -->
+
+        <section id="teachers" class="register-section">
+
+            <div class="card">
+
+                <div class="card-header">
+                    <div>
+                        <h2>Teacher Register</h2>
+                        <p>Teacher personal and assigned unit information</p>
+                    </div>
+
+                    <div>
+                        Total Teachers:
+                        <span class="total-count" id="teacherCount">0</span>
+                    </div>
+                </div>
+
+                <div class="filters no-print">
+
+                    <div class="field">
+                        <label>Search Teacher</label>
+                        <input type="text" id="teacherSearch"
+                            placeholder="Name / Unit / House / Phone"
+                            oninput="renderTeachers()">
+                    </div>
+
+                    <div class="field">
+                        <label>Filter by Unit</label>
+                        <select id="teacherUnitFilter" onchange="renderTeachers()">
+                            <option value="all">All Units</option>
+                        </select>
+                    </div>
+
+                    <div class="field">
+                        <label>Filter by Charge</label>
+                        <input type="text" id="teacherChargeFilter"
+                            placeholder="Enter charge"
+                            oninput="renderTeachers()">
+                    </div>
+
+                    <div class="field">
+                        <label>Sort By</label>
+                        <select id="teacherSort" onchange="renderTeachers()">
+                            <option value="name">Teacher Name</option>
+                            <option value="unit">Unit</option>
+                        </select>
+                    </div>
+
+                    <button class="btn btn-primary" onclick="exportTeachers()">
+                        Export CSV
+                    </button>
+
+                </div>
+
+                <div class="table-wrapper">
+
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Sl No</th>
+                                <th>Teacher Name</th>
+                                <th>Unit</th>
+                                <th>Charge</th>
+                                <th>House Name</th>
+                                <th>Date of Birth</th>
+                                <th>Phone Number</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="teacherBody"></tbody>
+                    </table>
+
+                </div>
+
+                <div id="teacherEmpty" class="empty">
+                    No teacher records found.
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <div class="footer">
+            INFANT JESUS CHURCH KALLETTUMKARA | STUDENT & TEACHER REGISTER 2026-27
+        </div>
+
+    </main>
+
+</div>
+
+
+<script>
+
+// ===========================================
+// 1. CLASS SETTINGS
+// ===========================================
+
+const romanClasses = [
+    "BN",
+    "I", "II", "III", "IV", "V", "VI",
+    "VII", "VIII", "IX", "X", "XI", "XII"
+];
+
+const classSelect = document.getElementById("classSelect");
+
+romanClasses.forEach((name, index) => {
+    const option = document.createElement("option");
+    option.value = name;
+    option.textContent = "Class " + name;
+    classSelect.appendChild(option);
+});
+
+
+// ===========================================
+// 2. ASSIGNED TEACHERS
+// ===========================================
+
+// Use the exact class and division key.
+// Example: "XII-B": "TEACHER NAME"
+
+const assignedTeachers = {
+    "BN": ["Aleena Rose Pauly", "Jincy Varghese"],
+    "I-A": ["Divya Shijo"],
+    "I-B": ["Ligi Joy"],
+    "II-A": ["Lincy Robi"],
+    "II-B": ["Poncy Genoy"],
+    "III-A": ["Swapna Joy"],
+    "III-B": ["Bindhu Babu"],
+    "IV-A": ["Sr.Ligi Grace CHF"],
+    "IV-B": ["Mary Johnson"],
+    "V-A": ["Filly Varghese"],
+    "V-B": ["Shiji Joseph"],
+    "VI-A": ["Sona Davis"],
+    "VI-B": ["Jixy Juilus"],
+    "VII-A": ["Mercy Paulson"],
+    "VII-B": ["Pancy Johnse"],
+    "VIII-A": ["Sr.Laly Jacob"],
+    "VIII-B": ["Jomy Denny"],
+    "IX-A": ["SHIJO POZHOLIPARAMBIL"],
+    "IX-B": ["Titto Kallivalappil"],
+    "X-A": ["sr. Mereena CHF"],
+    "X-B": ["Sherly Raju"],
+    "XI-A": ["br. Nivin Mamootil"],
+    "XI-B": ["seena Anish"],
+    "XII-A": ["sr. Annmary CHF"],
+    "XII-B": ["sr. Sonia CHF"]
+};
+
+function getAssignedTeacher(student) {
+
+    let key;
+
+    // BN has teachers without division
+    if (String(student.class).toUpperCase().trim() === "BN") {
+        key = "BN";
+    } else {
+        key = `${student.class}-${student.division}`;
+    }
+
+    const teachers = assignedTeachers[key];
+
+    if (!teachers || teachers.length === 0) {
+        return "NOT ASSIGNED";
+    }
+
+    // Support both a single teacher and multiple teachers
+    return (Array.isArray(teachers) ? teachers : [teachers])
+        .filter(Boolean)
+        .map(name => String(name).toUpperCase().trim())
+        .join(", ");
+}
+
+
+function getTeacherAssignment(student) {
+
+    const teacher = getAssignedTeacher(student);
+
+    if (teacher === "NOT ASSIGNED") {
+        return teacher;
+    }
+
+    if (String(student.class).toUpperCase().trim() === "BN") {
+        return `BN - ${teacher}`;
+    }
+
+    return `${student.class} ${student.division} - ${teacher}`;
+}
+
+let teachers = [
+
+    {
+        name: "Aleena Rose Pauly",
+        unit: " ",
+        charge: "BN",
+        house: " ",
+        dob: "",
+        phone: "9605521424"
+    },
+    {
+        name: "Jincy Varghese",
+        unit: " ",
+        charge: "BN",
+        house: " ",
+        dob: "",
+        phone: "9495013640"
+    },
+    {
+        name: "Divya Shijo",
+        unit: " ",
+        charge: "I-A",
+        house: " ",
+        dob: "",
+        phone: ""
+    },
+    {
+        name: "Ligi Joy",
+        unit: " ",
+        charge: "I-B",
+        house: " ",
+        dob: "",
+        phone: ""
+    },
+    {
+        name: "Lincy Robi",
+        unit: " ",
+        charge: "II-A",
+        house: " ",
+        dob: "",
+        phone: ""
+    },
+    {
+        name: "Poncy Genoy",
+        unit: " ",
+        charge: "II-B",
+        house: " ",
+        dob: "",
+        phone: ""
+    },
+    {
+        name: "Swapna Joy",
+        unit: " ",
+        charge: "III-A",
+        house: " ",
+        dob: "",
+        phone: ""
+    },
+    {
+        name: "Bindhu Babu",
+        unit: " ",
+        charge: "III-B",
+        house: " ",
+        dob: "",
+        phone: ""
+    },
+    {
+        name: "Sr.Ligi Grace CHF",
+        unit: " ",
+        charge: "IV-A",
+        house: " ",
+        dob: "",
+        phone: ""
+    },
+    {
+        name: "Mary Johnson",
+        unit: " ",
+        charge: "IV-B",
+        house: " ",
+        dob: "",
+        phone: ""
+    },
+    
+    {
+        name: "Filly Varghese",
+        unit: " ",
+        charge: "V-A",
+        house: " ",
+        dob: "",
+        phone: ""
+    },
+    
+    {
+        name: "Shiji Joseph",
+        unit: " ",
+        charge: "V-B",
+        house: " ",
+        dob: "",
+        phone: ""
+    },
+    {
+        name: "Sona Davis",
+        unit: "Christuraja",
+        charge: "VI-A",
+        house: "Thattil Moorkanattukaran",
+        dob: "15-08-1985",
+        phone: "8590624912"
+    },
+
+    {
+        name: "Jixy Juilus",
+        unit: "Mother Theresa",
+        charge: "VI-B",
+        house: "House",
+        dob: "20-04-1988",
+        phone: "9876543211"
+    },
+    {
+        name: "Mercy Paulson",
+        unit: " ",
+        charge: "VII-A",
+        house: " ",
+        dob: "",
+        phone: ""
+    },
+
+    {
+        name: "Pancy Johnse",
+        unit: " ",
+        charge: "VII-B",
+        house: " ",
+        dob: "",
+        phone: ""
+    },
+    {
+        name: "Sr.Laly Jacob",
+        unit: " ",
+        charge: "VIII-A",
+        house: " ",
+        dob: "",
+        phone: ""
+    },
+    {
+        name: "Jomy Denny",
+        unit: " ",
+        charge: "VIII-B",
+        house: " ",
+        dob: "",
+        phone: ""
+    },
+    
+    {
+        name: "SHIJO POZHOLIPARAMBIL",
+        unit: " ",
+        charge: "IX-A",
+        house: " ",
+        dob: "",
+        phone: ""
+    },
+    {
+        name: "TITTO KALLIVALAPPIL",
+        unit: " ",
+        charge: "IX-B",
+        house: " ",
+        dob: "",
+        phone: ""
+    },
+    {
+        name: "SR. MEREENA CHF",
+        unit: " ",
+        charge: "X-A",
+        house: " ",
+        dob: "",
+        phone: ""
+    },
+    {
+        name: "Sherly Raju",
+        unit: " ",
+        charge: "X-B",
+        house: " ",
+        dob: "",
+        phone: ""
+    },
+    {
+        name: "BR. NIVIN MAMOOTIL",
+        unit: " ",
+        charge: "XI-A",
+        house: " ",
+        dob: "",
+        phone: ""
+    },
+    {
+        name: "Seena Anish",
+        unit: " ",
+        charge: "XI-B",
+        house: " ",
+        dob: "",
+        phone: ""
+    },
+    {
+        name: "SR. ANNMARY CHF",
+        unit: " ",
+        charge: "XII-A",
+        house: " ",
+        dob: "",
+        phone: ""
+    },
+    {
+        name: "SR. SONIA CHF",
+        unit: " ",
+        charge: "XII-B",
+        house: " ",
+        dob: "",
+        phone: ""
+    },
+
+    {
+        name: "Shiny Sabu",
+        unit: " ",
+        charge: "",
+        house: " ",
+        dob: "",
+        phone: ""
+    },
+
+    {
+        name: "Delvin Davis",
+        unit: "Christuraja ",
+        charge: "SECRETARY",
+        house: "Thattil Moorkanattukaran ",
+        dob: "09/05/2005",
+        phone: "8590624912"
+    },
+
+    {
+        name: "ANOYSIUS JOJU",
+        unit: " ",
+        charge: "",
+        house: " ",
+        dob: "",
+        phone: ""
+    },
+    {
+        name: "Praveen Joseph",
+        unit: " ",
+        charge: "",
+        house: " ",
+        dob: "",
+        phone: ""
+    },
+    {
+        name: "Aaron Joy",
+        unit: " ",
+        charge: "",
+        house: " ",
+        dob: "",
+        phone: ""
+    },
+    {
+        name: "Ancy Shaju",
+        unit: " ",
+        charge: "",
+        house: " ",
+        dob: "",
+        phone: ""
+    },
+    {
+        name: "Sandra Varghese",
+        unit: " ",
+        charge: "",
+        house: " ",
+        dob: "",
+        phone: ""
+    },
+    {
+        name: "Angel Joy P",
+        unit: " ",
+        charge: "",
+        house: " ",
+        dob: "",
+        phone: ""
+    },
+    {
+        name: "Austin Raju",
+        unit: " ",
+        charge: "",
+        house: " ",
+        dob: "",
+        phone: ""
+    },
+    {
+        name: "Christino T Roy",
+        unit: " ",
+        charge: "",
+        house: " ",
+        dob: "",
+        phone: ""
+    },
+    {
+        name: "Jessy Johnson",
+        unit: " ",
+        charge: "",
+        house: " ",
+        dob: "",
+        phone: ""
+    },
+    {
+        name: "Anora P Anish",
+        unit: " ",
+        charge: "",
+        house: " ",
+        dob: "",
+        phone: ""
+    },
+    {
+        name: "Amstal Paul",
+        unit: " ",
+        charge: "",
+        house: " ",
+        dob: "",
+        phone: ""
+    },
+
+];
+
+
+
+let students = [
+
+    {
+    "regNo": "",
+    "class": "BN",
+    "division": "",
+    "name": "ADAM DAVID BRITTO",
+    "baptism": "DAVID",
+    "house": "NEREPARAMBAN",
+    "unit": "",
+    "father": "BRITTO",
+    "mother": "MARIA",
+    "dob": "01/01/2021",
+    "baptismDate": "10/04/2021"
+  },
+  {
+    "regNo": "",
+    "class": "BN",
+    "division": "",
+    "name": "CHRIS SIJU THEKINIATH",
+    "baptism": "IGNATIUS",
+    "house": "THEKINIATH",
+    "unit": "",
+    "father": "SIJU",
+    "mother": "ANJANA",
+    "dob": "10/02/2021",
+    "baptismDate": "05/04/2021"
+  },
+  {
+    "regNo": "",
+    "class": "BN",
+    "division": "",
+    "name": "DHAVEEDH A. DARIES",
+    "baptism": "JOSEPH",
+    "house": "ALOOKKARAN",
+    "unit": "",
+    "father": "DARIES",
+    "mother": "DISNEY",
+    "dob": "23/05/2021",
+    "baptismDate": "22/08/2021"
+  },
+  {
+    "regNo": "",
+    "class": "BN",
+    "division": "",
+    "name": "LUKA S. ALOOKKARAN",
+    "baptism": "ANTHONIES",
+    "house": "ALOOKKARAN",
+    "unit": "",
+    "father": "SHERIN",
+    "mother": "DISTY",
+    "dob": "13/07/2021",
+    "baptismDate": "26/12/2021"
+  },
+  {
+    "regNo": "",
+    "class": "BN",
+    "division": "",
+    "name": "NATHAN NAVEEN",
+    "baptism": "SEBASTIAN",
+    "house": "CHERANGANDAN",
+    "unit": "St. John",
+    "father": "NAVEEN",
+    "mother": "NEETHU",
+    "dob": "23/03/2022",
+    "baptismDate": "25/06/2022"
+  },
+  {
+    "regNo": "",
+    "class": "BN",
+    "division": "",
+    "name": "RICHARD SINTO",
+    "baptism": "PAUL",
+    "house": "KANNAMKUNNY",
+    "unit": "Thiruhrudayam",
+    "father": "SINTO",    
+    "mother": "GIFTY",
+    "dob": "26/06/2021",
+    "baptismDate": "12/09/2021"
+  },
+  {
+    "regNo": "",
+    "class": "BN",
+    "division": "",
+    "name": "ALBIYA P. TILSON",
+    "baptism": "THRESIA",
+    "house": "PALLIPATT",
+    "unit": "",
+    "father": "TILSON",
+    "mother": "SHIMI",
+    "dob": "30/10/2021",
+    "baptismDate": "20/04/2022"
+  },
+  {
+    "regNo": "",
+    "class": "BN",
+    "division": "",
+    "name": "HAZEL ROSE LINSON",
+    "baptism": "ROSE",
+    "house": "KALLIVALAPPIL",
+    "unit": "",
+    "father": "LINSON",
+    "mother": "VINAYA",
+    "dob": "07/11/2021",
+    "baptismDate": ""
+  },
+  {
+    "regNo": "",
+    "class": "BN",
+    "division": "",
+    "name": "JERIT ROSE JIMESH",
+    "baptism": "ANNA MARY",
+    "house": "NEREPARAMBAN",
+    "unit": "",
+    "father": "JIMESH",
+    "mother": "MAYA",
+    "dob": "17/04/2021",
+    "baptismDate": "22/09/2021"
+  },
+  {
+    "regNo": "",
+    "class": "BN",
+    "division": "",
+    "name": "RIANA RINSE",
+    "baptism": "ANNAM",
+    "house": "THANDIACKAL",
+    "unit": "",
+    "father": "RINSE ",
+    "mother": "DELMA",
+    "dob": "05/08/2021",
+    "baptismDate": "14/11/2021"
+  },
+  {
+    "regNo": "",
+    "class": "BN",
+    "division": "",
+    "name": "ABEL",
+    "baptism": "ABILASH",
+    "house": "KALLIVALAPPIL",
+    "unit": "",
+    "father": "ABILASH",
+    "mother": "DIVYA",
+    "dob": "09/01/2021",
+    "baptismDate": "17/01/2022"
+  },
+  {
+    "regNo": "",
+    "class": "BN",
+    "division": "",
+    "name": "HANNAH MARYAM JOY",
+    "baptism": "",
+    "house": "KALLIVALAPPIL",
+    "unit": "",
+    "father": "JOY",
+    "mother": "LAYANA",
+    "dob": "23/11/2021",
+    "baptismDate": ""
+  },
+  {
+    "regNo": "15960",
+    "class": "I",
+    "division": "A",
+    "name": "ELVIN PRINTO",
+    "baptism": "THOMAS",
+    "house": "VADAKKETHALA",
+    "unit": "",
+    "father": "PRINTO",
+    "mother": "ANCY",
+    "dob": "18/10/2019",
+    "baptismDate": "19/01/2020"
+  },
+  {
+    "regNo": "15961",
+    "class": "I",
+    "division": "A",
+    "name": "JERON GEOMON",
+    "baptism": "SEBASTIAN",
+    "house": "THODUPARAMBIL",
+    "unit": "",
+    "father": "GEOMON",
+    "mother": "JAINY",
+    "dob": "20/12/2019",
+    "baptismDate": "16/02/2020"
+  },
+  {
+    "regNo": "15962",
+    "class": "I",
+    "division": "A",
+    "name": "SAVIO JINTO",
+    "baptism": "JAMES",
+    "house": "KALLIVALAPPIL",
+    "father": "JINTO",
+    "mother": "NIMMY",
+    "dob": "22/08/2020",
+    "baptismDate": "17/01/2021"
+  },
+  {
+    "regNo": "15963",
+    "class": "I",
+    "division": "A",
+    "name": "AMEYA SAIJU",
+    "baptism": "ROSILY",
+    "house": "CHALISSERY",
+    "unit": "",
+    "father": "SAIJU",
+    "mother": "NIVYA",
+    "dob": "05/02/2020",
+    "baptismDate": "23/05/2020"
+  },
+  {
+    "regNo": "15964",
+    "class": "I",
+    "division": "A",
+    "name": "ANLIYA ANOOP",
+    "baptism": "REJI",
+    "house": "KUNNATHUPARAMBIL",
+    "unit": "",
+    "father": "ANOOP",
+    "mother": "MEGHA",
+    "dob": "06/06/2020",
+    "baptismDate": "19/10/2020"
+  },
+  {
+    "regNo": "15965",
+    "class": "I",
+    "division": "A",
+    "name": "BERYL BIJO",
+    "baptism": "ELSY",
+    "house": "PANTHALOOKARAN",
+    "unit": "",
+    "father": "BIJO",
+    "mother": "JASMY",
+    "dob": "15/05/2020",
+    "baptismDate": "08/08/2020"
+  },
+  {
+    "regNo": "15966",
+    "class": "I",
+    "division": "A",
+    "name": "CHRISBELL JINESH",
+    "baptism": "RUBY",
+    "house": "NEREPARAMBIL",
+    "unit": "",
+    "father": "JINESH",
+    "mother": "SRUTHI",
+    "dob": "05/10/2019",
+    "baptismDate": "16/11/2019"
+  },
+  {
+    "regNo": "15967",
+    "class": "I",
+    "division": "A",
+    "name": "HAYAH MARIYAM JOY",
+    "baptism": "PHILOMENA",
+    "house": "KALLIVALAPPIL",
+    "unit": "",
+    "father": "JOY",
+    "mother": "LAYANA",
+    "dob": "23/11/2021",
+    "baptismDate": "13/11/2022"
+  },
+  {
+    "regNo": "15968",
+    "class": "I",
+    "division": "A",
+    "name": "MARIYA SOJIN",
+    "baptism": "THRESSIA",
+    "house": "VADAKKAN",
+    "unit": "",
+    "father": "SOJIN",
+    "mother": "TINCY",
+    "dob": "01/09/2020",
+    "baptismDate": "21/11/2020"
+  },
+  {
+    "regNo": "15969",
+    "class": "I",
+    "division": "A",
+    "name": "MISHKA ANU",
+    "baptism": "ANNA",
+    "house": "MANAIKALAN",
+    "unit": "",
+    "father": "ANU",
+    "mother": "LIPITHA",
+    "dob": "30/06/2020",
+    "baptismDate": "03/01/2021"
+  },
+
+
+  
+  {
+    "regNo": "15970",
+    "class": "I",
+    "division": "B",
+    "name": "REYAN ROBIN",
+    "baptism": "JOSEPH",
+    "house": "THULUVATH",
+    "unit": "",
+    "father": "ROBIN",
+    "mother": "ANOOPA",
+    "dob": "14/11/2019",
+    "baptismDate": "26/01/2020"
+  },
+  {
+    "regNo": "15971",
+    "class": "I",
+    "division": "B",
+    "name": "ESABEL BENNY",
+    "baptism": "",
+    "house": "KUZHIVELY",
+    "unit": "",
+    "father": "BENNY",
+    "mother": "GINCY",
+    "dob": "01/05/2020",
+    "baptismDate": "15/08/2020"
+  },
+  {
+    "regNo": "15972",
+    "class": "I",
+    "division": "B",
+    "name": "FEDRICK CHARLES",
+    "baptism": "JOHNSON",
+    "house": "PULIYANI",
+    "unit": "",
+    "father": "CHARLES",
+    "mother": "CHIPPY",
+    "dob": "02/12/2019",
+    "baptismDate": "29/12/2019"
+  },
+  {
+    "regNo": "15973",
+    "class": "I",
+    "division": "B",
+    "name": "DIYA SANDRA DINU",
+    "baptism": "SICILY",
+    "house": "EELAN",
+    "unit": "",
+    "father": "DINU",
+    "mother": "SANDRA",
+    "dob": "22/06/2020",
+    "baptismDate": "20/09/2020"
+  },
+  {
+    "regNo": "15974",
+    "class": "I",
+    "division": "B",
+    "name": "JUVANA ROSE JESFIN",
+    "baptism": "ROSILY",
+    "house": "THEKKUMPURAM",
+    "unit": "",
+    "father": "JESFIN",
+    "mother": "JINI",
+    "dob": "26/06/2020",
+    "baptismDate": "04/10/2020"
+  },
+  {
+    "regNo": "15975",
+    "class": "I",
+    "division": "B",
+    "name": "ANTONIO TINTO",
+    "baptism": "JOSEPH",
+    "house": "KARERAKKATTIL",
+    "unit": "",
+    "father": "TINTO",
+    "mother": "DHANISHA",
+    "dob": "29/09/2020",
+    "baptismDate": "26/12/2020"
+  },
+  {
+    "regNo": "15976",
+    "class": "I",
+    "division": "B",
+    "name": "NORA MARIYAM SINIK",
+    "baptism": "ANNA",
+    "house": "PULIYANI (H)",
+    "unit": "",
+    "father": "SINIK",
+    "mother": "",
+    "dob": "29/04/2020",
+    "baptismDate": "02/09/2020"
+  },
+  {
+    "regNo": "15977",
+    "class": "I",
+    "division": "B",
+    "name": "CHRISTY RAJU",
+    "baptism": "ANTONY",
+    "house": "PULIKKOTTIL",
+    "unit": "",
+    "father": "RAJU",
+    "mother": "",
+    "dob": "14/06/2020",
+    "baptismDate": "02/04/2020"
+  },
+  {
+    "regNo": "15922",
+    "class": "I",
+    "division": "B",
+    "name": "RANI MARIYA LINSO",
+    "baptism": "",
+    "house": "",
+    "unit": "",
+    "father": "LINSO",
+    "mother": "VINCY",
+    "dob": "20/08/2019",
+    "baptismDate": ""
+  },
+  {
+    "regNo": "15979",
+    "class": "I",
+    "division": "B",
+    "name": "ELIZABETH T.T.",
+    "baptism": "",
+    "house": "THANDIYAKKAL",
+    "unit": "",
+    "father": "THOMAS",
+    "mother": "SIGI",
+    "dob": "11/10/2020",
+    "baptismDate": ""
+  },
+   
+  {
+    "regNo": "15942",
+    "class": "II",
+    "division": "A",
+    "name": "ALDRICH C.S",
+    "baptism": "JACOB",
+    "house": "CHATHALY",
+    "unit": "",
+    "father": "SITO",
+    "mother": "JENCY",
+    "dob": "29-08-2018",
+    "baptismDate": "10-11-2019"
+  },
+  {
+    "regNo": "15941",
+    "class": "II",
+    "division": "A",
+    "name": "ANDRIN DINISH",
+    "baptism": "DEVASSY",
+    "house": "PUTHANAGADI",
+    "unit": "",
+    "father": "DHINEESH",
+    "mother": "ANJALY",
+    "dob": "07-04-2019",
+    "baptismDate": "12-07-2019"
+  },
+  {
+    "regNo": "15933",
+    "class": "II",
+    "division": "A",
+    "name": "EATHEN LUKE JACKSON",
+    "baptism": "MIKHAEL",
+    "house": "MANGALAN",
+    "unit": "",
+    "father": "JACKSON",
+    "mother": "ROSE MARY",
+    "dob": "30-04-2019",
+    "baptismDate": "14-09-2019"
+  },
+  {
+    "regNo": "15930",
+    "class": "II",
+    "division": "A",
+    "name": "EICEL DEVIS",
+    "baptism": "DAISON",
+    "house": "PANTHALLOOKKARAN",
+    "unit": "",
+    "father": "DAVIS",
+    "mother": "NEETHU",
+    "dob": "30-12-2019",
+    "baptismDate": "02-02-2020"
+  },
+  {
+    "regNo": "15978",
+    "class": "II",
+    "division": "A",
+    "name": "GODWIN SHAIJU",
+    "baptism": "INASU",
+    "house": "PANTHALLOOKKARAN",
+    "unit": "",
+    "father": "SHAJU",
+    "mother": "LITTY",
+    "dob": "25-08-2019",
+    "baptismDate": "27-10-2019"
+  },
+  {
+    "regNo": "15944",
+    "class": "II",
+    "division": "A",
+    "name": "INZAGHI K.B",
+    "baptism": "POULOSE",
+    "house": "KUZHIYANI",
+    "unit": "",
+    "father": "BIJU",
+    "mother": "BINI",
+    "dob": "05-01-2020",
+    "baptismDate": "23-02-2020"
+  },
+  {
+    "regNo": "15938",
+    "class": "II",
+    "division": "A",
+    "name": "IVAN ANTO",
+    "baptism": "JAMES PAUL",
+    "house": "KANNAMPILLY",
+    "unit": "",
+    "father": "ANTO",
+    "mother": "PRIYA",
+    "dob": "03-08-2018",
+    "baptismDate": "03-08-2019"
+  },
+  {
+    "regNo": "15937",
+    "class": "II",
+    "division": "A",
+    "name": "JAIDEN JIMESH",
+    "baptism": "LONAPPAN",
+    "house": "NEREPARAMBAN",
+    "unit": "",
+    "father": "JIMESH",
+    "mother": "MAYA",
+    "dob": "14-02-2019",
+    "baptismDate": "27-04-2019"
+  },
+  {
+    "regNo": "15924",
+    "class": "II",
+    "division": "A",
+    "name": "JOHAN SHIJO",
+    "baptism": "PAUL",
+    "house": "POZHOLIPARAMBIL",
+    "father": "SHIJO",
+    "mother": "DIVYA",
+    "dob": "17-12-2019",
+    "baptismDate": "04-02-2020"
+  },
+  {
+    "regNo": "15936",
+    "class": "II",
+    "division": "A",
+    "name": "JOSWIN JIJO",
+    "baptism": "THOMAS",
+    "house": "THULUVATH",
+    "father": "JIJO",
+    "mother": "SHEPHY",
+    "dob": "24-03-2020",
+    "baptismDate": "04-07-2020"
+  },
+  {
+    "regNo": "15935",
+    "class": "II",
+    "division": "A",
+    "name": "NETHAL DAN BINOY",
+    "baptism": "MANUAL",
+    "house": "CHERUPAZHANGATTU",
+    "father": "BINOY",
+    "mother": "JAYARI",
+    "dob": "19-08-2019",
+    "baptismDate": "17-11-2019"
+  },
+  {
+    "regNo": "15943",
+    "class": "II",
+    "division": "A",
+    "name": "RUBEN RAHUL ANTONY",
+    "baptism": "ANTONY",
+    "house": "OLLATTIKULAM",
+    "father": "RAHUL",
+    "mother": "ANJUMOL",
+    "dob": "23-10-2019",
+    "baptismDate": "30-12-2019"
+  },
+  {
+    "regNo": "15982",
+    "class": "II",
+    "division": "A",
+    "name": "RAYAN BIJESH",
+    "baptism": "GEORGE",
+    "house": "KALLIVALAPPIL",
+    "father": "BIJESH",
+    "mother": "RENI",
+    "dob": "04-12-2018",
+    "baptismDate": "10-02-2019"
+  },
+  {
+    "regNo": "15934",
+    "class": "II",
+    "division": "A",
+    "name": "THEJON SANTHOSH",
+    "baptism": "ANTHONY",
+    "house": "PALAKKAL",
+    "father": "SANTHOSH",
+    "mother": "ALINA",
+    "dob": "24-06-2019",
+    "baptismDate": "29-07-2019"
+  },
+  {
+    "regNo": "15939",
+    "class": "II",
+    "division": "A",
+    "name": "THOMSON JOBY",
+    "baptism": "THOMAS",
+    "house": "NEREPARAMBIL",
+    "father": "JOBY ",
+    "mother": "DENCY",
+    "dob": "17-02-2019",
+    "baptismDate": "01-05-2019"
+  },
+  {
+    "regNo": "15931",
+    "class": "II",
+    "division": "A",
+    "name": "AGNES ABHILASH",
+    "baptism": "ANNAM",
+    "house": "KALLIVALAPPIL",
+    "father": "ABHILASH",
+    "mother": "DIVYA",
+    "dob": "19-03-2019",
+    "baptismDate": "06-07-2019"
+  },
+  {
+    "regNo": "15928",
+    "class": "II",
+    "division": "A",
+    "name": "ANAYA MARIYA JACKSON",
+    "baptism": "ROSY",
+    "house": "CHAKKALAKKAL",
+    "father": "JACKSON ",
+    "mother": "BINDHU",
+    "dob": "17-12-2018",
+    "baptismDate": "03-02-2019"
+  },
+  {
+    "regNo": "15925",
+    "class": "II",
+    "division": "A",
+    "name": "ANUGRAHA MARIYA BAIJU",
+    "baptism": "KOCHU THRESIA",
+    "house": "VAZHAYIL",
+    "father": "BAIJU",
+    "mother": "DISNY",
+    "dob": "18-12-2018",
+    "baptismDate": "22-04-2019"
+  },
+  {
+    "regNo": "15932",
+    "class": "II",
+    "division": "A",
+    "name": "BENITA BIJU",
+    "baptism": "ROSY",
+    "house": "KALATHINGAL",
+    "father": "BIJU",
+    "mother": "BIJI",
+    "dob": "13-12-2019",
+    "baptismDate": "02-02-2020"
+  },
+  {
+    "regNo": "15940",
+    "class": "II",
+    "division": "A",
+    "name": "ERICA JOYSON",
+    "baptism": "MARYAM",
+    "house": "THANDIYAKKAL",
+    "father": "JOYSON",
+    "mother": "SIMI",
+    "dob": "04-02-2018",
+    "baptismDate": "03-02-2019"
+  },
+  {
+    "regNo": "15926",
+    "class": "II",
+    "division": "A",
+    "name": "JOVINA JAISON",
+    "baptism": "MARY",
+    "house": "KUZHIVELY",
+    "father": "JAISON",
+    "mother": "DEEPA",
+    "dob": "05-01-2018",
+    "baptismDate": "29-12-2018"
+  },
+  {
+    "regNo": "15950",
+    "class": "II",
+    "division": "A",
+    "name": "SARAH SEBIN",
+    "baptism": "ANNAM",
+    "house": "THANDIYAKKAL",
+    "father": "SEBIN",
+    "mother": "JYOTHI",
+    "dob": "14-08-2019",
+    "baptismDate": "07-01-2020"
+  },
+  {
+    "regNo": "15912",
+    "class": "II",
+    "division": "B",
+    "name": "Aden Elizabeth Kuriakose",
+    "baptism": "Elizabeth",
+    "house": "Thaliyadiyil",
+    "father": "Kuriakose",
+    "mother": "Mariya",
+    "dob": "16-07-2018",
+    "baptismDate": "06-01-2019"
+  },
+  {
+    "regNo": "15911",
+    "class": "II",
+    "division": "B",
+    "name": "Ann Elizabeth",
+    "baptism": "Elizabeth",
+    "house": "Kallivalappil",
+    "father": "Dejies",
+    "mother": "Shalu",
+    "dob": "22-01-2019",
+    "baptismDate": "30-06-2019"
+  },
+  {
+    "regNo": "15909",
+    "class": "II",
+    "division": "B",
+    "name": "Anna K.J",
+    "baptism": "Anna",
+    "house": "Kalathingal",
+    "father": "Jaison K.",
+    "mother": "Neha",
+    "dob": "18-07-2019",
+    "baptismDate": "16-10-2019"
+  },
+  {
+    "regNo": "15913",
+    "class": "II",
+    "division": "B",
+    "name": "Aiden Joe Saneesh",
+    "baptism": "Sijo Jose",
+    "house": "KalathiParambil",
+    "father": "Saneesh",
+    "mother": "",
+    "dob": "10-01-2019",
+    "baptismDate": "28-04-2019"
+  },
+  {
+    "regNo": "15910",
+    "class": "II",
+    "division": "B",
+    "name": "Ayrin Alphy",
+    "baptism": "Mariya",
+    "house": "Pullokkaran",
+    "father": "Alphy",
+    "mother": "Rini",
+    "dob": "14-11-2018",
+    "baptismDate": "24-02-2019"
+  },
+  {
+    "regNo": "15946",
+    "class": "II",
+    "division": "B",
+    "name": "Belthasar Joseph Jinson",
+    "baptism": "Chacko",
+    "house": "Kallivalappil",
+    "father": "Jinson",
+    "mother": "Remya",
+    "dob": "22-08-2019",
+    "baptismDate": ""
+  },
+  {
+    "regNo": "15921",
+    "class": "II",
+    "division": "B",
+    "name": "Beneta Robin",
+    "baptism": "Rosa",
+    "house": "Thommana",
+    "father": "Robin",
+    "mother": "Faisy",
+    "dob": "03-10-2018",
+    "baptismDate": "13-01-2019"
+  },
+  {
+    "regNo": "15918",
+    "class": "II",
+    "division": "B",
+    "name": "Deen Jacob Dileep",
+    "baptism": "Jacob",
+    "house": "Kannampilly",
+    "father": "Biju",
+    "mother": "Daisy",
+    "dob": "12-03-2019",
+    "baptismDate": "08-06-2019"
+  },
+  {
+    "regNo": "15923",
+    "class": "II",
+    "division": "B",
+    "name": "Derya K. Biju",
+    "baptism": "Catherine",
+    "house": "Kannamkunny",
+    "father": "Biju",
+    "mother": "Daisy",
+    "dob": "05-11-2018",
+    "baptismDate": "20-11-2019"
+  },
+  {
+    "regNo": "15947",
+    "class": "II",
+    "division": "B",
+    "name": "Diana Elka Jaidhesh",
+    "baptism": "Mary Elika",
+    "house": "Panamkoodan",
+    "father": "Taidhesh",
+    "mother": "Elavia",
+    "dob": "26-09-2018",
+    "baptismDate": "04-05-2019"
+  },
+  {
+    "regNo": "15919",
+    "class": "II",
+    "division": "B",
+    "name": "Edhan Wilson Antony",
+    "baptism": "",
+    "house": "Eluvathingal",
+    "father": "Antony",
+    "mother": "Dinny",
+    "dob": "21-10-2019",
+    "baptismDate": "18-01-2020"
+  },
+  {
+    "regNo": "15929",
+    "class": "II",
+    "division": "B",
+    "name": "Eric Jacob John Linto",
+    "baptism": "Jacob",
+    "house": "Nereparamban",
+    "father": "Linto",
+    "mother": "Jilu",
+    "dob": "07-02-2020",
+    "baptismDate": "10-01-2021"
+  },
+  {
+    "regNo": "15917",
+    "class": "II",
+    "division": "B",
+    "name": "Enric Antony Biju",
+    "baptism": "Joseph",
+    "house": "Kannampilly",
+    "father": "Biju",
+    "mother": "Jincy",
+    "dob": "13-07-2019",
+    "baptismDate": "05-09-2019"
+  },
+  {
+    "regNo": "15914",
+    "class": "II",
+    "division": "B",
+    "name": "Evan John Bijo",
+    "baptism": "John",
+    "house": "PengiParambil",
+    "father": "Bijo",
+    "mother": "Rini",
+    "dob": "19-01-2019",
+    "baptismDate": "19-05-2019"
+  },
+  {
+    "regNo": "15916",
+    "class": "II",
+    "division": "B",
+    "name": "Halet Teador",
+    "baptism": "Omana",
+    "house": "Mutath",
+    "father": "Teador",
+    "mother": "Stheny",
+    "dob": "24-01-2020",
+    "baptismDate": "24-01-2021"
+  },
+  {
+    "regNo": "15948",
+    "class": "II",
+    "division": "B",
+    "name": "Jerome Prince",
+    "baptism": "",
+    "house": "Paliyani",
+    "father": "Prince",
+    "mother": "Soniya",
+    "dob": "26-06-2019",
+    "baptismDate": "21-09-2019"
+  },
+  {
+    "regNo": "15915",
+    "class": "II",
+    "division": "B",
+    "name": "Josbin Bibin",
+    "baptism": "Joseph",
+    "house": "Chullikkat",
+    "father": "Bibin",
+    "mother": "Chinnu",
+    "dob": "03-04-2019",
+    "baptismDate": "01-07-2019"
+  },
+  {
+    "regNo": "15920",
+    "class": "II",
+    "division": "B",
+    "name": "Natalia Thuluvath Rinto",
+    "baptism": "Mariyam",
+    "house": "Thuluvath",
+    "father": "Rinto",
+    "mother": "Tincy",
+    "dob": "05-10-2020",
+    "baptismDate": "17-10-2020"
+  },
+  {
+    "regNo": "15945",
+    "class": "II",
+    "division": "B",
+    "name": "Santamariya Joy",
+    "baptism": "Mariyam",
+    "house": "Pottathuparambil",
+    "father": "Joy",
+    "mother": "Rejya",
+    "dob": "06-03-2019",
+    "baptismDate": "30-04-2019"
+  },
+  {
+    "regNo": "15990",
+    "class": "II",
+    "division": "B",
+    "name": "Aman Rajeev",
+    "baptism": "Thomas",
+    "house": "Arikkatt",
+    "father": "Rajeev",
+    "mother": "Jisa",
+    "dob": "13-09-2018",
+    "baptismDate": "15-11-2018"
+  },
+  {
+    "regNo": "15857",
+    "class": "III",
+    "division": "A",
+    "name": "ALAN K TOM",
+    "baptism": "OUSEPH",
+    "house": "KALLIVALAPPIL",
+    "father": "TOMSON",
+    "mother": "BLESSY",
+    "dob": "16/04/2018",
+    "baptismDate": "03/02/2019"
+  },
+  {
+    "regNo": "15858",
+    "class": "III",
+    "division": "A",
+    "name": "BINO JENSON",
+    "baptism": "OUSEPH",
+    "house": "KALLIVALAPPIL",
+    "father": "JENSON",
+    "mother": "BINDU",
+    "dob": "04/10/2017",
+    "baptismDate": ""
+  },
+  {
+    "regNo": "15859",
+    "class": "III",
+    "division": "A",
+    "name": "CHRIS PAUL SHERIN",
+    "baptism": "PAULOSE",
+    "house": "KANNAMKUNNY",
+    "father": "SHERIN",
+    "mother": "SUNITTA",
+    "dob": "14/12/2017",
+    "baptismDate": "11/02/2018"
+  },
+  {
+    "regNo": "15860",
+    "class": "III",
+    "division": "A", 
+    "name": "CHRISTIAN RINTO",
+    "baptism": "ANTONY",
+    "house": "THULUVATH",
+    "father": "RINTO",
+    "mother": "GINCY",
+    "dob": "02/09/2018",
+    "baptismDate": "12/02/2019"
+  },
+  {
+    "regNo": "15861",
+    "class": "III",
+    "division": "A",
+    "name": "CHRISWIN JIJON",
+    "baptism": "THOMAS",
+    "house": "PANJIKKARAN",
+    "father": "JIJON",
+    "mother": "ATHIRA",
+    "dob": "17/05/2017",
+    "baptismDate": "07/11/2019"
+  },
+  {
+    "regNo": "15862",
+    "class": "III",
+    "division": "A",
+    "name": "JOHAN TITTO",
+    "baptism": "ABRAHAM",
+    "house": "KALLIVAPPIL",
+    "father": "TITTO",
+    "mother": "SOLLY",
+    "dob": "06/07/2018",
+    "baptismDate": "02/09/2018"
+  },
+  {
+    "regNo": "15863",
+    "class": "III",
+    "division": "A",
+    "name": "JONATH JOJO",
+    "baptism": "JOHNY",
+    "house": "PANAMKOODAN",
+    "father": "JOJO",
+    "mother": "GINCY",
+    "dob": "08/11/2018",
+    "baptismDate": "06/01/2019"
+  },
+  {
+    "regNo": "15864",
+    "class": "III",
+    "division": "A",
+    "name": "LUKE WILBER ALJO",
+    "baptism": "LUKE",
+    "house": "MARAMTHAMPILLY",
+    "father": "ALJO",
+    "mother": "SHINU",
+    "dob": "05/12/2017",
+    "baptismDate": "01/09/2019"
+  },
+  {
+    "regNo": "15865",
+    "class": "III",
+    "division": "A",
+    "name": "MATHEW SMIJO",
+    "baptism": "MATHEW",
+    "house": "KEETTIKKAL",
+    "father": "SMIJO",
+    "mother": "ARLY",
+    "dob": "09/01/2017",
+    "baptismDate": "10/06/2017"
+  },
+  {
+    "regNo": "15866",
+    "class": "III",
+    "division": "A",
+    "name": "ANNGRACE SMIJO",
+    "baptism": "ANNGRACE",
+    "house": "KEETTIKKAL",
+    "father": "SMIJO",
+    "mother": "ARLY",
+    "dob": "09/01/2017",
+    "baptismDate": "10/06/2017"
+  },
+  {
+    "regNo": "15867",
+    "class": "III",
+    "division": "A",
+    "name": "ANNTHERESA SMIJO",
+    "baptism": "ANNTHERESA",
+    "house": "KEETTIKKAL",
+    "father": "SMIJO",
+    "mother": "ARLY",
+    "dob": "09/01/2017",
+    "baptismDate": "10/06/2017"
+  },
+  {
+    "regNo": "15868",
+    "class": "III",
+    "division": "A",
+    "name": "ESTHER MARIYA JOSHWA",
+    "baptism": "MARY",
+    "house": "THULUVATH",
+    "father": "JOSHWA",
+    "mother": "SHINY",
+    "dob": "15/10/2019",
+    "baptismDate": "19/01/2020"
+  },
+  {
+    "regNo": "15869",
+    "class": "III",
+    "division": "A",
+    "name": "EVA LIJO",
+    "baptism": "MARIYAM",
+    "house": "CHAKKALAMATTATH",
+    "father": "LIJO",
+    "mother": "NISHA",
+    "dob": "07/03/2019",
+    "baptismDate": "04/08/2019"
+  },
+  {
+    "regNo": "15885",
+    "class": "III",
+    "division": "A",
+    "name": "GRACE CHARLES",
+    "baptism": "MARY",
+    "house": "MAMPILLY",
+    "father": "CHARLES",
+    "mother": "NISHA",
+    "dob": "16/07/2016",
+    "baptismDate": "07/07/2019"
+  },
+  {
+    "regNo": "15888",
+    "class": "III",
+    "division": "A",
+    "name": "HAEZAL MARY T.L",
+    "baptism": "THERESSA",
+    "house": "THANDIAKKAL",
+    "father": "LINGESH",
+    "mother": "MARIYA",
+    "dob": "14/06/2018",
+    "baptismDate": "22/08/2018"
+  },
+  {
+    "regNo": "15870",
+    "class": "III",
+    "division": "A",
+    "name": "JOANNA JOY",
+    "baptism": "ELYA",
+    "house": "KALLIVAPPIL",
+    "father": "JOY",
+    "mother": "ANILA",
+    "dob": "16/03/2018",
+    "baptismDate": "13/05/2018"
+  },
+  {
+    "regNo": "15871",
+    "class": "III",
+    "division": "A",
+    "name": "KESIYA ZARA",
+    "baptism": "KOCHUTHRESSIA",
+    "house": "MANGALAN",
+    "father": "JAISON",
+    "mother": "JOSMIN",
+    "dob": "31/12/2018",
+    "baptismDate": "17/02/2019"
+  },
+  {
+    "regNo": "15872",
+    "class": "III",
+    "division": "A",
+    "name": "NEORAH THERESE",
+    "baptism": "THERES",
+    "house": "THULUVATH",
+    "father": "ALBERT",
+    "mother": "RIYA",
+    "dob": "14/02/2019",
+    "baptismDate": "26/05/2019"
+  },
+  {
+    "regNo": "15873",
+    "class": "III",
+    "division": "A",
+    "name": "REBECCA ROSE SAJEEV",
+    "baptism": "MARIYAM",
+    "house": "PULLELY",
+    "father": "SAJEEV",
+    "mother": "ASHA",
+    "dob": "18/01/2019",
+    "baptismDate": "03/08/2019"
+  },
+  {
+    "regNo": "15874",
+    "class": "III",
+    "division": "A",
+    "name": "SENORA SHINTO",
+    "baptism": "MARIYA",
+    "house": "POZHOLIPARAMBIL",
+    "father": "SHINTO",
+    "mother": "REMYA",
+    "dob": "25/04/2019",
+    "baptismDate": "07/07/2019"
+  },
+  {
+    "regNo": "15882",
+    "class": "III",
+    "division": "B",
+    "name": "Abin Binoy",
+    "baptism": "Pally",
+    "house": "Alappadan",
+    "father": "Binoy",
+    "mother": "Frinly",
+    "dob": "02-06-2018",
+    "baptismDate": "10-11-2018"
+  },
+  {
+    "regNo": "15876",
+    "class": "III",
+    "division": "B",
+    "name": "Anton Roby",
+    "baptism": "Antony",
+    "house": "Thandiyekkal",
+    "father": "Roby",
+    "mother": "Lincy",
+    "dob": "11-06-2018",
+    "baptismDate": "28-07-2018"
+  },
+  {
+    "regNo": "15952",
+    "class": "III",
+    "division": "B",
+    "name": "Antony Jimmy",
+    "baptism": "Mathew",
+    "house": "Pontangal",
+    "father": "Jimmy",
+    "mother": "Sona",
+    "dob": "16-05-2018",
+    "baptismDate": ""
+  },
+  {
+    "regNo": "15983",
+    "class": "III",
+    "division": "B",
+    "name": "Adam Joshy",
+    "baptism": "Abragham Kurian",
+    "house": "Ponpuzha",
+    "father": "Joshy",
+    "mother": "Naina",
+    "dob": "08-05-2018",
+    "baptismDate": "09-06-2018"
+  },
+  {
+    "regNo": "15877",
+    "class": "III",
+    "division": "B",
+    "name": "Danilo Melwin",
+    "baptism": "Jacob",
+    "house": "Alappadan",
+    "father": "Melwin",
+    "mother": "Hima",
+    "dob": "28-12-2018",
+    "baptismDate": "22-04-2018"
+  },
+  {
+    "regNo": "15951",
+    "class": "III",
+    "division": "B",
+    "name": "Daion Sandra Dinu",
+    "baptism": "Thomas",
+    "house": "Eelan",
+    "father": "Dinu",
+    "mother": "Sandra",
+    "dob": "22-06-2018",
+    "baptismDate": "09-09-2018"
+  },
+  {
+    "regNo": "15984",
+    "class": "III",
+    "division": "B",
+    "name": "Christo Raju",
+    "baptism": "Joseph",
+    "house": "Pulikkottil",
+    "father": "Raju",
+    "mother": "Leema",
+    "dob": "20-12-2017",
+    "baptismDate": "04-03-2018"
+  },
+  {
+    "regNo": "15881",
+    "class": "III",
+    "division": "B",
+    "name": "Esrom J Brutus",
+    "baptism": "Joseph",
+    "house": "Pallippatt",
+    "father": "Brutus",
+    "mother": "Suvitha",
+    "dob": "02-01-2018",
+    "baptismDate": "29-04-2018"
+  },
+  {
+    "regNo": "15879",
+    "class": "III",
+    "division": "B",
+    "name": "Joseph Joby",
+    "baptism": "Joseph",
+    "house": "Thekkekara",
+    "father": "Joby",
+    "mother": "Della",
+    "dob": "07-06-2019",
+    "baptismDate": "21-08-2019"
+  },
+  {
+    "regNo": "15880",
+    "class": "III",
+    "division": "B",
+    "name": "Rayon Sanil",
+    "baptism": "Mathayi",
+    "house": "Kalaparambath",
+    "father": "Sanil",
+    "mother": "Lincy",
+    "dob": "02-06-2018",
+    "baptismDate": "02-09-2018"
+  },
+  {
+    "regNo": "15875",
+    "class": "III",
+    "division": "B",
+    "name": "Rayan Mejo",
+    "baptism": "Johnson",
+    "house": "Puthanagadi",
+    "father": "Mejo",
+    "mother": "Greeshma",
+    "dob": "01-01-2018",
+    "baptismDate": "08-04-2018"
+  },
+  {
+    "regNo": "15884",
+    "class": "III",
+    "division": "B",
+    "name": "Aine Rose Saneesh",
+    "baptism": "Elsy",
+    "house": "Kalattipparambil",
+    "father": "Saneesh",
+    "mother": "Nigi",
+    "dob": "07-10-2017",
+    "baptismDate": "26-12-2017"
+  },
+  {
+    "regNo": "15886",
+    "class": "III",
+    "division": "B",
+    "name": "Elizabeth Biby",
+    "baptism": "Mariyam",
+    "house": "Varikkassery",
+    "father": "Biby",
+    "mother": "Hima",
+    "dob": "18-08-2018",
+    "baptismDate": "25-11-2018"
+  },
+  {
+    "regNo": "15887",
+    "class": "III",
+    "division": "B",
+    "name": "Evonlin Lijo",
+    "baptism": "Elsy",
+    "house": "Kannamkunny",
+    "father": "Lijo",
+    "mother": "Simna",
+    "dob": "14-12-2017",
+    "baptismDate": "03-03-2018"
+  },
+  {
+    "regNo": "15885",
+    "class": "III",
+    "division": "B",
+    "name": "Helna Baiju",
+    "baptism": "Rosy",
+    "house": "Kannamkunny",
+    "father": "Baiju",
+    "mother": "Leema",
+    "dob": "15-10-2018",
+    "baptismDate": "22-12-2018"
+  },
+  {
+    "regNo": "15889",
+    "class": "III",
+    "division": "B",
+    "name": "Hymn Marice",
+    "baptism": "Marice",
+    "house": "Valappan",
+    "father": "Shabu",
+    "mother": "Anu",
+    "dob": "23-05-2018",
+    "baptismDate": "08-09-2018"
+  },
+  {
+    "regNo": "15890",
+    "class": "III",
+    "division": "B",
+    "name": "Izabel Mariya Tinto",
+    "baptism": "Kochuthersia",
+    "house": "Karerakkattil",
+    "father": "Tinto",
+    "mother": "Dhanisha",
+    "dob": "04-12-2018",
+    "baptismDate": ""
+  },
+  {
+    "regNo": "15891",
+    "class": "III",
+    "division": "B",
+    "name": "Jessica Jobi",
+    "baptism": "Jessica",
+    "house": "Payammel",
+    "father": "Jobi",
+    "mother": "Binisha",
+    "dob": "25-09-2018",
+    "baptismDate": "11-05-2019"
+  },
+  {
+    "regNo": "15892",
+    "class": "III",
+    "division": "B",
+    "name": "Sera Rose Roy",
+    "baptism": "Mariyam",
+    "house": "Ponthakkan",
+    "father": "Roy",
+    "mother": "Sigi",
+    "dob": "08-05-2018",
+    "baptismDate": "09-06-2018"
+  },
+    {
+        "regNo": "15808",
+        "class": "IV",
+        "division": "A",
+        "name": "Alvin Binto",
+        "baptism": "Francis",
+        "house": "Thandiyakal",
+        "unit": "St. Paul Unit",
+        "father": "Binto",
+        "mother": "Reema",
+        "dob": "31/03/2017",
+        "baptismDate": "28/04/2017"
+    },
+    {
+        "regNo": "15809",
+        "class": "IV",
+        "division": "A",
+        "name": "Art Anton",
+        "baptism": "Antony",
+        "house": "Valappan",
+        "unit": "Christhuraja Unit",
+        "father": "Shabu",
+        "mother": "Anu",
+        "dob": "20/11/2016",
+        "baptismDate": "15/05/2016"
+    },
+    {
+        "regNo": "15810",
+        "class": "IV",
+        "division": "A",
+        "name": "Christopher Jinto",
+        "baptism": "Joseph",
+        "house": "Kachappilly",
+        "unit": "St. Alphonsa Unit",
+        "father": "Jinto",
+        "mother": "Gija",
+        "dob": "03/11/2016",
+        "baptismDate": "30/11/2016"
+    },
+    {
+        "regNo": "15811",
+        "class": "IV",
+        "division": "A",
+        "name": "Deon Johnson",
+        "baptism": "Varghese",
+        "house": "Nereparamban",
+        "unit": "Velankanni Matha",
+        "father": "Johnson",
+        "mother": "Sonia",
+        "dob": "03/05/2017",
+        "baptismDate": "08/04/2018"
+    },
+    {
+        "regNo": "15812",
+        "class": "IV",
+        "division": "A",
+        "name": "Joan Sheejo",
+        "baptism": "Thomas",
+        "house": "Kallivalappil",
+        "unit": "St. Chavara Kuriakose",
+        "father": "Sheejo",
+        "mother": "Jolly",
+        "dob": "10/02/2017",
+        "baptismDate": "16/06/2017"
+    },
+    {
+        "regNo": "15813",
+        "class": "IV",
+        "division": "A",
+        "name": "Joel Justin",
+        "baptism": "Sebastian",
+        "house": "Chathely",
+        "unit": "St. Peter Unit",
+        "father": "Justin",
+        "mother": "Jency",
+        "dob": "18/07/2017",
+        "baptismDate": "14/09/2017"
+    },
+    {
+        "regNo": "15814",
+        "class": "IV",
+        "division": "A",
+        "name": "John Paul Kannampilly",
+        "baptism": "Antony",
+        "house": "Kannampilly",
+        "unit": "Christhuraja Unit",
+        "father": "Paulson",
+        "mother": "Sini",
+        "dob": "29/06/2016",
+        "baptismDate": "27/11/2016"
+    },
+    {
+        "regNo": "15815",
+        "class": "IV",
+        "division": "A",
+        "name": "Joshua Gemon",
+        "baptism": "Varghese",
+        "house": "Thoduparambil",
+        "unit": "St. Peter Unit",
+        "father": "Gemon",
+        "mother": "Jainy",
+        "dob": "08/04/2018",
+        "baptismDate": "03/03/2019"
+    },
+    {
+        "regNo": "15816",
+        "class": "IV",
+        "division": "A",
+        "name": "Steve Alex",
+        "baptism": "Joy",
+        "house": "Kettickal",
+        "unit": "St. Thomas",
+        "father": "Alex",
+        "mother": "Saini",
+        "dob": "18/04/2017",
+        "baptismDate": "30/11/2017"
+    },
+    {
+        "regNo": "15817",
+        "class": "IV",
+        "division": "A",
+        "name": "Amaris Rose",
+        "baptism": "Reetha",
+        "house": "Chonedan",
+        "unit": "Mother Theresa",
+        "father": "Sinto",
+        "mother": "Sigi",
+        "dob": "11/02/2018",
+        "baptismDate": "26/05/2018"
+    },
+    {
+        "regNo": "15819",
+        "class": "IV",
+        "division": "A",
+        "name": "Delna Denny",
+        "baptism": "Cilly",
+        "house": "Kannampilly",
+        "unit": "Thirurudayam",
+        "father": "Denny",
+        "mother": "Sini",
+        "dob": "26/09/2017",
+        "baptismDate": "07/01/2018"
+    },
+    {
+        "regNo": "15820",
+        "class": "IV",
+        "division": "A",
+        "name": "Escriva Marina Denny",
+        "baptism": "Mariya",
+        "house": "Pellissery",
+        "unit": "Mother Theresa",
+        "father": "Denny",
+        "mother": "Jomy",
+        "dob": "26/02/2017",
+        "baptismDate": "28/04/2017"
+    },
+    {
+        "regNo": "15821",
+        "class": "IV",
+        "division": "A",
+        "name": "Evanlian Linto",
+        "baptism": "Alphonsa",
+        "house": "Nereparamban",
+        "unit": "St. Peter Unit",
+        "father": "Linto",
+        "mother": "Jasmine",
+        "dob": "02/08/2017",
+        "baptismDate": "09/02/2017"
+    },
+    {
+        "regNo": "15822",
+        "class": "IV",
+        "division": "A",
+        "name": "Grace Mariya N P",
+        "baptism": "Serena",
+        "house": "Nereparamban",
+        "unit": "St. Antony Unit",
+        "father": "Pauly",
+        "mother": "Kitty",
+        "dob": "23/03/2016",
+        "baptismDate": "30/04/2016"
+    },
+    {
+        "regNo": "15823",
+        "class": "IV",
+        "division": "A",
+        "name": "Gratia Mariya N P",
+        "baptism": "Annam",
+        "house": "Nereparamban",
+        "unit": "St. Antony Unit",
+        "father": "Pauly",
+        "mother": "Kitty",
+        "dob": "23/03/2016",
+        "baptismDate": "30/04/2017"
+    },
+    {
+        "regNo": "15825",
+        "class": "IV",
+        "division": "A",
+        "name": "Jean Teres Joby",
+        "baptism": "Jean Teres",
+        "house": "Payammel",
+        "unit": "Holy Family Unit",
+        "father": "Joby",
+        "mother": "Binsha",
+        "dob": "03/03/2017",
+        "baptismDate": "02/09/2017"
+    },
+    {
+        "regNo": "15826",
+        "class": "IV",
+        "division": "A",
+        "name": "Jeni Rose Jimesh",
+        "baptism": "Elsy",
+        "house": "Nereparamban",
+        "unit": "St. Antony Unit",
+        "father": "Jimesh",
+        "mother": "Maya",
+        "dob": "26/04/2017",
+        "baptismDate": "11/05/2017"
+    },
+    {
+        "regNo": "15827",
+        "class": "IV",
+        "division": "A",
+        "name": "Jovana Joy",
+        "baptism": "Mary",
+        "house": "Kokkat",
+        "unit": "St. George",
+        "father": "Joy",
+        "mother": "Sujitha",
+        "dob": "09/10/2017",
+        "baptismDate": "02/11/2019"
+    },
+    {
+        "regNo": "15824",
+        "class": "IV",
+        "division": "A",
+        "name": "Yoyana Jento",
+        "baptism": "Alphonsa",
+        "house": "Malayankunnel",
+        "unit": "St. Joseph",
+        "father": "Jento",
+        "mother": "Milna",
+        "dob": "16/03/2017",
+        "baptismDate": "08/10/2017"
+    },
+  {
+    "regNo": "15780",
+    "class": "IV",
+    "division": "B",
+    "name": "Agnel Seby",
+    "baptism": "Joseph",
+    "house": "Uppumparambil",
+    "unit": "",
+    "father": "Seby",
+    "mother": "Rosemol",
+    "dob": "01/05/2017",
+    "baptismDate": "02/07/2017"
+  },
+  {
+    "regNo": "15829",
+    "class": "IV",
+    "division": "B",
+    "name": "Ajohn Toby",
+    "baptism": "Joseph",
+    "house": "Thandiyakkal",
+    "unit": "",
+    "father": "Toby",
+    "mother": "Sanu",
+    "dob": "03/06/2017",
+    "baptismDate": "02/10/2017"
+  },
+  {
+    "regNo": "15831",
+    "class": "IV",
+    "division": "B",
+    "name": "Anjo Aneesh",
+    "baptism": "Poulose",
+    "house": "Thrissurkaran",
+    "father": "Aneesh",
+    "mother": "Josya",
+    "dob": "15/07/2017",
+    "baptismDate": "13/08/2017"
+  },
+  {
+    "regNo": "",
+    "class": "IV",
+    "division": "B",
+    "name": "",
+    "baptism": "",
+    "house": "",
+    "father": "",
+    "mother": "",
+    "dob": "",
+    "baptismDate": ""
+  },
+  {
+    "regNo": "15834",
+    "class": "IV",
+    "division": "B",
+    "name": "Joel Shiju",
+    "baptism": "Joseph",
+    "house": "Kuzhuveli",
+    "father": "Shiju",
+    "mother": "Jyothi",
+    "dob": "24/11/2016",
+    "baptismDate": "15/01/2017"
+  },
+  {
+    "regNo": "15835",
+    "class": "IV",
+    "division": "B",
+    "name": "Josen Shijo",
+    "baptism": "Antony",
+    "house": "Pozhupaparambil",
+    "father": "Shijo Jose",
+    "mother": "Divya",
+    "dob": "28/04/2017",
+    "baptismDate": "12/06/2017"
+  },
+  {
+    "regNo": "15836",
+    "class": "IV",
+    "division": "B",
+    "name": "Judil Tony",
+    "baptism": "Jose",
+    "house": "Thenghil",
+    "father": "Tony",
+    "mother": "Rosemary",
+    "dob": "12/07/2016",
+    "baptismDate": "06/11/2016"
+  },
+  {
+    "regNo": "15837",
+    "class": "IV",
+    "division": "B",
+    "name": "Leo Antonis",
+    "baptism": "Leni Antony",
+    "house": "Kallivalappil",
+    "father": "Leni",
+    "mother": "Sanila",
+    "dob": "12/03/2017",
+    "baptismDate": "17/04/2017"
+  },
+  {
+    "regNo": "15838",
+    "class": "IV",
+    "division": "B",
+    "name": "Nadhan Varghese",
+    "baptism": "",
+    "house": "Padamadan",
+    "father": "Vijay",
+    "mother": "Neenu",
+    "dob": "04/05/2017",
+    "baptismDate": "17/06/2017"
+  },
+  {
+    "regNo": "15839",
+    "class": "IV",
+    "division": "B",
+    "name": "Ann Mariya Mejo",
+    "baptism": "Chinnamma",
+    "house": "Parakkal",
+    "father": "Mejo",
+    "mother": "Smitha",
+    "dob": "08/03/2018",
+    "baptismDate": "16/02/2019"
+  },
+  {
+    "regNo": "15840",
+    "class": "IV",
+    "division": "B",
+    "name": "Agnus Varghese",
+    "baptism": "Theresa",
+    "house": "Anchery",
+    "father": "Varghese",
+    "mother": "Jincy",
+    "dob": "22/02/2018",
+    "baptismDate": "23/04/2018"
+  },
+  {
+    "regNo": "15953",
+    "class": "IV",
+    "division": "B",
+    "name": "Andriya Jimmy",
+    "baptism": "Mary",
+    "house": "Potakkal",
+    "father": "Jimmy",
+    "mother": "Sona",
+    "dob": "07/02/2017",
+    "baptismDate": "30/04/2017"
+  },
+  {
+    "regNo": "15841",
+    "class": "IV",
+    "division": "B",
+    "name": "Aradhya Shibu",
+    "baptism": "Theresa",
+    "house": "Vylakudam",
+    "father": "Shibu",
+    "mother": "Bijitha",
+    "dob": "04/04/2017",
+    "baptismDate": "04/06/2017"
+  },
+  {
+    "regNo": "15842",
+    "class": "IV",
+    "division": "B",
+    "name": "Eva Juliete Gibin",
+    "baptism": "Roslin",
+    "house": "Kandamkulathi",
+    "father": "Gibin",
+    "mother": "Megha",
+    "dob": "01/11/2016",
+    "baptismDate": "09/01/2017"
+  },
+  {
+    "regNo": "15955",
+    "class": "IV",
+    "division": "B",
+    "name": "Evelina Ethel Roy",
+    "baptism": "Anna",
+    "house": "Thandiyakkal",
+    "father": "Roy Thomas",
+    "mother": "Silmy",
+    "dob": "24/11/2017",
+    "baptismDate": "18/11/2018"
+  },
+  {
+    "regNo": "15843",
+    "class": "IV",
+    "division": "B",
+    "name": "Grace Mariya Geo",
+    "baptism": "Mary",
+    "house": "Thuluvath",
+    "father": "Geo",
+    "mother": "Lincy",
+    "dob": "14/08/2017",
+    "baptismDate": "17/01/2018"
+  },
+  {
+    "regNo": "15847",
+    "class": "IV",
+    "division": "B",
+    "name": "Hannah Ann Aljo",
+    "baptism": "Ans",
+    "house": "Marathampilly",
+    "father": "Aljo",
+    "mother": "Shinu",
+    "dob": "23/05/2017",
+    "baptismDate": "30/07/2017"
+  },
+  {
+    "regNo": "15844",
+    "class": "IV",
+    "division": "B",
+    "name": "Hentica Teafer",
+    "baptism": "Theresa",
+    "house": "Muttath",
+    "father": "Teafer",
+    "mother": "Sleny",
+    "dob": "01/08/2017",
+    "baptismDate": "29/10/2017"
+  },
+  {
+    "regNo": "15846",
+    "class": "IV",
+    "division": "B",
+    "name": "Mariya Linto",
+    "baptism": "Mariya",
+    "house": "Pazhedathuparambil",
+    "father": "Linto",
+    "mother": "Meril",
+    "dob": "18/11/2016",
+    "baptismDate": "05/02/2017"
+  },
+  {
+    "regNo": "15848",
+    "class": "IV",
+    "division": "B",
+    "name": "Therese Mariya Jobi",
+    "baptism": "",
+    "house": "Thekkekara",
+    "father": "Joby",
+    "mother": "Della",
+    "dob": "10/05/2017",
+    "baptismDate": "13/08/2017"
+  },
+  {
+    "regNo": "15849",
+    "class": "IV",
+    "division": "B",
+    "name": "Thezaliya Santhosh",
+    "baptism": "",
+    "house": "Palakkal",
+    "father": "Santhosh",
+    "mother": "Alna",
+    "dob": "04/08/2017",
+    "baptismDate": "12/05/2018"
+  },
+
+  {
+    "regNo": "15781",
+    "class": "V",
+    "division": "A",
+    "name": "Aiden Albert",
+    "baptism": "Joseph",
+    "house": "Thuluvath",
+    "father": "Albert Jose",
+    "mother": "Riya",
+    "dob": "25/05/2017",
+    "baptismDate": "20/08/2017"
+  },
+  {
+    "regNo": "15782",
+    "class": "V",
+    "division": "A",
+    "name": "Aldrin Heody",
+    "baptism": "Joseph",
+    "house": "Nelappadan",
+    "father": "Heody V G",
+    "mother": "Biji M P",
+    "dob": "14/08/2017",
+    "baptismDate": "01/10/2017"
+  },
+  {
+    "regNo": "15759",
+    "class": "V",
+    "division": "A",
+    "name": "Aljith Joe Babu",
+    "baptism": "Joseph",
+    "house": "Kannamkunnu",
+    "father": "Babu Jose K",
+    "mother": "Sibi",
+    "dob": "20/10/2016",
+    "baptismDate": "01/01/2017"
+  },
+  {
+    "regNo": "15783",
+    "class": "V",
+    "division": "A",
+    "name": "Eidel Devis",
+    "baptism": "Antony",
+    "house": "Panthookkaran",
+    "father": "Devis P R",
+    "mother": "Neethu",
+    "dob": "10/08/2016",
+    "baptismDate": "20/11/2016"
+  },
+  {
+    "regNo": "15784",
+    "class": "V",
+    "division": "A",
+    "name": "Fernando T Tony",
+    "baptism": "Devassy",
+    "house": "Thengithil",
+    "father": "Tony",
+    "mother": "Rosemary",
+    "dob": "24/04/2015",
+    "baptismDate": "08/07/2015"
+  },
+  {
+    "regNo": "15897",
+    "class": "V",
+    "division": "A",
+    "name": "Rijo T J John",
+    "baptism": "Joy",
+    "house": "Panthikkaran",
+    "father": "T J John",
+    "mother": "Athira",
+    "dob": "17/05/2017",
+    "baptismDate": "07/11/2017"
+  },
+  {
+    "regNo": "15755",
+    "class": "V",
+    "division": "A",
+    "name": "Shone T J Jo",
+    "baptism": "Antony Sebastian",
+    "house": "Vadakkan",
+    "father": "T J T V",
+    "mother": "Alphy Titu",
+    "dob": "21/02/2015",
+    "baptismDate": "10/01/2016"
+  },
+  {
+    "regNo": "15956",
+    "class": "V",
+    "division": "A",
+    "name": "Anorin Anoop",
+    "baptism": "Vaison",
+    "house": "Kunnathparambil",
+    "father": "Anoop K J",
+    "mother": "Megha",
+    "dob": "24/10/2016",
+    "baptismDate": "03/02/2017"
+  },
+  {
+    "regNo": "15758",
+    "class": "V",
+    "division": "A",
+    "name": "Ansmary",
+    "baptism": "Mary",
+    "house": "Puliyani",
+    "father": "Joshy",
+    "mother": "Sini",
+    "dob": "03/08/2017",
+    "baptismDate": "27/12/2017"
+  },
+  {
+    "regNo": "15786",
+    "class": "V",
+    "division": "A",
+    "name": "Galena Jino",
+    "baptism": "Rosily",
+    "house": "Thekkumpuram",
+    "father": "Jino Sunny",
+    "mother": "Nisa",
+    "dob": "29/02/2016",
+    "baptismDate": "14/05/2016"
+  },
+  {
+    "regNo": "15788",
+    "class": "V",
+    "division": "A",
+    "name": "Jessica Shiju",
+    "baptism": "Elizabeth",
+    "house": "Kuzhiveli",
+    "father": "Shiju Jose",
+    "mother": "Jyothi",
+    "dob": "18/10/2015",
+    "baptismDate": "09/01/2016"
+  },
+  {
+    "regNo": "15898",
+    "class": "V",
+    "division": "A",
+    "name": "Juliya Jeeson",
+    "baptism": "Lily",
+    "house": "Vembil",
+    "father": "Jeeson",
+    "mother": "Liviya",
+    "dob": "07/04/2016",
+    "baptismDate": "30/10/2016"
+  },
+  {
+    "regNo": "15757",
+    "class": "V",
+    "division": "A",
+    "name": "Nila Roshan",
+    "baptism": "Greesa",
+    "house": "Thuluvath",
+    "father": "Roshan Raphael",
+    "mother": "Surya",
+    "dob": "01/09/2017",
+    "baptismDate": "26/12/2017"
+  },
+  {
+    "regNo": "15756",
+    "class": "V",
+    "division": "A",
+    "name": "Raizel Roy",
+    "baptism": "Anny",
+    "house": "Chethalan",
+    "father": "Roy C A",
+    "mother": "Femila",
+    "dob": "28/01/2016",
+    "baptismDate": "23/04/2016"
+  },
+  {
+    "regNo": "15790",
+    "class": "V",
+    "division": "A",
+    "name": "Sarah Mariya T",
+    "baptism": "Joyce",
+    "house": "Thandiyakkal",
+    "father": "Thomas",
+    "mother": "Siji",
+    "dob": "26/03/2016",
+    "baptismDate": "11/09/2016"
+  },
+  {
+    "regNo": "15791",
+    "class": "V",
+    "division": "A",
+    "name": "Sera Sinto",
+    "baptism": "Alice",
+    "house": "Kannamkunnu",
+    "father": "Sinto",
+    "mother": "Gifty",
+    "dob": "08/03/2016",
+    "baptismDate": "04/06/2016"
+  },
+  {
+    "regNo": "15991",
+    "class": "V",
+    "division": "A",
+    "name": "Christo Jijo",
+    "baptism": "",
+    "house": "Kainadathupparambil",
+    "father": "Jijo",
+    "mother": "Anny",
+    "dob": "05/05/2016",
+    "baptismDate": ""
+  },
+
+  {
+    "regNo": "15794",
+    "class": "V",
+    "division": "B",
+    "name": "Adlyn K.T",
+    "baptism": "Sebastian",
+    "house": "Kalathingal",
+    "father": "Thomas K.P",
+    "mother": "Finly",
+    "dob": "21-11-2016",
+    "baptismDate": "01-05-2017"
+  },
+  {
+    "regNo": "15792",
+    "class": "V",
+    "division": "B",
+    "name": "Bennet Bastin Biju",
+    "baptism": "Devassy",
+    "house": "Panthalookkaran",
+    "father": "Biju P.D",
+    "mother": "Jasmy",
+    "dob": "29-10-2015",
+    "baptismDate": "17-01-2016"
+  },
+  {
+    "regNo": "15800",
+    "class": "V",
+    "division": "B",
+    "name": "Evan John Biju",
+    "baptism": "Johny",
+    "house": "Kannampilly",
+    "father": "Biju",
+    "mother": "Jincy",
+    "dob": "25-10-2015",
+    "baptismDate": "27-12-2015"
+  },
+  {
+    "regNo": "15760",
+    "class": "V",
+    "division": "B",
+    "name": "Heyden Chris Linto",
+    "baptism": "Joseph",
+    "house": "Kannamkuzhi",
+    "father": "Linto Thomas",
+    "mother": "Silgy",
+    "dob": "25-09-2015",
+    "baptismDate": "24-01-2016"
+  },
+  {
+    "regNo": "15793",
+    "class": "V",
+    "division": "B",
+    "name": "John Paul Varghese",
+    "baptism": "John Paul",
+    "house": "Anchery",
+    "father": "Varghese",
+    "mother": "Jincy",
+    "dob": "18-11-2016",
+    "baptismDate": "06-02-2017"
+  },
+  {
+    "regNo": "15751",
+    "class": "V",
+    "division": "B",
+    "name": "Johan Davis",
+    "baptism": "Joseph",
+    "house": "Neerparambil",
+    "father": "Davis N.T",
+    "mother": "Laly Joseph",
+    "dob": "30-04-2016",
+    "baptismDate": "21-09-2016"
+  },
+  {
+    "regNo": "15795",
+    "class": "V",
+    "division": "B",
+    "name": "Sam Sinto",
+    "baptism": "Jose",
+    "house": "Palathingal",
+    "father": "Sinto P.J",
+    "mother": "Symma T.K",
+    "dob": "05-01-2016",
+    "baptismDate": "29-05-2016"
+  },
+  {
+    "regNo": "15850",
+    "class": "V",
+    "division": "B",
+    "name": "Thomas Santhosh",
+    "baptism": "Thomas",
+    "house": "Palathingal",
+    "father": "Santhosh",
+    "mother": "Alna",
+    "dob": "06-11-2015",
+    "baptismDate": ""
+  },
+  {
+    "regNo": "15799",
+    "class": "V",
+    "division": "B",
+    "name": "Agnes Anns Jinson",
+    "baptism": "Annamma",
+    "house": "Kallivalappil",
+    "father": "Jinson",
+    "mother": "Remya",
+    "dob": "12-08-2016",
+    "baptismDate": ""
+  },
+  {
+    "regNo": "15749",
+    "class": "V",
+    "division": "B",
+    "name": "Annes Lijo",
+    "baptism": "Anna",
+    "house": "Kuzhuvelil",
+    "father": "Lijo K.D",
+    "mother": "Sheena",
+    "dob": "12-01-2017",
+    "baptismDate": "23-04-2017"
+  },
+  {
+    "regNo": "15787",
+    "class": "V",
+    "division": "B",
+    "name": "Haleena Rose Paul",
+    "baptism": "Anna",
+    "house": "Thekkumpuram",
+    "father": "Pauly T. Paul",
+    "mother": "Suma",
+    "dob": "01-04-2017",
+    "baptismDate": "13-08-2017"
+  },
+  {
+    "regNo": "15753",
+    "class": "V",
+    "division": "B",
+    "name": "Helen Mary Linson",
+    "baptism": "Mary",
+    "house": "Kallivalappil",
+    "father": "Linson",
+    "mother": "Vinaya",
+    "dob": "23-01-2016",
+    "baptismDate": "22-01-2017"
+  },
+  {
+    "regNo": "15798",
+    "class": "V",
+    "division": "B",
+    "name": "Jenna Jenson",
+    "baptism": "Rose",
+    "house": "Kallivalappil",
+    "father": "Jenson",
+    "mother": "Bindhu",
+    "dob": "23-02-2014",
+    "baptismDate": "08-02-2015"
+  },
+  {
+    "regNo": "15756",
+    "class": "V",
+    "division": "B",
+    "name": "Mishel Rose",
+    "baptism": "Rose",
+    "house": "Thuluvath",
+    "father": "Rinto",
+    "mother": "Tincy",
+    "dob": "28-08-2016",
+    "baptismDate": "21-02-2017"
+  },
+  {
+    "regNo": "15796",
+    "class": "V",
+    "division": "B",
+    "name": "Rose Benny",
+    "baptism": "Rose",
+    "house": "Moodda",
+    "father": "Benny",
+    "mother": "Stella",
+    "dob": "11-11-2015",
+    "baptismDate": "10-01-2016"
+  },
+  {
+    "regNo": "15994",
+    "class": "V",
+    "division": "B",
+    "name": "",
+    "baptism": "",
+    "house": "Arikkatam",
+    "father": "Rajeev",
+    "mother": "Jisa",
+    "dob": "",
+    "baptismDate": ""
+  },
+
+  {
+    "regNo": "15743",
+    "class": "VI",
+    "division": "A",
+    "name": "Albrin P. Tilson",
+    "baptism": "Johnny",
+    "house": "Pallipatt",
+    "father": "Tilson",
+    "mother": "Shimy",
+    "dob": "15-07-2015",
+    "baptismDate": ""
+  },
+  {
+    "regNo": "15735",
+    "class": "VI",
+    "division": "A",
+    "name": "Austin Sabu",
+    "baptism": "Devassy",
+    "house": "Panamkoodan",
+    "father": "Sabu",
+    "mother": "Siby",
+    "dob": "11-08-2015",
+    "baptismDate": ""
+  },
+  {
+    "regNo": "15745",
+    "class": "VI",
+    "division": "A",
+    "name": "Deo Delis Denny",
+    "baptism": "Rappai",
+    "house": "Panthalookkaran",
+    "father": "Denny",
+    "mother": "Manju",
+    "dob": "",
+    "baptismDate": ""
+  },
+  {
+    "regNo": "15730",
+    "class": "VI",
+    "division": "A",
+    "name": "Evan Printo",
+    "baptism": "Raphel",
+    "house": "Vadakkethala",
+    "father": "Printo",
+    "mother": "Ancy",
+    "dob": "11-05-2015",
+    "baptismDate": ""
+  },
+  {
+    "regNo": "15734",
+    "class": "VI",
+    "division": "A",
+    "name": "Joseph Jo Jobi",
+    "baptism": "Joseph",
+    "house": "Payammel",
+    "father": "Jobi",
+    "mother": "Binisha",
+    "dob": "17-03-2015",
+    "baptismDate": ""
+  },
+  {
+    "regNo": "15732",
+    "class": "VI",
+    "division": "A",
+    "name": "Jovan Joy Thuluvath",
+    "baptism": "",
+    "house": "Thuluvath",
+    "father": "Joy",
+    "mother": "Swapna",
+    "dob": "10-08-2015",
+    "baptismDate": ""
+  },
+  {
+    "regNo": "15696",
+    "class": "VI",
+    "division": "A",
+    "name": "Jovial Jojo",
+    "baptism": "Kouchudevassy",
+    "house": "Panamkoodan",
+    "father": "Biju",
+    "mother": "Ushas",
+    "dob": "22-03-2015",
+    "baptismDate": ""
+  },
+  {
+    "regNo": "15724",
+    "class": "VI",
+    "division": "A",
+    "name": "Shon Shibu",
+    "baptism": "Yacob",
+    "house": "Panthalookkaran",
+    "father": "Shibu",
+    "mother": "Siji",
+    "dob": "29-06-2015",
+    "baptismDate": ""
+  },
+  {
+    "regNo": "15725",
+    "class": "VI",
+    "division": "A",
+    "name": "Angel Rose K.R",
+    "baptism": "Rosy",
+    "house": "Kokkadan",
+    "father": "Riju",
+    "mother": "Jissy",
+    "dob": "06-05-2015",
+    "baptismDate": ""
+  },
+  {
+    "regNo": "15728",
+    "class": "VI",
+    "division": "A",
+    "name": "Anna Rose Alphy",
+    "baptism": "Mary",
+    "house": "Pullokkaran",
+    "father": "Alphy",
+    "mother": "Rini",
+    "dob": "17-02-2015",
+    "baptismDate": ""
+  },
+  {
+    "regNo": "15746",
+    "class": "VI",
+    "division": "A",
+    "name": "Delna Mariya Theres",
+    "baptism": "",
+    "house": "Kannamkunny",
+    "father": "Jobi",
+    "mother": "Renji",
+    "dob": "29-10-2015",
+    "baptismDate": ""
+  },
+  {
+    "regNo": "15739",
+    "class": "VI",
+    "division": "A",
+    "name": "Evia Jaiby",
+    "baptism": "Mercy",
+    "house": "Nereparambil",
+    "father": "Jaiby",
+    "mother": "Jini",
+    "dob": "",
+    "baptismDate": ""
+  },
+  {
+    "regNo": "15736",
+    "class": "VI",
+    "division": "A",
+    "name": "Jewel Joy",
+    "baptism": "Kochu Thressia",
+    "house": "Kallivalappil",
+    "father": "Joy",
+    "mother": "Anila",
+    "dob": "21-01-2015",
+    "baptismDate": ""
+  },
+
+  {
+    "regNo": "15748",
+    "class": "VI",
+    "division": "B",
+    "name": "Abel Lijo",
+    "baptism": "Thomas",
+    "house": "Chakkalamattath",
+    "father": "Lijo",
+    "mother": "Nisha",
+    "dob": "09-02-2015",
+    "baptismDate": "24-01-2016"
+  },
+  {
+    "regNo": "15737",
+    "class": "VI",
+    "division": "B",
+    "name": "Antony Lucca",
+    "baptism": "Antony",
+    "house": "Puliyani",
+    "father": "Jijo",
+    "mother": "Anitta",
+    "dob": "31-10-2014",
+    "baptismDate": "27-12-2014"
+  },
+  {
+    "regNo": "15733",
+    "class": "VI",
+    "division": "B",
+    "name": "Bernarndo Linto",
+    "baptism": "Jose",
+    "house": "Pazhedathuparambil",
+    "father": "Linto",
+    "mother": "Meril",
+    "dob": "01-01-2015",
+    "baptismDate": "03-02-2015"
+  },
+  {
+    "regNo": "15729",
+    "class": "VI",
+    "division": "B",
+    "name": "Cian Wilson",
+    "baptism": "",
+    "house": "Alookaran",
+    "father": "Wilson",
+    "mother": "Stella",
+    "dob": "03-12-2014",
+    "baptismDate": "08-03-2015"
+  },
+  {
+    "regNo": "15744",
+    "class": "VI",
+    "division": "B",
+    "name": "Egnel Davis",
+    "baptism": "Rappai",
+    "house": "Panthalookkaran",
+    "father": "Davis",
+    "mother": "Neethu",
+    "dob": "31-12-2014",
+    "baptismDate": "19-04-2015"
+  },
+  {
+    "regNo": "15727",
+    "class": "VI",
+    "division": "B",
+    "name": "Emmanuel Benny",
+    "baptism": "John",
+    "house": "Kuzhuvely",
+    "father": "Benny",
+    "mother": "Jincy",
+    "dob": "02-12-2014",
+    "baptismDate": "25-01-2015"
+  },
+  {
+    "regNo": "15766",
+    "class": "VI",
+    "division": "B",
+    "name": "Evan Sinto",
+    "baptism": "Thomas Paily",
+    "house": "Erattuparambil",
+    "father": "Sinto",
+    "mother": "Geethu",
+    "dob": "03-07-2015",
+    "baptismDate": "03-10-2015"
+  },
+  {
+    "regNo": "15731",
+    "class": "VI",
+    "division": "B",
+    "name": "Juan Jaison",
+    "baptism": "George",
+    "house": "Nereparamban",
+    "father": "Jaison",
+    "mother": "Smith",
+    "dob": "10-10-2015",
+    "baptismDate": "07-02-2016"
+  },
+  {
+    "regNo": "15738",
+    "class": "VI",
+    "division": "B",
+    "name": "Savio John",
+    "baptism": "Paul",
+    "house": "Kannamkunny",
+    "father": "Leejo",
+    "mother": "Rejitha",
+    "dob": "16-05-2015",
+    "baptismDate": "17-05-2015"
+  },
+  {
+    "regNo": "15726",
+    "class": "VI",
+    "division": "B",
+    "name": "Alvina Meril Nikhil",
+    "baptism": "Catherine",
+    "house": "Chakkery",
+    "father": "Nikhil",
+    "mother": "Rini",
+    "dob": "23-02-2015",
+    "baptismDate": "17-05-2015"
+  },
+  {
+    "regNo": "15747",
+    "class": "VI",
+    "division": "B",
+    "name": "Angel Maria",
+    "baptism": "Mary",
+    "house": "Maliakkal",
+    "father": "Shibu",
+    "mother": "Jigi",
+    "dob": "24-06-2015",
+    "baptismDate": "30-08-2015"
+  },
+  {
+    "regNo": "15762",
+    "class": "VI",
+    "division": "B",
+    "name": "Shira Rose Sajeev",
+    "baptism": "Alice",
+    "house": "Pullely",
+    "father": "Sajeev",
+    "mother": "Asha",
+    "dob": "13-10-2015",
+    "baptismDate": "24-01-2016"
+  },
+
+  {
+    "regNo": "15680",
+    "class": "VII",
+    "division": "A",
+    "name": "Aaron Babu",
+    "baptism": "Johnson",
+    "house": "Edattukaran",
+    "father": "Babu",
+    "mother": "Ancy",
+    "dob": "18-12-2013",
+    "baptismDate": "23-02-2014"
+  },
+  {
+    "regNo": "15710",
+    "class": "VII",
+    "division": "A",
+    "name": "Alanso Shabu",
+    "baptism": "Thomas",
+    "house": "Kannamkunnu",
+    "father": "Shabu",
+    "mother": "Anu",
+    "dob": "26-12-2013",
+    "baptismDate": "16-03-2014"
+  },
+  {
+    "regNo": "15705",
+    "class": "VII",
+    "division": "A",
+    "name": "Blessan Bitesh",
+    "baptism": "Joseph",
+    "house": "Kallivalappil",
+    "father": "Bitesh",
+    "mother": "Reni",
+    "dob": "04-08-2014",
+    "baptismDate": "25-10-2014"
+  },
+  {
+    "regNo": "15697",
+    "class": "VII",
+    "division": "A",
+    "name": "Cyrus Antony Biju",
+    "baptism": "",
+    "house": "Panamkoodan",
+    "father": "Biju",
+    "mother": "Ushas",
+    "dob": "17-11-2014",
+    "baptismDate": "25-01-2015"
+  },
+  {
+    "regNo": "15852",
+    "class": "VII",
+    "division": "A",
+    "name": "Evan George",
+    "baptism": "Francis",
+    "house": "Panamkoodan",
+    "father": "George",
+    "mother": "Seema",
+    "dob": "25-09-2014",
+    "baptismDate": ""
+  },
+  {
+    "regNo": "15894",
+    "class": "VII",
+    "division": "A",
+    "name": "Graham Joseph Sherian",
+    "baptism": "Joseph",
+    "house": "Kannamkunnu",
+    "father": "Sherin",
+    "mother": "Sunitta",
+    "dob": "",
+    "baptismDate": ""
+  },
+  {
+    "regNo": "15719",
+    "class": "VII",
+    "division": "A",
+    "name": "Jovel Jaison",
+    "baptism": "Thomas",
+    "house": "Kuzhiveli",
+    "father": "Jaison",
+    "mother": "Deepa",
+    "dob": "01-03-2014",
+    "baptismDate": "11-05-2014"
+  },
+  {
+    "regNo": "15704",
+    "class": "VII",
+    "division": "A",
+    "name": "Shilto Shaju",
+    "baptism": "Ouseph",
+    "house": "Kuzhiveli",
+    "father": "Shaju",
+    "mother": "Lity",
+    "dob": "22-08-2014",
+    "baptismDate": "21-05-2015"
+  },
+  {
+    "regNo": "15773",
+    "class": "VII",
+    "division": "A",
+    "name": "Aginya Augustin",
+    "baptism": "Philomina",
+    "house": "Panthalookaran",
+    "father": "Shaju",
+    "mother": "Lity",
+    "dob": "",
+    "baptismDate": ""
+  },
+  {
+    "regNo": "15682",
+    "class": "VII",
+    "division": "A",
+    "name": "Amelia Praveen",
+    "baptism": "Kochuthresia",
+    "house": "Parassery",
+    "father": "Praveen",
+    "mother": "Divya",
+    "dob": "24-07-2014",
+    "baptismDate": "28-09-2014"
+  },
+  {
+    "regNo": "15706",
+    "class": "VII",
+    "division": "A",
+    "name": "Esther Joyson",
+    "baptism": "Rosy",
+    "house": "Thandiakkal",
+    "father": "Joyson",
+    "mother": "Simi",
+    "dob": "03-03-2014",
+    "baptismDate": "18-05-2014"
+  },
+  {
+    "regNo": "15711",
+    "class": "VII",
+    "division": "A",
+    "name": "Liya Rose Shimmy",
+    "baptism": "",
+    "house": "Kuzhiveli",
+    "father": "Shimmy",
+    "mother": "Leema",
+    "dob": "02-02-2014",
+    "baptismDate": "11-05-2014"
+  },
+  {
+    "regNo": "15720",
+    "class": "VII",
+    "division": "A",
+    "name": "Mariyam Rose Austin",
+    "baptism": "Elizabeth",
+    "house": "Kuzhiveli",
+    "father": "Austin",
+    "mother": "Rose",
+    "dob": "25-05-2015",
+    "baptismDate": "18-10-2015"
+  },
+  {
+    "regNo": "15681",
+    "class": "VII",
+    "division": "A",
+    "name": "Mishel Shaju",
+    "baptism": "Leema",
+    "house": "Karutharakaran",
+    "father": "Shaju Baby",
+    "mother": "Judy",
+    "dob": "26-05-2014",
+    "baptismDate": "16-08-2014"
+  },
+  {
+    "regNo": "15777",
+    "class": "VII",
+    "division": "A",
+    "name": "Rachel Mariya Linso",
+    "baptism": "Alphonsa",
+    "house": "Panthalookaran",
+    "father": "Linso",
+    "mother": "Vincy",
+    "dob": "03-10-2013",
+    "baptismDate": "29-12-2013"
+  },
+  {
+    "regNo": "15653",
+    "class": "VII",
+    "division": "A",
+    "name": "Rinta Johnson",
+    "baptism": "Mariam",
+    "house": "Kooveli",
+    "father": "Johnson",
+    "mother": "Sanju",
+    "dob": "19-09-2013",
+    "baptismDate": "26-12-2013"
+  },
+  {
+    "regNo": "15679",
+    "class": "VII",
+    "division": "A",
+    "name": "Rithvika Raphael",
+    "baptism": "Elsy",
+    "house": "Marottickal",
+    "father": "Raphael",
+    "mother": "Smith",
+    "dob": "10-03-2014",
+    "baptismDate": "01-06-2014"
+  },
+  {
+    "regNo": "15709",
+    "class": "VII",
+    "division": "A",
+    "name": "Sandra Pauly",
+    "baptism": "Annam",
+    "house": "Kuzhiveli",
+    "father": "Pauly K.O",
+    "mother": "Guli",
+    "dob": "28-04-2014",
+    "baptismDate": "01-06-2014"
+  },
+  {
+    "regNo": "15987",
+    "class": "VII",
+    "division": "A",
+    "name": "Ann Raju",
+    "baptism": "Anna",
+    "house": "",
+    "father": "",
+    "mother": "",
+    "dob": "",
+    "baptismDate": ""
+  },
+ 
+  {
+    "regNo": "15700",
+    "class": "VII",
+    "division": "B",
+    "name": "Ajo Binto",
+    "baptism": "Antony",
+    "house": "Thondiakkkal",
+    "father": "Binto",
+    "mother": "Reena",
+    "dob": "",
+    "baptismDate": ""
+  },
+  {
+    "regNo": "15699",
+    "class": "VII",
+    "division": "B",
+    "name": "Cevin Biju",
+    "baptism": "Devassy",
+    "house": "Kallivalappil",
+    "father": "Biju",
+    "mother": "Nisha",
+    "dob": "",
+    "baptismDate": ""
+  },
+  {
+    "regNo": "15695",
+    "class": "VII",
+    "division": "B",
+    "name": "Dave David Deodar",
+    "baptism": "Yohannan",
+    "house": "Kallivalappil",
+    "father": "Devis",
+    "mother": "Shalu",
+    "dob": "",
+    "baptismDate": ""
+  },
+  {
+    "regNo": "15694",
+    "class": "VII",
+    "division": "B",
+    "name": "Edhan Joju",
+    "baptism": "Stephen",
+    "house": "Maliyakkal",
+    "father": "Joju",
+    "mother": "Stephy",
+    "dob": "",
+    "baptismDate": ""
+  },
+  {
+    "regNo": "15698",
+    "class": "VII",
+    "division": "B",
+    "name": "Fernando Lijo",
+    "baptism": "Devassy",
+    "house": "Kuzhiveli",
+    "father": "Lijo",
+    "mother": "Sheena",
+    "dob": "",
+    "baptismDate": ""
+  },
+  {
+    "regNo": "15693",
+    "class": "VII",
+    "division": "B",
+    "name": "Jeswin Christy Jenson",
+    "baptism": "George",
+    "house": "Mulayamkunnel",
+    "father": "Jenson",
+    "mother": "Sherin",
+    "dob": "",
+    "baptismDate": ""
+  },
+  {
+    "regNo": "15768",
+    "class": "VII",
+    "division": "B",
+    "name": "Monasse K. Biju",
+    "baptism": "Xavier",
+    "house": "Kizhakkoodan",
+    "father": "Biju",
+    "mother": "Ajitha",
+    "dob": "",
+    "baptismDate": ""
+  },
+  {
+    "regNo": "15713",
+    "class": "VII",
+    "division": "B",
+    "name": "Royon Jo Sinik",
+    "baptism": "Joseph",
+    "house": "Puliyani",
+    "father": "Sinik",
+    "mother": "Dixy",
+    "dob": "",
+    "baptismDate": ""
+  },
+  {
+    "regNo": "15683",
+    "class": "VII",
+    "division": "B",
+    "name": "Rayan Linto",
+    "baptism": "Varghese",
+    "house": "Ellikkal",
+    "father": "Linto",
+    "mother": "Mariya",
+    "dob": "",
+    "baptismDate": ""
+  },
+  {
+    "regNo": "15691",
+    "class": "VII",
+    "division": "B",
+    "name": "Steve Linto",
+    "baptism": "Paul",
+    "house": "Ellikkal",
+    "father": "Linto",
+    "mother": "Mariya",
+    "dob": "",
+    "baptismDate": ""
+  },
+  {
+    "regNo": "15714",
+    "class": "VII",
+    "division": "B",
+    "name": "Alaina Girbin",
+    "baptism": "Mary",
+    "house": "Thottian",
+    "father": "Girbin",
+    "mother": "Nicy",
+    "dob": "",
+    "baptismDate": ""
+  },
+  {
+    "regNo": "15715",
+    "class": "VII",
+    "division": "B",
+    "name": "Aneeta Joby",
+    "baptism": "Rosy",
+    "house": "Kallivalappil",
+    "father": "Joby",
+    "mother": "Tiji",
+    "dob": "",
+    "baptismDate": ""
+  },
+  {
+    "regNo": "15718",
+    "class": "VII",
+    "division": "B",
+    "name": "Annija Theresa Anish",
+    "baptism": "Thresia",
+    "house": "Padinjarepeedika",
+    "father": "Anish",
+    "mother": "Seena",
+    "dob": "",
+    "baptismDate": ""
+  },
+  {
+    "regNo": "15716",
+    "class": "VII",
+    "division": "B",
+    "name": "Cyra Alphonsa",
+    "baptism": "Elizabeth",
+    "house": "Pozhedathparambil",
+    "father": "Lijo",
+    "mother": "Princy",
+    "dob": "",
+    "baptismDate": ""
+  },
+  {
+    "regNo": "15820",
+    "class": "VII",
+    "division": "B",
+    "name": "Achina K.J",
+    "baptism": "Mary",
+    "house": "Kallivalappil",
+    "father": "Bijo",
+    "mother": "Sheena",
+    "dob": "",
+    "baptismDate": ""
+  },
+  {
+    "regNo": "15899",
+    "class": "VII",
+    "division": "B",
+    "name": "Jalisha Jenson",
+    "baptism": "Elsy",
+    "house": "Vemban",
+    "father": "Jenson",
+    "mother": "Luvy",
+    "dob": "",
+    "baptismDate": ""
+  },
+  {
+    "regNo": "15703",
+    "class": "VII",
+    "division": "B",
+    "name": "Leona Shaju",
+    "baptism": "Cicily",
+    "house": "Kallivalappil",
+    "father": "Shaju",
+    "mother": "Lily",
+    "dob": "",
+    "baptismDate": ""
+  },
+  {
+    "regNo": "",
+    "class": "VII",
+    "division": "B",
+    "name": "Mariya Jaison",
+    "baptism": "Rosy",
+    "house": "Thottian",
+    "father": "Jaison",
+    "mother": "Neha",
+    "dob": "",
+    "baptismDate": ""
+  },
+  {
+    "regNo": "15803",
+    "class": "VII",
+    "division": "B",
+    "name": "Diya T.B",
+    "baptism": "Rosily",
+    "house": "Thuluvath",
+    "father": "Babu",
+    "mother": "S...",
+    "dob": "",
+    "baptismDate": ""
+  },
+  {
+    "regNo": "15986",
+    "class": "VII",
+    "division": "B",
+    "name": "Shalini Mariya",
+    "baptism": "",
+    "house": "Thondiakkkal",
+    "father": "Shibu",
+    "mother": "Jeena",
+    "dob": "",
+    "baptismDate": ""
+  },
+  {
+    "regNo": "",
+    "class": "VII",
+    "division": "B",
+    "name": "Alfred T.S",
+    "baptism": "Varghese",
+    "house": "Thokku",
+    "father": "Shiju",
+    "mother": "Asma",
+    "dob": "",
+    "baptismDate": ""
+  },
+
+
+
+  
+  {
+    "regNo": "15635",
+    "class": "VIII",
+    "division": "A",
+    "name": "Aaron Thomas",
+    "baptism": "",
+    "house": "Kalathingal",
+    "father": "Thomas",
+    "mother": "Finly",
+    "dob": "31-08-2012",
+    "baptismDate": "24-11-2012"
+  },
+  {
+    "regNo": "15630",
+    "class": "VIII",
+    "division": "A",
+    "name": "Aiden George",
+    "baptism": "George",
+    "house": "Nalappaden",
+    "father": "Heddy",
+    "mother": "Biji",
+    "dob": "04-02-2012",
+    "baptismDate": "23-05-2013"
+  },
+  {
+    "regNo": "15633",
+    "class": "VIII",
+    "division": "A",
+    "name": "Alan Shijo",
+    "baptism": "Sebastian",
+    "house": "Manjapallikunnel",
+    "father": "Shijo",
+    "mother": "Rosmi",
+    "dob": "11-09-2012",
+    "baptismDate": "10-10-2014"
+  },
+  {
+    "regNo": "15631",
+    "class": "VIII",
+    "division": "A",
+    "name": "Alanjo Justin",
+    "baptism": "",
+    "house": "Kannamkunny",
+    "father": "Justin",
+    "mother": "Netha",
+    "dob": "30-07-2013",
+    "baptismDate": "09-11-2013"
+  },
+  {
+    "regNo": "15632",
+    "class": "VIII",
+    "division": "A",
+    "name": "Amith Jojo",
+    "baptism": "John Joseph",
+    "house": "Panamkoodan",
+    "father": "Jojo",
+    "mother": "Vigi",
+    "dob": "12-08-2013",
+    "baptismDate": "09-11-2013"
+  },
+  {
+    "regNo": "15644",
+    "class": "VIII",
+    "division": "A",
+    "name": "Ashik Payappilly",
+    "baptism": "Varghese",
+    "house": "Payappilly",
+    "father": "",
+    "mother": "Litha",
+    "dob": "24-12-2013",
+    "baptismDate": "07-06-2014"
+  },
+  {
+    "regNo": "15636",
+    "class": "VIII",
+    "division": "A",
+    "name": "Ashwith Joe Babu",
+    "baptism": "Emmanuel Jose",
+    "house": "Kannamkunny",
+    "father": "Babu",
+    "mother": "Sibi",
+    "dob": "13-08-2013",
+    "baptismDate": "17-11-2013"
+  },
+  {
+    "regNo": "15637",
+    "class": "VIII",
+    "division": "A",
+    "name": "Benjamin Jojo",
+    "baptism": "Antony",
+    "house": "Thandiekkal",
+    "father": "Jojo",
+    "mother": "Ginda",
+    "dob": "16-04-2013",
+    "baptismDate": "16-06-2013"
+  },
+  {
+    "regNo": "15763",
+    "class": "VIII",
+    "division": "A",
+    "name": "Crystal Charles",
+    "baptism": "Antony",
+    "house": "Mampilly",
+    "father": "Charles",
+    "mother": "Nisha",
+    "dob": "01-02-2012",
+    "baptismDate": "10-06-2012"
+  },
+  {
+    "regNo": "15638",
+    "class": "VIII",
+    "division": "A",
+    "name": "chriswin Jinesh",
+    "baptism": "Poulose",
+    "house": "Nereparambil",
+    "father": "Jinesh",
+    "mother": "Sruthy",
+    "dob": "23-05-2013",
+    "baptismDate": "11-08-2013"
+  },
+  {
+    "regNo": "15639",
+    "class": "VIII",
+    "division": "A",
+    "name": "Emmanuel Majo",
+    "baptism": "Rappai",
+    "house": "Thandiekkal",
+    "father": "Majo",
+    "mother": "Mercy",
+    "dob": "03-01-2013",
+    "baptismDate": "07-04-2013"
+  },
+  {
+    "regNo": "15640",
+    "class": "VIII",
+    "division": "A",
+    "name": "Johnlin Lijo",
+    "baptism": "George",
+    "house": "Kannamkunni",
+    "father": "Lijo",
+    "mother": "Simna",
+    "dob": "08-09-2012",
+    "baptismDate": "24-11-2012"
+  },
+  {
+    "regNo": "15770",
+    "class": "VIII",
+    "division": "A",
+    "name": "Nishal Nijo",
+    "baptism": "Johnson",
+    "house": "",
+    "father": "Nijo",
+    "mother": "Teena",
+    "dob": "11-07-2013",
+    "baptismDate": "14-10-2013"
+  },
+  {
+    "regNo": "15642",
+    "class": "VIII",
+    "division": "A",
+    "name": "Rayan Joe",
+    "baptism": "Thomas",
+    "house": "Alappat",
+    "father": "Johny",
+    "mother": "Siya",
+    "dob": "28-03-2014",
+    "baptismDate": "24-08-2014"
+  },
+  {
+    "regNo": "15643",
+    "class": "VIII",
+    "division": "A",
+    "name": "Syriac Sabu",
+    "baptism": "Varghese",
+    "house": "Kannadukunni",
+    "father": "Sabu",
+    "mother": "Shiny",
+    "dob": "02-02-2014",
+    "baptismDate": "09-08-2014"
+  },
+  {
+    "regNo": "15675",
+    "class": "VIII",
+    "division": "A",
+    "name": "Abiya Chris",
+    "baptism": "Elsa",
+    "house": "Kalathingal",
+    "father": "Ramesh",
+    "mother": "Smith",
+    "dob": "11-09-2013",
+    "baptismDate": "22-09-2013"
+  },
+  {
+    "regNo": "15854",
+    "class": "VIII",
+    "division": "A",
+    "name": "Alisa Anto",
+    "baptism": "Alphonsa",
+    "house": "Kannampilly",
+    "father": "Anto",
+    "mother": "Priya",
+    "dob": "25-11-2013",
+    "baptismDate": ""
+  },
+  {
+    "regNo": "15649",
+    "class": "VIII",
+    "division": "A",
+    "name": "Anliya Majo",
+    "baptism": "Theresa",
+    "house": "Elanjikkadan",
+    "father": "Majo",
+    "mother": "Vijitha",
+    "dob": "22-11-2013",
+    "baptismDate": "11-01-2014"
+  },
+  {
+    "regNo": "15647",
+    "class": "VIII",
+    "division": "A",
+    "name": "Ann Mariya Joy",
+    "baptism": "Anna",
+    "house": "Kallivalappil",
+    "father": "Joy",
+    "mother": "Lincy",
+    "dob": "15-06-2013",
+    "baptismDate": "16-06-2013"
+  },
+  {
+    "regNo": "15648",
+    "class": "VIII",
+    "division": "A",
+    "name": "Ann Rose Smijo",
+    "baptism": "Mary",
+    "house": "Keetickal",
+    "father": "Smijo",
+    "mother": "Arly",
+    "dob": "27-11-2013",
+    "baptismDate": "12-01-2014"
+  },
+  {
+    "regNo": "15650",
+    "class": "VIII",
+    "division": "A",
+    "name": "Eva Shanto",
+    "baptism": "Annam",
+    "house": "Thuluvath",
+    "father": "Shanto",
+    "mother": "Greeshma",
+    "dob": "12-04-2013",
+    "baptismDate": "05-05-2013"
+  },
+  {
+    "regNo": "15652",
+    "class": "VIII",
+    "division": "A",
+    "name": "Jovan Therese Jobi",
+    "baptism": "",
+    "house": "Payamel",
+    "father": "Joby",
+    "mother": "Binisha",
+    "dob": "05-08-2013",
+    "baptismDate": "17-11-2013"
+  },
+  {
+    "regNo": "15651",
+    "class": "VIII",
+    "division": "A",
+    "name": "Hanna Rose",
+    "baptism": "Anna Rose",
+    "house": "Kannamkunny",
+    "father": "Joby",
+    "mother": "Benji",
+    "dob": "19-07-2013",
+    "baptismDate": "27-10-2013"
+  },
+  {
+    "regNo": "15654",
+    "class": "VIII",
+    "division": "A",
+    "name": "Shaliya Jose",
+    "baptism": "Mariya",
+    "house": "Nereparambil",
+    "father": "Jose",
+    "mother": "Sherly",
+    "dob": "20-08-2013",
+    "baptismDate": "13-10-2013"
+  },
+  {
+    "regNo": "15655",
+    "class": "VIII",
+    "division": "A",
+    "name": "Siona Shinto",
+    "baptism": "Rose",
+    "house": "Pozholiparambil",
+    "father": "Shinto",
+    "mother": "Remya",
+    "dob": "19-09-2013",
+    "baptismDate": "05-01-2014"
+  },
+  {
+    "regNo": "15958",
+    "class": "VIII",
+    "division": "A",
+    "name": "Diya Joison",
+    "baptism": "Alphonsa",
+    "house": "Kallivalappil",
+    "father": "Joison",
+    "mother": "Sinto",
+    "dob": "24-04-2013",
+    "baptismDate": "11-08-2013"
+  },
+   {
+    "regNo": "15622",
+    "class": "VIII",
+    "division": "B",
+    "name": "Adolfo Paul",
+    "baptism": "Antony",
+    "house": "Meledan",
+    "father": "Paul",
+    "mother": "Jisha",
+    "dob": "04-04-2013",
+    "baptismDate": "26-05-2013"
+  },
+  {
+    "regNo": "15624",
+    "class": "VIII",
+    "division": "B",
+    "name": "Albin Binoy",
+    "baptism": "Antony",
+    "house": "Alappadan",
+    "father": "Binoy Paily",
+    "mother": "Frinly",
+    "dob": "08-08-2013",
+    "baptismDate": "03-11-2013"
+  },
+  {
+    "regNo": "15628",
+    "class": "VIII",
+    "division": "B",
+    "name": "Aiwin Titus",
+    "baptism": "Joseph",
+    "house": "Thuluvath",
+    "father": "Titus",
+    "mother": "Vincy",
+    "dob": "28-03-2013",
+    "baptismDate": "27-10-2013"
+  },
+  {
+    "regNo": "15623",
+    "class": "VIII",
+    "division": "B",
+    "name": "Antony Joshy",
+    "baptism": "Emmanuel",
+    "house": "Puthanangady",
+    "father": "Joshy P.P",
+    "mother": "Sibi",
+    "dob": "08-05-2014",
+    "baptismDate": "13-09-2014"
+  },
+  {
+    "regNo": "15769",
+    "class": "VIII",
+    "division": "B",
+    "name": "Eric Sinto",
+    "baptism": "",
+    "house": "Erattuparambil",
+    "father": "Sinto Varghese",
+    "mother": "Geethu",
+    "dob": "30-01-2013",
+    "baptismDate": "21-04-2013"
+  },
+  {
+    "regNo": "15774",
+    "class": "VIII",
+    "division": "B",
+    "name": "Glen Jino",
+    "baptism": "Sunny",
+    "house": "Thekkumpuram",
+    "father": "Jino Sunny",
+    "mother": "Nisa John",
+    "dob": "16-04-2013",
+    "baptismDate": "16-06-2013"
+  },
+  {
+    "regNo": "15620",
+    "class": "VIII",
+    "division": "B",
+    "name": "Godson Joby N",
+    "baptism": "Sebastian",
+    "house": "Nereparambil",
+    "father": "Jobi N.T",
+    "mother": "Dency Jobi",
+    "dob": "04-11-2013",
+    "baptismDate": "19-01-2014"
+  },
+  {
+    "regNo": "15619",
+    "class": "VIII",
+    "division": "B",
+    "name": "Grittano John",
+    "baptism": "John",
+    "house": "Muttath",
+    "father": "Shaji M.J",
+    "mother": "Deepthi P.M",
+    "dob": "03-05-2013",
+    "baptismDate": "13-05-2013"
+  },
+  {
+    "regNo": "15617",
+    "class": "VIII",
+    "division": "B",
+    "name": "Melkiyor Joseph",
+    "baptism": "Joseph",
+    "house": "Kallivalappil",
+    "father": "Jinson",
+    "mother": "Remya",
+    "dob": "29-01-2013",
+    "baptismDate": "19-05-2013"
+  },
+  {
+    "regNo": "15616",
+    "class": "VIII",
+    "division": "B",
+    "name": "Rayen Paul",
+    "baptism": "Paul",
+    "house": "Thandiakkal",
+    "father": "Thomas",
+    "mother": "Siji",
+    "dob": "27-09-2013",
+    "baptismDate": "29-11-2013"
+  },
+  {
+    "regNo": "15626",
+    "class": "VIII",
+    "division": "B",
+    "name": "Rayan Robin",
+    "baptism": "George",
+    "house": "Thommana",
+    "father": "Robin T.G",
+    "mother": "Faisy Robin",
+    "dob": "26-09-2014",
+    "baptismDate": "05-01-2014"
+  },
+  {
+    "regNo": "15614",
+    "class": "VIII",
+    "division": "B",
+    "name": "Samuel Baiju",
+    "baptism": "Devassy Kutty",
+    "house": "Vazhayil",
+    "father": "Baiju",
+    "mother": "Disni",
+    "dob": "05-02-2013",
+    "baptismDate": "28-04-2013"
+  },
+  {
+    "regNo": "15615",
+    "class": "VIII",
+    "division": "B",
+    "name": "Savio Varghese",
+    "baptism": "Sebastian",
+    "house": "Thommana",
+    "father": "Varghese T.J",
+    "mother": "Sindhu",
+    "dob": "02-05-2014",
+    "baptismDate": "17-08-2014"
+  },
+  {
+    "regNo": "15607",
+    "class": "VIII",
+    "division": "B",
+    "name": "Anna Olive Jin",
+    "baptism": "Philomena",
+    "house": "Koottaplai",
+    "father": "Jin Jose",
+    "mother": "Brinta Baby",
+    "dob": "01-07-2013",
+    "baptismDate": "04-08-2013"
+  },
+  {
+    "regNo": "15604",
+    "class": "VIII",
+    "division": "B",
+    "name": "Aneeta P.B",
+    "baptism": "Alphonsa",
+    "house": "Payammal",
+    "father": "Biju P.L",
+    "mother": "Jincy V.P",
+    "dob": "11-10-2012",
+    "baptismDate": "20-01-2013"
+  },
+  {
+    "regNo": "15613",
+    "class": "VIII",
+    "division": "B",
+    "name": "Angel K.J",
+    "baptism": "Elizabeth",
+    "house": "Kalathingal",
+    "father": "Jaison",
+    "mother": "Neha",
+    "dob": "15-03-2013",
+    "baptismDate": "12-05-2013"
+  },
+  {
+    "regNo": "15605",
+    "class": "VIII",
+    "division": "B",
+    "name": "Ann Mariya Prince",
+    "baptism": "Mariya",
+    "house": "Puliyani",
+    "father": "Prince Jacob P",
+    "mother": "Soniya",
+    "dob": "06-01-2013",
+    "baptismDate": "19-05-2013"
+  },
+  {
+    "regNo": "15606",
+    "class": "VIII",
+    "division": "B",
+    "name": "Ann Mariya Sleen",
+    "baptism": "Cicily",
+    "house": "Chonedan",
+    "father": "Sleen Lona",
+    "mother": "Sini Sleen",
+    "dob": "21-10-2013",
+    "baptismDate": "14-02-2014"
+  },
+  {
+    "regNo": "15608",
+    "class": "VIII",
+    "division": "B",
+    "name": "Christiana Jinto",
+    "baptism": "Anne",
+    "house": "Kachappilly",
+    "father": "Jinto Joseph",
+    "mother": "Gisa Jinto",
+    "dob": "14-04-2013",
+    "baptismDate": "29-09-2013"
+  },
+  {
+    "regNo": "15609",
+    "class": "VIII",
+    "division": "B",
+    "name": "Elaina Brutus",
+    "baptism": "Alphonsa",
+    "house": "Pallippatt",
+    "father": "Brutus Joseph",
+    "mother": "Suvitha",
+    "dob": "27-07-2013",
+    "baptismDate": "27-10-2013"
+  },
+  {
+    "regNo": "15610",
+    "class": "VIII",
+    "division": "B",
+    "name": "Hannah Mariya Linson",
+    "baptism": "Lilly",
+    "house": "Kallivalappil",
+    "father": "Linson K",
+    "mother": "Vinaya Francis",
+    "dob": "11-10-2012",
+    "baptismDate": "22-01-2013"
+  },
+  {
+    "regNo": "15611",
+    "class": "VIII",
+    "division": "B",
+    "name": "Issamariya Sinik",
+    "baptism": "Mary",
+    "house": "Puliyani",
+    "father": "Sinik",
+    "mother": "Dixy",
+    "dob": "15-03-2013",
+    "baptismDate": "09-06-2013"
+  },
+  {
+    "regNo": "15612",
+    "class": "VIII",
+    "division": "B",
+    "name": "Leonsa Leni",
+    "baptism": "Annie",
+    "house": "Kallivalappil",
+    "father": "Leni Anto",
+    "mother": "Sanila Leni",
+    "dob": "28-09-2013",
+    "baptismDate": "24-11-2013"
+  },
+  {
+    "regNo": "15776",
+    "class": "VIII",
+    "division": "B",
+    "name": "Rosemariya Linso",
+    "baptism": "Rosa",
+    "house": "Thattill Moorkkanattukaran",
+    "father": "Linso Poulose",
+    "mother": "Vincy",
+    "dob": "23-12-2012",
+    "baptismDate": "06-04-2013"
+  },
+  {
+    "regNo": "15764",
+    "class": "VIII",
+    "division": "B",
+    "name": "Sandra Vadakkan",
+    "baptism": "Philomina",
+    "house": "Vadakkan",
+    "father": "Joby Vadakkan",
+    "mother": "Jisa Joby",
+    "dob": "10-05-2013",
+    "baptismDate": "15-09-2013"
+  },
+
+  
+    {
+        "regNo": "15650",
+        "class": "IX",
+        "division": "A",
+        "name": "Aibel Jojo",
+        "baptism": "Anthony",
+        "house": "Maliyakkal",
+        "father": "Jotu",
+        "mother": "Stephy",
+        "dob": "30/01/2012",
+        "baptismDate": "24/04/2012"
+    },
+    {
+        "regNo": "15580",
+        "class": "IX",
+        "division": "A",
+        "name": "Christo Lito",
+        "baptism": "Jose",
+        "house": "Pazhedathupurambil",
+        "father": "Lito",
+        "mother": "Princy",
+        "dob": "22/05/2012",
+        "baptismDate": "12/08/2012"
+    },
+    {
+        "regNo": "15576",
+        "class": "IX",
+        "division": "A",
+        "name": "Eden George Jimmy",
+        "baptism": "Kochu",
+        "house": "Thandinkkal",
+        "father": "Jimmy George",
+        "mother": "Binu",
+        "dob": "28/12/2012",
+        "baptismDate": "17/06/2012"
+    },
+    {
+        "regNo": "15582",
+        "class": "IX",
+        "division": "A",
+        "name": "Edison Biju",
+        "baptism": "Mathew",
+        "house": "Thandinkkal",
+        "father": "Biju T.P",
+        "mother": "Silbi",
+        "dob": "11/01/2012",
+        "baptismDate": "25/01/2012"
+    },
+    {
+        "regNo": "15600",
+        "class": "IX",
+        "division": "A",
+        "name": "Jessmon Shaju",
+        "baptism": "Lonappan",
+        "house": "Panthalookkaran",
+        "father": "Shaju",
+        "mother": "Litti",
+        "dob": "20/06/2012",
+        "baptismDate": "13/06/2013"
+    },
+    {
+        "regNo": "15566",
+        "class": "IX",
+        "division": "A",
+        "name": "Kevin Jose",
+        "baptism": "Joseph",
+        "house": "Kannampuzha",
+        "father": "Jose Paul",
+        "mother": "",
+        "dob": "12/10/2012",
+        "baptismDate": "02/12/2012"
+    },
+    {
+        "regNo": "15569",
+        "class": "IX",
+        "division": "A",
+        "name": "Anusha Shaju",
+        "baptism": "Mary",
+        "house": "Kaliyankuppil",
+        "father": "Shaju",
+        "mother": "Tisha",
+        "dob": "24/12/2012",
+        "baptismDate": "10/07/2012"
+    },
+    {
+        "regNo": "15567",
+        "class": "IX",
+        "division": "A",
+        "name": "Agna Babu",
+        "baptism": "Mary",
+        "house": "Edattukkaran",
+        "father": "Babu E.J",
+        "mother": "Ancy",
+        "dob": "09/01/2013",
+        "baptismDate": "25/01/2012"
+    },
+    {
+        "regNo": "15586",
+        "class": "IX",
+        "division": "A",
+        "name": "Anupama Shibu",
+        "baptism": "Mariyam",
+        "house": "Vailikodam",
+        "father": "Shibu V.J",
+        "mother": "Bijitha",
+        "dob": "25/10/2012",
+        "baptismDate": "08/11/2012"
+    },
+    {
+        "regNo": "15806",
+        "class": "IX",
+        "division": "A",
+        "name": "Darose Johnson",
+        "baptism": "Theresa",
+        "house": "Nereparambil",
+        "father": "Johnson N.V",
+        "mother": "Soniya",
+        "dob": "03/02/2013",
+        "baptismDate": "03/02/2013"
+    },
+    {
+        "regNo": "15571",
+        "class": "IX",
+        "division": "A",
+        "name": "Glinda Mary Binu",
+        "baptism": "Philomina",
+        "house": "Pozholiparambil",
+        "father": "Genoy Davis",
+        "mother": "Doncy",
+        "dob": "28/12/2012",
+        "baptismDate": "25/05/2012"
+    },
+    {
+        "regNo": "15588",
+        "class": "IX",
+        "division": "A",
+        "name": "Grizloyd M.S",
+        "baptism": "Philomina",
+        "house": "Mutthath",
+        "father": "Shaji M.T",
+        "mother": "Deepthi",
+        "dob": "18/10/2012",
+        "baptismDate": "14/11/2012"
+    },
+    {
+        "regNo": "15573",
+        "class": "IX",
+        "division": "A",
+        "name": "Jennifer Felix",
+        "baptism": "Annie",
+        "house": "Kreettikal",
+        "father": "Felix Joseph",
+        "mother": "Neetha",
+        "dob": "11/01/2012",
+        "baptismDate": "11/01/2012"
+    },
+    {
+        "regNo": "15590",
+        "class": "IX",
+        "division": "A",
+        "name": "Jewel Rose Jaison",
+        "baptism": "Rossy",
+        "house": "Kuzhiveli",
+        "father": "Jaison Mathew",
+        "mother": "Deepa",
+        "dob": "23/12/2012",
+        "baptismDate": "03/04/2013"
+    },
+    {
+        "regNo": "15591",
+        "class": "IX",
+        "division": "A",
+        "name": "Saint Therese Bibin",
+        "baptism": "Alphonsa",
+        "house": "Thannakkal",
+        "father": "Bibin George",
+        "mother": "Sruthy",
+        "dob": "18/11/2011",
+        "baptismDate": "19/02/2012"
+    },
+    {
+        "regNo": "15575",
+        "class": "IX",
+        "division": "A",
+        "name": "Shellofe Grace Denny",
+        "baptism": "Pouly",
+        "house": "Pellissery",
+        "father": "Denny",
+        "mother": "Tomy",
+        "dob": "05/01/2013",
+        "baptismDate": "07/04/2013"
+    },
+    {
+        "regNo": "15954",
+        "class": "IX",
+        "division": "A",
+        "name": "Alanna Jimmy",
+        "baptism": "Alphonsa",
+        "house": "Pottankal",
+        "father": "Jimmy",
+        "mother": "Sonia",
+        "dob": "05/07/2012",
+        "baptismDate": ""
+    },
+    {
+        "regNo": "15988",
+        "class": "IX",
+        "division": "A",
+        "name": "Hanna Baiju",
+        "baptism": "Alice",
+        "house": "Kannamkunnu",
+        "father": "Baiju",
+        "mother": "Leena",
+        "dob": "01/11/2012",
+        "baptismDate": "09/02/2013"
+    },
+    
+  {
+    "regNo": "15579",
+    "class": "IX",
+    "division": "B",
+    "name": "Aldrick Jenin",
+    "baptism": "Varghese",
+    "house": "Kannamkunny",
+    "father": "Jenin",
+    "mother": "Pavithra",
+    "dob": "2011-06-10",
+    "baptismDate": "2011-12-18"
+  },
+  {
+    "regNo": "15581",
+    "class": "IX",
+    "division": "B",
+    "name": "Dinon Denny",
+    "baptism": "Raphael",
+    "house": "Kannamkunny",
+    "father": "Denny",
+    "mother": "Sini",
+    "dob": "2011-12-05",
+    "baptismDate": "2012-01-21"
+  },
+  {
+    "regNo": "15564",
+    "class": "IX",
+    "division": "B",
+    "name": "Edwin Jeo",
+    "baptism": "Joseph",
+    "house": "Thuluvath",
+    "father": "Jeo",
+    "mother": "Lincy",
+    "dob": "2012-11-08",
+    "baptismDate": "2013-04-21"
+  },
+  {
+    "regNo": "15765",
+    "class": "IX",
+    "division": "B",
+    "name": "Emin Shibu",
+    "baptism": "Antu",
+    "house": "Maliyekkal",
+    "father": "Shibu",
+    "mother": "Jiji",
+    "dob": "2012-01-18",
+    "baptismDate": "2012-04-22"
+  },
+  {
+    "regNo": "15585",
+    "class": "IX",
+    "division": "B",
+    "name": "Godwin Jeo",
+    "baptism": "Antony",
+    "house": "Thuluvath",
+    "father": "Jeo",
+    "mother": "Lincy",
+    "dob": "2022-11-08",
+    "baptismDate": "2013-04-21"
+  },
+  {
+    "regNo": "15583",
+    "class": "IX",
+    "division": "B",
+    "name": "Jacob T.J",
+    "baptism": "Ouseph",
+    "house": "Thandiakkal",
+    "unit": "St. Alphonsa",
+    "father": "Jinesh",
+    "mother": "Shilly",
+    "dob": "2012-02-04",
+    "baptismDate": "2012-04-15"
+  },
+  {
+    "regNo": "15584",
+    "class": "IX",
+    "division": "B",
+    "name": "Sharon Abraham Raj",
+    "baptism": "Emmanuel",
+    "house": "Kannamkunny",
+    "unit": "",
+    "father": "Raju",
+    "mother": "Seenia",
+    "dob": "2012-08-12",
+    "baptismDate": "2012-09-09"
+  },
+  {
+    "regNo": "15570",
+    "class": "IX",
+    "division": "B",
+    "name": "Alfe Sibu",
+    "baptism": "Alphonsa",
+    "house": "Thandiakkal",
+    "father": "Sibu",
+    "mother": "Joby",
+    "dob": "2012-02-04",
+    "baptismDate": "2013-05-08"
+  },
+  {
+    "regNo": "15568",
+    "class": "IX",
+    "division": "B",
+    "name": "Andrea Pius",
+    "baptism": "Rosily",
+    "house": "Thandiakkal",
+    "father": "Pious",
+    "mother": "Sneha",
+    "dob": "2012-06-23",
+    "baptismDate": "2012-08-25"
+  },
+  {
+    "regNo": "15674",
+    "class": "IX",
+    "division": "B",
+    "name": "Anna Mariya Shabu",
+    "baptism": "Eliamma",
+    "house": "Kannamkunny",
+    "father": "Shabu",
+    "mother": "Anu",
+    "dob": "2012-01-14",
+    "baptismDate": "2012-04-11"
+  },
+  {
+    "regNo": "15587",
+    "class": "IX",
+    "division": "B",
+    "name": "Ezabell Seejo",
+    "baptism": "Alphonsa",
+    "house": "Thuluvath",
+    "father": "Seejo",
+    "mother": "Jinu",
+    "dob": "2012-04-09",
+    "baptismDate": "2020-02-13"
+  },
+  {
+    "regNo": "15572",
+    "class": "IX",
+    "division": "B",
+    "name": "Helga Rose Binoy",
+    "baptism": "Rossy",
+    "house": "Nellissery",
+    "father": "Binoy",
+    "mother": "Ancy",
+    "dob": "2012-04-04",
+    "baptismDate": "2012-08-12"
+  },
+  {
+    "regNo": "15591",
+    "class": "IX",
+    "division": "B",
+    "name": "Heavenla Baiju",
+    "baptism": "Thressia",
+    "house": "Kavungal",
+    "father": "Baiju",
+    "mother": "Christy",
+    "dob": "2012-01-14",
+    "baptismDate": "2012-04-15"
+  },
+  {
+    "regNo": "15589",
+    "class": "IX",
+    "division": "B",
+    "name": "Jeffy Jiju",
+    "baptism": "Lilly",
+    "house": "Vadakkan",
+    "unit": "St. Peter Unit",
+    "father": "Jiju",
+    "mother": "Alphy",
+    "dob": "2012-02-11",
+    "baptismDate": "2012-04-01"
+  },
+  {
+    "regNo": "15574",
+    "class": "IX",
+    "division": "B",
+    "name": "Lasslat K.B",
+    "baptism": "Thresia",
+    "house": "Kuzhiyanil",
+    "father": "Biju",
+    "mother": "Bini",
+    "dob": "2012-07-30",
+    "baptismDate": "2012-11-04"
+  },
+  {
+    "regNo": "15989",
+    "class": "IX",
+    "division": "B",
+    "name": "Aron",
+    "baptism": "Lonakutty",
+    "house": "",
+    "father": "Shiju",
+    "mother": "Asha",
+    "dob": "2012-06-29",
+    "baptismDate": "2012-10-21"
+  },
+  
+ {
+    "regNo": "15543",
+    "class": "X",
+    "division": "A",
+    "name": "Alan Tony N",
+    "baptism": "Sebastian",
+    "house": "Nalakappadan",
+    "father": "Tony Paul",
+    "mother": "Sini Tony",
+    "dob": "23/03/2011",
+    "baptismDate": "08/05/2011"
+  },
+  {
+    "regNo": "15551",
+    "class": "X",
+    "division": "A",
+    "name": "Angelo Shajan P",
+    "baptism": "Raphael",
+    "house": "Peenikka Parambil",
+    "father": "Shajan P.O",
+    "mother": "Sindhu Shajan",
+    "dob": "11/07/2011",
+    "baptismDate": "28/08/2011"
+  },
+  {
+    "regNo": "15545",
+    "class": "X",
+    "division": "A",
+    "name": "Angelo Stanly",
+    "baptism": "Varghese",
+    "house": "Velayannattukaran",
+    "father": "Stanly V.L",
+    "mother": "Simsy Stanly",
+    "dob": "10/03/2011",
+    "baptismDate": "05/06/2011"
+  },
+  {
+    "regNo": "15957",
+    "class": "X",
+    "division": "A",
+    "name": "Dion K.J",
+    "baptism": "Joseph",
+    "house": "Kallivala Ppil",
+    "father": "Joison K.J",
+    "mother": "Sinta",
+    "dob": "10/06/2011",
+    "baptismDate": "14/08/2011"
+  },
+  {
+    "regNo": "15547",
+    "class": "X",
+    "division": "A",
+    "name": "Edwin K.S",
+    "baptism": "Anthony",
+    "house": "Kallivala Ppil",
+    "father": "Saijo K.A",
+    "mother": "Sheena Saijo",
+    "dob": "10/01/2011",
+    "baptismDate": "19/02/2012"
+  },
+  {
+    "regNo": "15554",
+    "class": "X",
+    "division": "A",
+    "name": "Ebel Joshy",
+    "baptism": "Joseph",
+    "house": "Thuluvath",
+    "father": "Joshy T.T",
+    "mother": "Rini Joshy",
+    "dob": "23/09/2010",
+    "baptismDate": "11/12/2010"
+  },
+  {
+    "regNo": "15522",
+    "class": "X",
+    "division": "A",
+    "name": "Emmanuel Raju",
+    "baptism": "Thomas",
+    "house": "Palapatt",
+    "father": "Raju Palapatt",
+    "mother": "Nisha",
+    "dob": "25/07/2010",
+    "baptismDate": "06/11/2011"
+  },
+  {
+    "regNo": "15555",
+    "class": "X",
+    "division": "A",
+    "name": "Ivin Joy",
+    "baptism": "Thomas",
+    "house": "Thandackkal",
+    "father": "Joy Francis",
+    "mother": "Liji",
+    "dob": "25/08/2010",
+    "baptismDate": "17/10/2011"
+  },
+  {
+    "regNo": "15557",
+    "class": "X",
+    "division": "A",
+    "name": "Noyal Benny",
+    "baptism": "John",
+    "house": "Nere Parambil",
+    "father": "Benny",
+    "mother": "Nixy Benny",
+    "dob": "13/06/2011",
+    "baptismDate": "11/12/2012"
+  },
+  {
+    "regNo": "15558",
+    "class": "X",
+    "division": "A",
+    "name": "Boby Joy",
+    "baptism": "Sebastian",
+    "house": "Pottathu Parambil",
+    "father": "Joy P.A",
+    "mother": "Reeja Joy",
+    "dob": "05/10/2011",
+    "baptismDate": "28/12/2011"
+  },
+  {
+    "regNo": "15536",
+    "class": "X",
+    "division": "A",
+    "name": "Alphonsa Davis K",
+    "baptism": "Elya",
+    "house": "Kalathingal",
+    "father": "Davis K.K",
+    "mother": "Mary K.V",
+    "dob": "16/09/2012",
+    "baptismDate": "13/05/2013"
+  },
+  {
+    "regNo": "15559",
+    "class": "X",
+    "division": "A",
+    "name": "Alit Joy",
+    "baptism": "Rossy",
+    "house": "Kallivala Ppil",
+    "father": "Joy K.O",
+    "mother": "Baby Joy",
+    "dob": "31/09/2011",
+    "baptismDate": "06/11/2011"
+  },
+  {
+    "regNo": "15527",
+    "class": "X",
+    "division": "A",
+    "name": "Anna Mary T.M",
+    "baptism": "Alphonsa",
+    "house": "Thandackkal",
+    "father": "Jobi T.M",
+    "mother": "Ligy Jobi",
+    "dob": "13/11/2010",
+    "baptismDate": "13/02/2010"
+  },
+  {
+    "regNo": "15537",
+    "class": "X",
+    "division": "A",
+    "name": "Anna Mariya K.J",
+    "baptism": "Anna Mary",
+    "house": "Kannamkunnu",
+    "father": "Joby John",
+    "mother": "Renji Joby",
+    "dob": "07/12/2011",
+    "baptismDate": "12/02/2012"
+  },
+  {
+    "regNo": "15529",
+    "class": "X",
+    "division": "A",
+    "name": "Ayana Joby",
+    "baptism": "Alphonsa",
+    "house": "Thandackkal",
+    "father": "Joby John",
+    "mother": "Sanu K.P",
+    "dob": "25/06/2014",
+    "baptismDate": ""
+  },
+  {
+    "regNo": "15993",
+    "class": "X",
+    "division": "A",
+    "name": "Alka Raju",
+    "baptism": "Rose",
+    "house": "Chakkalackal",
+    "father": "",
+    "mother": "",
+    "dob": "20/11/2014",
+    "baptismDate": "24/05/2014"
+  },
+  {
+    "regNo": "15530",
+    "class": "X",
+    "division": "A",
+    "name": "Beneeta Shaju",
+    "baptism": "Elsy",
+    "house": "Thuluvath",
+    "father": "Shaju T.V",
+    "mother": "Vinitha Shaju",
+    "dob": "18/03/2011",
+    "baptismDate": "15/05/2011"
+  },
+  {
+    "regNo": "15900",
+    "class": "X",
+    "division": "A",
+    "name": "Grace Mary Sherin",
+    "baptism": "Mary",
+    "house": "Kannamkunnu",
+    "father": "Sherin Thomas",
+    "mother": "Sunitha Sherin",
+    "dob": "03/03/2011",
+    "baptismDate": "28/05/2011"
+  },
+  {
+    "regNo": "15531",
+    "class": "X",
+    "division": "A",
+    "name": "Roshina Babu",
+    "baptism": "Alphonsa",
+    "house": "Kuzhuvely",
+    "father": "Babu K.M",
+    "mother": "Shiji P.V",
+    "dob": "28/09/2011",
+    "baptismDate": "26/11/2011"
+  },
+  
+  {
+    "regNo": "15550",
+    "class": "X",
+    "division": "B",
+    "name": "Aalwin Joshy",
+    "baptism": "Paulose",
+    "house": "Puthanangady",
+    "father": "Joshy",
+    "mother": "Sibi",
+    "dob": "2010-11-04",
+    "baptismDate": "2011-01-17"
+  },
+  {
+    "regNo": "15542",
+    "class": "X",
+    "division": "B",
+    "name": "Abrin P Tilson",
+    "baptism": "Thomas",
+    "house": "Pallippatt",
+    "father": "Tilson",
+    "mother": "Shimy",
+    "dob": "2011-09-06",
+    "baptismDate": ""
+  },
+  {
+    "regNo": "15534",
+    "class": "X",
+    "division": "B",
+    "name": "Agnel Pauly",
+    "baptism": "",
+    "house": "Pinikkaparambil",
+    "father": "Pauly",
+    "mother": "Siji",
+    "dob": "2010-09-04",
+    "baptismDate": ""
+  },
+  {
+    "regNo": "15980",
+    "class": "X",
+    "division": "B",
+    "name": "Alan Shijo",
+    "baptism": "Mathew",
+    "house": "Manjappallikunnel",
+    "father": "Shijo",
+    "mother": "Rosmi",
+    "dob": "2009-08-29",
+    "baptismDate": ""
+  },
+  {
+    "regNo": "15546",
+    "class": "X",
+    "division": "B",
+    "name": "Anwid Antoo",
+    "baptism": "Rappai",
+    "house": "Edappalli",
+    "father": "Antoo",
+    "mother": "Beena",
+    "dob": "2011-05-26",
+    "baptismDate": "2011-09-11"
+  },
+  {
+    "regNo": "15549",
+    "class": "X",
+    "division": "B",
+    "name": "Augustine K Austin",
+    "baptism": "Aharon",
+    "house": "Karatharkaran",
+    "father": "Austin",
+    "mother": "Rose",
+    "dob": "2011-06-27",
+    "baptismDate": ""
+  },
+  {
+    "regNo": "15553",
+    "class": "X",
+    "division": "B",
+    "name": "Daniel Nixen",
+    "baptism": "Varghese",
+    "house": "Kallivalappil",
+    "father": "Nixen",
+    "mother": "Sali",
+    "dob": "2011-05-24",
+    "baptismDate": "2011-09-11"
+  },
+  {
+    "regNo": "15523",
+    "class": "X",
+    "division": "B",
+    "name": "Jenvin Christy Jenson",
+    "baptism": "Jose",
+    "house": "Mulayanikunnel",
+    "father": "Jenson",
+    "mother": "Sherin",
+    "dob": "2011-08-10",
+    "baptismDate": "2011-11-27"
+  },
+  {
+    "regNo": "15541",
+    "class": "X",
+    "division": "B",
+    "name": "Jerome Tijo",
+    "baptism": "Varghese",
+    "house": "Pozhatiparambil",
+    "father": "Tijo",
+    "mother": "Bismi",
+    "dob": "2010-11-25",
+    "baptismDate": "2012-06-06"
+  },
+  {
+    "regNo": "15556",
+    "class": "X",
+    "division": "B",
+    "name": "Jeswin Renny",
+    "baptism": "Thomas",
+    "house": "Chittekkara",
+    "father": "Renny",
+    "mother": "Gini",
+    "dob": "2011-08-13",
+    "baptismDate": ""
+  },
+  {
+    "regNo": "15524",
+    "class": "X",
+    "division": "B",
+    "name": "Saniya Sheens",
+    "baptism": "Porinju",
+    "house": "Kallivalappil",
+    "father": "Sheens",
+    "mother": "Soniya",
+    "dob": "2011-05-18",
+    "baptismDate": ""
+  },
+  {
+    "regNo": "15535",
+    "class": "X",
+    "division": "B",
+    "name": "Aleena Joshy",
+    "baptism": "Alphonsa",
+    "house": "Thandiackkal",
+    "father": "Joshy",
+    "mother": "Dincy",
+    "dob": "2011-03-28",
+    "baptismDate": ""
+  },
+  {
+    "regNo": "15525",
+    "class": "X",
+    "division": "B",
+    "name": "Anabel Anish",
+    "baptism": "Alphonsa",
+    "house": "Padinjarepeedika",
+    "father": "Anish",
+    "mother": "Seena",
+    "dob": "2011-12-07",
+    "baptismDate": ""
+  },
+  {
+    "regNo": "15526",
+    "class": "X",
+    "division": "B",
+    "name": "Andhiya Rose MR",
+    "baptism": "Rosa",
+    "house": "Menachery",
+    "father": "Raju",
+    "mother": "Biji",
+    "dob": "2011-10-20",
+    "baptismDate": "2012-01-22"
+  },
+  {
+    "regNo": "15539",
+    "class": "X",
+    "division": "B",
+    "name": "Ann Rose Joshy",
+    "baptism": "",
+    "house": "Thandiackkal",
+    "father": "Joshy",
+    "mother": "Dincy",
+    "dob": "2009-10-20",
+    "baptismDate": ""
+  },
+  {
+    "regNo": "15528",
+    "class": "X",
+    "division": "B",
+    "name": "Ayona Grace",
+    "baptism": "Rosy",
+    "house": "Thandiakkal",
+    "father": "Roby",
+    "mother": "Lincy",
+    "dob": "2011-04-12",
+    "baptismDate": "2011-07-24"
+  },
+  {
+    "regNo": "15540",
+    "class": "X",
+    "division": "B",
+    "name": "Rachel Alex",
+    "baptism": "Annie",
+    "house": "Keetikkal",
+    "father": "Alex",
+    "mother": "Saini",
+    "dob": "2011-08-20",
+    "baptismDate": "2011-11-19"
+  },
+  {
+    "regNo": "15541",
+    "class": "X",
+    "division": "B",
+    "name": "Shiya Shibu",
+    "baptism": "Alphonsa",
+    "house": "Panthallookkaran",
+    "father": "Shibu",
+    "mother": "Siji",
+    "dob": "2011-06-09",
+    "baptismDate": "2011-07-30"
+  },
+  {
+    "regNo": "15532",
+    "class": "X",
+    "division": "B",
+    "name": "Stalet Shiju",
+    "baptism": "Rose",
+    "house": "Kallivalappil",
+    "father": "Shiju",
+    "mother": "Bensy",
+    "dob": "2011-10-18",
+    "baptismDate": ""
+  },
+
+
+
+
+  {
+    "regNo": "15397",
+    "class": "XI",
+    "division": "A",
+    "name": "Abel Samuel",
+    "baptism": "John",
+    "house": "Thundiyathu",
+    "father": "Anumon",
+    "mother": "Mini",
+    "dob": "2010-12-30",
+    "baptismDate": ""
+  },
+  {
+    "regNo": "15461",
+    "class": "XI",
+    "division": "A",
+    "name": "Angelo Paul",
+    "baptism": "Paulose",
+    "house": "Parokkaran",
+    "father": "Paul",
+    "mother": "Jishamol",
+    "dob": "2010-02-08",
+    "baptismDate": "2010-05-06"
+  },
+  {
+    "regNo": "15435",
+    "class": "XI",
+    "division": "A",
+    "name": "Anjo P.B",
+    "baptism": "Jose",
+    "house": "Puliyani",
+    "father": "Biju",
+    "mother": "Rainy",
+    "dob": "2010-02-10",
+    "baptismDate": "2010-05-16"
+  },
+  {
+    "regNo": "15436",
+    "class": "XI",
+    "division": "A",
+    "name": "Blesswin K Biju",
+    "baptism": "Augustine",
+    "house": "Kozhunjilikadan",
+    "father": "Biju",
+    "mother": "Siji",
+    "dob": "2009-05-02",
+    "baptismDate": "2009-06-28"
+  },
+  {
+    "regNo": "15463",
+    "class": "XI",
+    "division": "A",
+    "name": "Daniel Baiju",
+    "baptism": "Francis",
+    "house": "Vazhayil",
+    "father": "Baiju",
+    "mother": "Disni",
+    "dob": "",
+    "baptismDate": "2009-06-28"
+  },
+  {
+    "regNo": "15437",
+    "class": "XI",
+    "division": "A",
+    "name": "Daniel Jose",
+    "baptism": "Paul",
+    "house": "Kannampuzha",
+    "father": "Jose",
+    "mother": "Femil",
+    "dob": "2010-10-14",
+    "baptismDate": ""
+  },
+  {
+    "regNo": "15465",
+    "class": "XI",
+    "division": "A",
+    "name": "Dion Denny",
+    "baptism": "Varghese",
+    "house": "Kannamkunny",
+    "father": "Denny",
+    "mother": "Sini",
+    "dob": "2010-04-26",
+    "baptismDate": "2010-07-25"
+  },
+  {
+    "regNo": "15439",
+    "class": "XI",
+    "division": "A",
+    "name": "Edhal Shaijo",
+    "baptism": "Varghese",
+    "house": "Parackal",
+    "father": "Shaijo",
+    "mother": "Biji",
+    "dob": "2010-06-15",
+    "baptismDate": "2010-09-19"
+  },
+  {
+    "regNo": "15496",
+    "class": "XI",
+    "division": "A",
+    "name": "Emmanuel M.L",
+    "baptism": "",
+    "house": "Marotiparambil",
+    "father": "Libesh",
+    "mother": "Mary",
+    "dob": "2010-11-11",
+    "baptismDate": ""
+  },
+  {
+    "regNo": "15657",
+    "class": "XI",
+    "division": "A",
+    "name": "Evan Ojus",
+    "baptism": "Joseph",
+    "house": "Peedikathundil",
+    "father": "Ojus",
+    "mother": "Rani",
+    "dob": "2009-10-03",
+    "baptismDate": ""
+  },
+  {
+    "regNo": "15801",
+    "class": "XI",
+    "division": "A",
+    "name": "Henio Joseph",
+    "baptism": "Joseph",
+    "house": "Vallappan",
+    "father": "Baiju",
+    "mother": "Brinta",
+    "dob": "2010-07-01",
+    "baptismDate": "2011-05-01"
+  },
+  {
+    "regNo": "15470",
+    "class": "XI",
+    "division": "A",
+    "name": "Paulo Jees Sajo",
+    "baptism": "Paulose",
+    "house": "Cherangadam",
+    "father": "Sajo",
+    "mother": "Vincy",
+    "dob": "2010-09-21",
+    "baptismDate": "2011-04-21"
+  },
+  {
+    "regNo": "15443",
+    "class": "XI",
+    "division": "A",
+    "name": "Vinay Joseph Toby",
+    "baptism": "Joseph",
+    "house": "Nereparambil",
+    "father": "Joby",
+    "mother": "Sheena",
+    "dob": "2010-09-18",
+    "baptismDate": "2010-10-10"
+  },
+  {
+    "regNo": "15473",
+    "class": "XI",
+    "division": "A",
+    "name": "Anaya Shijo",
+    "baptism": "Mariya",
+    "house": "Pozholiparambil",
+    "father": "Shijo",
+    "mother": "Divya",
+    "dob": "2010-07-13",
+    "baptismDate": "2010-10-19"
+  },
+  {
+    "regNo": "15472",
+    "class": "XI",
+    "division": "A",
+    "name": "Aneena Joy",
+    "baptism": "Anna",
+    "house": "Pereppadan",
+    "father": "Joy",
+    "mother": "Shiny",
+    "dob": "2009-08-05",
+    "baptismDate": "2009-11-22"
+  },
+  {
+    "regNo": "15471",
+    "class": "XI",
+    "division": "A",
+    "name": "Angel George",
+    "baptism": "Philomina",
+    "house": "Thayankeri",
+    "father": "George",
+    "mother": "Beena",
+    "dob": "2010-11-30",
+    "baptismDate": "2010-08-07"
+  },
+  {
+    "regNo": "15475",
+    "class": "XI",
+    "division": "A",
+    "name": "Anugraha Shibu",
+    "baptism": "Maria",
+    "house": "Vailikudam",
+    "father": "Shibu",
+    "mother": "Bijitha",
+    "dob": "2010-03-01",
+    "baptismDate": "2010-06-13"
+  },
+  {
+    "regNo": "15477",
+    "class": "XI",
+    "division": "A",
+    "name": "Hannah Ann Leejo",
+    "baptism": "",
+    "house": "Kannankuni",
+    "father": "Leejo",
+    "mother": "Rajitha",
+    "dob": "2010-05-03",
+    "baptismDate": "2010-06-13"
+  },
+  {
+    "regNo": "15451",
+    "class": "XI",
+    "division": "A",
+    "name": "Helna Binoy",
+    "baptism": "Mariya",
+    "house": "Nellissery",
+    "father": "Binoy",
+    "mother": "Ancy",
+    "dob": "2010-08-18",
+    "baptismDate": "2010-11-07"
+  },
+  {
+    "regNo": "15478",
+    "class": "XI",
+    "division": "A",
+    "name": "Irene Pius",
+    "baptism": "Anna",
+    "house": "Thandiakkel",
+    "father": "Pius Joseph",
+    "mother": "Sneha",
+    "dob": "2010-04-26",
+    "baptismDate": "2010-08-01"
+  },
+  {
+    "regNo": "15450",
+    "class": "XI",
+    "division": "A",
+    "name": "Isha Paulson",
+    "baptism": "Kochuthresia",
+    "house": "Kanampilly",
+    "father": "Paulson",
+    "mother": "Sini",
+    "dob": "2010-11-18",
+    "baptismDate": "2011-03-06"
+  },
+  {
+    "regNo": "15594",
+    "class": "XI",
+    "division": "A",
+    "name": "Ishfath Mary Linto",
+    "baptism": "Mary",
+    "house": "Chungath",
+    "father": "Linto",
+    "mother": "Jisha",
+    "dob": "2010-06-02",
+    "baptismDate": "2010-07-04"
+  },
+  {
+    "regNo": "15481",
+    "class": "XI",
+    "division": "A",
+    "name": "Rinu Rose Jackson",
+    "baptism": "Rosy",
+    "house": "Kallivalappil",
+    "father": "Tomson",
+    "mother": "Blessy",
+    "dob": "2010-03-17",
+    "baptismDate": "2010-08-08"
+  },
+  {
+    "regNo": "15482",
+    "class": "XI",
+    "division": "A",
+    "name": "Riona Shinto",
+    "baptism": "Anna",
+    "house": "Pozholiparambil",
+    "father": "Shinto",
+    "mother": "Remya",
+    "dob": "2010-04-03",
+    "baptismDate": "2010-07-11"
+  },
+  {
+    "regNo": "15455",
+    "class": "XI",
+    "division": "A",
+    "name": "Riya T.R",
+    "baptism": "Mary",
+    "house": "Thandiakkal",
+    "father": "Roy",
+    "mother": "Sincy",
+    "dob": "2010-09-10",
+    "baptismDate": "2010-12-26"
+  },
+  {
+    "regNo": "15483",
+    "class": "XI",
+    "division": "A",
+    "name": "Sandra Theres Raj",
+    "baptism": "Kochuthresia",
+    "house": "Kanamkunny",
+    "father": "Raju",
+    "mother": "Seenia",
+    "dob": "2010-03-15",
+    "baptismDate": "2010-06-27"
+  },
+  {
+    "regNo": "",
+    "class": "XI",
+    "division": "A",
+    "name": "Jasiel N Jaison",
+    "baptism": "Rosily",
+    "house": "Nereparambil",
+    "unit": "",
+    "father": "Jaison Michael",
+    "mother": "Smitha",
+    "dob": "10/07/2011",
+    "baptismDate": "04/09/2011"
+},
+
+  
+  {
+    "regNo": "15433",
+    "class": "XI",
+    "division": "B",
+    "name": "Abhishek Boby",
+    "baptism": "Antony",
+    "house": "Puliyani House",
+    "father": "Bobi P.J",
+    "mother": "Jintu",
+    "dob": "04/09/2010",
+    "baptismDate": "27/11/2010"
+  },
+  {
+    "regNo": "15460",
+    "class": "XI",
+    "division": "B",
+    "name": "Albin Berton",
+    "baptism": "Paulose",
+    "house": "Thuluvath House",
+    "father": "Berton Paul",
+    "mother": "Ancy",
+    "dob": "30/03/2010",
+    "baptismDate": "27/06/2010"
+  },
+  {
+    "regNo": "15434",
+    "class": "XI",
+    "division": "B",
+    "name": "Albin Biju K",
+    "baptism": "Paulose",
+    "house": "",
+    "father": "Biju K.P",
+    "mother": "Jolly",
+    "dob": "05/07/2010",
+    "baptismDate": "21/09/2010"
+  },
+  {
+    "regNo": "15462",
+    "class": "XI",
+    "division": "B",
+    "name": "Antony Shibu",
+    "baptism": "Antony",
+    "house": "Kalathingal House",
+    "father": "Shibu K",
+    "mother": "Retty Mol",
+    "dob": "03/02/2010",
+    "baptismDate": "06/06/2010"
+  },
+  {
+    "regNo": "15464",
+    "class": "XI",
+    "division": "B",
+    "name": "Delpiero KB",
+    "baptism": "Antony",
+    "house": "Kuzhiyanni House",
+    "father": "Biju",
+    "mother": "Bini",
+    "dob": "24/06/2010",
+    "baptismDate": "31/10/2010"
+  },
+  {
+    "regNo": "15885",
+    "class": "XI",
+    "division": "B",
+    "name": "Eion George",
+    "baptism": "Paul",
+    "house": "Panamkoodan",
+    "father": "George Pauly",
+    "mother": "Seema",
+    "dob": "04/04/2010",
+    "baptismDate": "15/01/2011"
+  },
+  {
+    "regNo": "15466",
+    "class": "XI",
+    "division": "B",
+    "name": "Elvin K.S",
+    "baptism": "Antony",
+    "house": "Kannampilly",
+    "father": "Sunny K.V",
+    "mother": "Sherry",
+    "dob": "04/11/2009",
+    "baptismDate": "16/01/2010"
+  },
+  {
+    "regNo": "15440",
+    "class": "XI",
+    "division": "B",
+    "name": "Flintof KT",
+    "baptism": "Jose",
+    "house": "Kanjamell",
+    "father": "Paulson",
+    "mother": "Rose Mary",
+    "dob": "04/10/2010",
+    "baptismDate": ""
+  },
+  {
+    "regNo": "15601",
+    "class": "XI",
+    "division": "B",
+    "name": "Glince Genoy",
+    "baptism": "Davis",
+    "house": "Pozholiparambil",
+    "father": "Genoy Davis",
+    "mother": "Ponny",
+    "dob": "25/05/2010",
+    "baptismDate": "16/07/2010"
+  },
+  {
+    "regNo": "15467",
+    "class": "XI",
+    "division": "B",
+    "name": "Grince Varghese",
+    "baptism": "Thomas",
+    "house": "Alappat",
+    "father": "Varghese",
+    "mother": "Rosily",
+    "dob": "31/03/2010",
+    "baptismDate": "22/08/2010"
+  },
+  {
+    "regNo": "15468",
+    "class": "XI",
+    "division": "B",
+    "name": "Joseph Sinto",
+    "baptism": "Lona",
+    "house": "Chonadan",
+    "father": "Sinto Lona",
+    "mother": "Sini",
+    "dob": "25/05/2010",
+    "baptismDate": "04/12/2010"
+  },
+  {
+    "regNo": "15442",
+    "class": "XI",
+    "division": "B",
+    "name": "Noel Joseph",
+    "baptism": "Thomas",
+    "house": "Kattiyathanth",
+    "father": "Joseph",
+    "mother": "Leena",
+    "dob": "10/01/2010",
+    "baptismDate": "17/10/2010"
+  },
+  {
+    "regNo": "15469",
+    "class": "XI",
+    "division": "B",
+    "name": "Sam Davio T",
+    "baptism": "David",
+    "house": "Thandiakkal",
+    "father": "Toy Varunny",
+    "mother": "Betty",
+    "dob": "22/06/2010",
+    "baptismDate": "23/01/2011"
+  },
+  {
+    "regNo": "15444",
+    "class": "XI",
+    "division": "B",
+    "name": "Anna Biju",
+    "baptism": "Annies",
+    "house": "Edappolayan",
+    "father": "Biju Kuriakose",
+    "mother": "Silu",
+    "dob": "11/05/2010",
+    "baptismDate": "02/01/2011"
+  },
+  {
+    "regNo": "15389",
+    "class": "XI",
+    "division": "B",
+    "name": "Anet Rose Joyson",
+    "baptism": "Monica",
+    "house": "Antery",
+    "father": "A.L. Joyson",
+    "mother": "Lissa",
+    "dob": "23/04/2009",
+    "baptismDate": "21/12/2009"
+  },
+  {
+    "regNo": "15445",
+    "class": "XI",
+    "division": "B",
+    "name": "Anjaly Mijo",
+    "baptism": "Ann Mary",
+    "house": "Elankkadan",
+    "father": "Majo Varghese",
+    "mother": "Vijitha",
+    "dob": "04/06/2010",
+    "baptismDate": "05/09/2010"
+  },
+  {
+    "regNo": "15447",
+    "class": "XI",
+    "division": "B",
+    "name": "Ann Grace Biju",
+    "baptism": "Ann Grace",
+    "house": "Panjikkaran",
+    "father": "Biju Antony",
+    "mother": "Jasmy",
+    "dob": "19/07/2010",
+    "baptismDate": "12/09/2010"
+  },
+  {
+    "regNo": "15446",
+    "class": "XI",
+    "division": "B",
+    "name": "Anju Jose",
+    "baptism": "Mary",
+    "house": "Thandakkal",
+    "father": "Jose P.J",
+    "mother": "Reeta",
+    "dob": "17/09/2009",
+    "baptismDate": "29/11/2009"
+  },
+  {
+    "regNo": "15771",
+    "class": "XI",
+    "division": "B",
+    "name": "Annya Benny",
+    "baptism": "Elizabeth",
+    "house": "Mood(a)",
+    "father": "Benny M.S",
+    "mother": "Stella",
+    "dob": "10/04/2010",
+    "baptismDate": "04/07/2010"
+  },
+  {
+    "regNo": "15448",
+    "class": "XI",
+    "division": "B",
+    "name": "Anna Rose",
+    "baptism": "Anna",
+    "house": "Kalathingal",
+    "father": "Ramesh K.L",
+    "mother": "Smitha",
+    "dob": "07/05/2010",
+    "baptismDate": "12/06/2010"
+  },
+  {
+    "regNo": "15449",
+    "class": "XI",
+    "division": "B",
+    "name": "Callyon Robert",
+    "baptism": "Maria",
+    "house": "Thuluvath",
+    "father": "Robert",
+    "mother": "Malcy",
+    "dob": "24/06/2010",
+    "baptismDate": "19/09/2010"
+  },
+  {
+    "regNo": "15459",
+    "class": "XI",
+    "division": "B",
+    "name": "Anuliya Joemon",
+    "baptism": "Filomina",
+    "house": "Nallankara",
+    "father": "Joemon",
+    "mother": "Nisha",
+    "dob": "02/09/2009",
+    "baptismDate": ""
+  },
+  {
+    "regNo": "15480",
+    "class": "XI",
+    "division": "B",
+    "name": "Diya T B",
+    "baptism": "Mary",
+    "house": "Thuluvath",
+    "father": "Bastin T.J",
+    "mother": "Jerry Peter",
+    "dob": "02/08/2010",
+    "baptismDate": "06/11/2010"
+  },
+  {
+    "regNo": "15476",
+    "class": "XI",
+    "division": "B",
+    "name": "Eya Jenist L",
+    "baptism": "Therese",
+    "house": "Thandiakkal",
+    "father": "Linest Jacob",
+    "mother": "Maria",
+    "dob": "05/06/2010",
+    "baptismDate": "14/08/2010"
+  },
+  {
+    "regNo": "15454",
+    "class": "XI",
+    "division": "B",
+    "name": "Gloria Johse",
+    "baptism": "Annie",
+    "house": "Punnelparambil",
+    "father": "Jonise P.V",
+    "mother": "Pancy",
+    "dob": "20/01/2010",
+    "baptismDate": ""
+  },
+  {
+    "regNo": "15453",
+    "class": "XI",
+    "division": "B",
+    "name": "Lyona Shaju",
+    "baptism": "Jessy",
+    "house": "Puliyani",
+    "father": "Shaju P.P",
+    "mother": "Noble",
+    "dob": "30/09/2011",
+    "baptismDate": "23/11/2011"
+  },
+  {
+    "regNo": "15456",
+    "class": "XI",
+    "division": "B",
+    "name": "Sana Rose Roy",
+    "baptism": "Elizabeth",
+    "house": "Ponthakkan",
+    "father": "Roy P.R",
+    "mother": "Sigy",
+    "dob": "16/11/2011",
+    "baptismDate": "20/02/2012"
+  },
+  {
+    "regNo": "15457",
+    "class": "XI",
+    "division": "B",
+    "name": "Sota V.S",
+    "baptism": "Rosa",
+    "house": "Yaliyaveettil",
+    "father": "Saneesh V.J",
+    "mother": "Mini",
+    "dob": "22/06/2006",
+    "baptismDate": "14/04/2010"
+  },
+    
+
+    {
+        "regNo": "15371",
+        "class": "XII",
+        "division": "A",
+        "name": "Aaron K.A",
+        "baptism": "Ouseph",
+        "house": "Kallivalappil",
+        "father": "Antony",
+        "mother": "Jisha",
+        "dob": "2009-03-25",
+        "baptismDate": "2009-05-23"
+    },
+    {
+        "regNo": "15402",
+        "class": "XII",
+        "division": "B",
+        "name": "Adhil Joy",
+        "baptism": "Paviyanose",
+        "house": "Thuluvath",
+        "father": "Joy",
+        "mother": "Swapna",
+        "dob": "2009-06-03",
+        "baptismDate": "2009-09-05"
+    },
+    {
+        "regNo": "15378",
+        "class": "XII",
+        "division": "A",
+        "name": "Acto Paul",
+        "baptism": "Raphael",
+        "house": "Meledan",
+        "father": "Paul",
+        "mother": "Jisha",
+        "dob": "2009-03-03",
+        "baptismDate": "2009-04-19"
+    },
+    {
+        "regNo": "15981",
+        "class": "XII",
+        "division": "A",
+        "name": "Aldin Lalu",
+        "baptism": "Thomas",
+        "house": "Pallippatt",
+        "father": "Lalu",
+        "mother": "Daisy",
+        "dob": "2009-03-14",
+        "baptismDate": "2009-11-22"
+    },
+    {
+        "regNo": "15382",
+        "class": "XII",
+        "division": "A",
+        "name": "Anjo Jestin",
+        "baptism": "Jose",
+        "house": "Kannamkunny",
+        "father": "Jestin",
+        "mother": "Neetha",
+        "dob": "2009-03-25",
+        "baptismDate": "2009-05-31"
+    },
+    {
+        "regNo": "15373",
+        "class": "XII",
+        "division": "A",
+        "name": "Ashin Shaju",
+        "baptism": "Xavier",
+        "house": "Vettiyattil",
+        "father": "Shaju",
+        "mother": "Shainy",
+        "dob": "2008-11-13",
+        "baptismDate": "2009-03-15"
+    },
+    {
+        "regNo": "15375",
+        "class": "XII",
+        "division": "A",
+        "name": "Edwin Joy",
+        "baptism": "Vareeth",
+        "house": "Kannamkunny",
+        "father": "Joy",
+        "mother": "Jincy",
+        "dob": "2009-07-03",
+        "baptismDate": "2009-10-17"
+    },
+    {
+        "regNo": "15374",
+        "class": "XII",
+        "division": "A",
+        "name": "Elwin Biju",
+        "baptism": "Joseph",
+        "house": "Thandiakkal",
+        "father": "Biju",
+        "mother": "Silby",
+        "dob": "2009-05-05",
+        "baptismDate": "2009-08-30"
+    },
+    {
+        "regNo": "15372",
+        "class": "XII",
+        "division": "A",
+        "name": "Godrick Jennin",
+        "baptism": "Anthonys",
+        "house": "Kannamkunny",
+        "father": "Jennin",
+        "mother": "Pravitha",
+        "dob": "2008-11-27",
+        "baptismDate": "2008-02-22"
+    },
+    {
+        "regNo": "15908",
+        "class": "XII",
+        "division": "A",
+        "name": "Jesse Seejo",
+        "baptism": "Varghese",
+        "house": "Thuluvath",
+        "father": "Seejo",
+        "mother": "Jinu",
+        "dob": "2009-05-25",
+        "baptismDate": "2009-08-01"
+    },
+    {
+        "regNo": "15779",
+        "class": "XII",
+        "division": "A",
+        "name": "Kevin Joy",
+        "baptism": "Kevin",
+        "house": "Puliyani",
+        "father": "Joy",
+        "mother": "Sheeba",
+        "dob": "2008-12-30",
+        "baptismDate": "2009-02-12"
+    },
+    {
+        "regNo": "15401",
+        "class": "XII",
+        "division": "A",
+        "name": "Noel Nixon",
+        "baptism": "Jose",
+        "house": "Kallivalappil",
+        "father": "Nixon",
+        "mother": "Saly",
+        "dob": "2009-02-18",
+        "baptismDate": "2009-05-20"
+    },
+    {
+        "regNo": "15406",
+        "class": "XII",
+        "division": "A",
+        "name": "Santo Pauly",
+        "baptism": "Devassy",
+        "house": "Kuzhiveli",
+        "father": "Pauly",
+        "mother": "Gigy",
+        "dob": "2009-03-15",
+        "baptismDate": "2009-05-17"
+    },
+    {
+        "regNo": "15381",
+        "class": "XII",
+        "division": "A",
+        "name": "Sharon P Biju",
+        "baptism": "Thomas",
+        "house": "Pallippatt",
+        "father": "Biju",
+        "mother": "Jainy",
+        "dob": "2009-07-10",
+        "baptismDate": "2009-10-02"
+    },
+    {
+        "regNo": "15400",
+        "class": "XII",
+        "division": "A",
+        "name": "Yanish Shaju",
+        "baptism": "Devassy",
+        "house": "puliyani",
+        "father": "Shaju",
+        "mother": "Noble",
+        "dob": "2009-05-28",
+        "baptismDate": "2009-10-11"
+    },
+    {
+        "regNo": "15386",
+        "class": "XII",
+        "division": "A",
+        "name": "Aleena Bobi",
+        "baptism": "Elsy",
+        "house": "Puliyani",
+        "father": "Boby",
+        "mother": "Jindu",
+        "dob": "2009-01-03",
+        "baptismDate": "2009-04-15"
+    },
+    {
+        "regNo": "15394",
+        "class": "XII",
+        "division": "A",
+        "name": "Aliya T Bilton",
+        "baptism": "Alphonsa",
+        "house": "Thuluvath",
+        "father": "Bilton",
+        "mother": "Navya",
+        "dob": "2009-05-17",
+        "baptismDate": "2009-08-02"
+    },
+{
+        "regNo": "15395",
+        "class": "XII",
+        "division": "A",
+        "name": "Anna Mol Shaju",
+        "baptism": "Thresia",
+        "house": "kallivalappil",
+        "father": "Shaju",
+        "mother": "Jisha",
+        "dob": "2009-06-17",
+        "baptismDate": "2009-09-20"
+    },
+    {
+        "regNo": "15413",
+        "class": "XII",
+        "division": "A",
+        "name": "Anliya Rose TJ",
+        "baptism": "Theressa",
+        "house": "Thandiakkal",
+        "father": "Jinesh",
+        "mother": "Shilly",
+        "dob": "2008-12-29",
+        "baptismDate": "2009-02-01"
+    },
+    {
+        "regNo": "15393",
+        "class": "XII",
+        "division": "A",
+        "name": "Anlin Berton",
+        "baptism": "",
+        "house": "Thuluvath",
+        "father": "Berton",
+        "mother": "Ancy",
+        "dob": "2009-02-16",
+        "baptismDate": "2009-04-19"
+    },
+    {
+        "regNo": "15421",
+        "class": "XII",
+        "division": "A",
+        "name": "Annett Shijo",
+        "baptism": "Anna",
+        "house": "pozhaliparambil",
+        "father": "Shijo",
+        "mother": "Divya",
+        "dob": "2009-01-23",
+        "baptismDate": "2009-06-21"
+    },
+    {
+        "regNo": "15767",
+        "class": "XII",
+        "division": "A",
+        "name": "Ann Mariya Biju",
+        "baptism": "Anna",
+        "house": "Kizhakkoodan",
+        "father": "Biju",
+        "mother": "Aji",
+        "dob": "2009-06-26",
+        "baptismDate": "2009-12-27"
+    },
+    {
+        "regNo": "15415",
+        "class": "XII",
+        "division": "A",
+        "name": "Ann Mary Smijo",
+        "baptism": "Mary",
+        "house": "Keettickal",
+        "father": "Smijo",
+        "mother": "Arly",
+        "dob": "2009-03-02",
+        "baptismDate": "2009-06-02"
+    },
+    {
+        "regNo": "15396",
+        "class": "XII",
+        "division": "A",
+        "name": "Ashnatt P Jijo",
+        "baptism": "Philomina",
+        "house": "Puliyani",
+        "father": "Jijo",
+        "mother": "Anitha",
+        "dob": "2009-01-06",
+        "baptismDate": "2009-05-17"
+    },
+    {
+        "regNo": "15391",
+        "class": "XII",
+        "division": "A",
+        "name": "Christeena Varghese",
+        "baptism": "Veronica",
+        "house": "Thrissurkkaran",
+        "father": "Varghese",
+        "mother": "Reena",
+        "dob": "2009-02-04",
+        "baptismDate": "2009-04-26"
+    },
+    {
+        "regNo": "15521",
+        "class": "XII",
+        "division": "A",
+        "name": "Crysantha Jinto",
+        "baptism": "Elizabeth",
+        "house": "Kachappilly",
+        "father": "Jinto",
+        "mother": "Jisha",
+        "dob": "2009-07-20",
+        "baptismDate": "2009-08-30"
+    },
+    {
+        "regNo": "15412",
+        "class": "XII",
+        "division": "A",
+        "name": "Esha Jaiby",
+        "baptism": "Lilly",
+        "house": "Nereparambil",
+        "father": "Jaiby",
+        "mother": "Jini",
+        "dob": "2009-06-23",
+        "baptismDate": "2009-09-12"
+    },
+    {
+        "regNo": "15387",
+        "class": "XII",
+        "division": "A",
+        "name": "Jenitta Joy",
+        "baptism": "Rosily",
+        "house": "Kannamkunny",
+        "father": "Joy",
+        "mother": "Jeena",
+        "dob": "2009-09-24",
+        "baptismDate": "2010-01-10"
+    },
+    {
+        "regNo": "15562",
+        "class": "XII",
+        "division": "A",
+        "name": "Merin Treesa Bibin",
+        "baptism": "Mary",
+        "house": "Thandiekkal",
+        "father": "Bibin",
+        "mother": "Sruthy",
+        "dob": "2009-03-25",
+        "baptismDate": "2009-07-26"
+    },
+    {
+        "regNo": "15414",
+        "class": "XII",
+        "division": "A",
+        "name": "Retina K.S",
+        "baptism": "Mary",
+        "house": "Kunnathuparambil",
+        "father": "Stereesh",
+        "mother": "Jisa",
+        "dob": "2009-05-29",
+        "baptismDate": "2009-08-23"
+    },
+
+    {
+        "regNo": "15377",
+        "class": "XII",
+        "division": "B",
+        "name": "Abel Shinto",
+        "baptism": "",
+        "house": "Kallivayappil",
+        "father": "Shinto",
+        "mother": "Lissy",
+        "dob": "2009-04-24",
+        "baptismDate": "2009-09-20"
+    },
+    {
+        "regNo": "15399",
+        "class": "XII",
+        "division": "B",
+        "name": "Alan Seejo",
+        "baptism": "",
+        "house": "Kannampuzha",
+        "father": "Seejo",
+        "mother": "Alphonsa",
+        "dob": "2008-04-29",
+        "baptismDate": "2009-09-20"
+    },
+    {
+        "regNo": "15403",
+        "class": "XII",
+        "division": "B",
+        "name": "Axel Biju",
+        "baptism": "",
+        "house": "Nereparambil",
+        "father": "Biju",
+        "mother": "Shaiji",
+        "dob": "2009-10-14",
+        "baptismDate": "2010-01-17"
+    },
+    {
+        "regNo": "15404",
+        "class": "XII",
+        "division": "B",
+        "name": "Daniel Varghese",
+        "baptism": "",
+        "house": "Anchery",
+        "father": "Varghese",
+        "mother": "Jincy",
+        "dob": "2009-02-26",
+        "baptismDate": "2009-05-13"
+    },
+    {
+        "regNo": "15370",
+        "class": "XII",
+        "division": "B",
+        "name": "Serin Davis",
+        "baptism": "",
+        "house": "Thrissurkaran",
+        "father": "Davis",
+        "mother": "Sanitha",
+        "dob": "2008-12-11",
+        "baptismDate": "2009-04-19"
+    },
+    {
+        "regNo": "15380",
+        "class": "XII",
+        "division": "B",
+        "name": "Ajoy C.S",
+        "baptism": "",
+        "house": "Chathely",
+        "father": "Sijo",
+        "mother": "Jency",
+        "dob": "2009-04-11",
+        "baptismDate": "2009-06-28"
+    },
+    {
+        "regNo": "15410",
+        "class": "XII",
+        "division": "B",
+        "name": "Alfred Shinto",
+        "baptism": "",
+        "house": "Kallivalappil",
+        "father": "Shinto",
+        "mother": "Smitha",
+        "dob": "2009-03-07",
+        "baptismDate": "2009-09-19"
+    },
+    {
+        "regNo": "15405",
+        "class": "XII",
+        "division": "B",
+        "name": "Ashlin Ebbi",
+        "baptism": "",
+        "house": "Kallivalappil",
+        "father": "Ebbi",
+        "mother": "simi",
+        "dob": "2009-01-11",
+        "baptismDate": "2009-04-19"
+    },
+    {
+        "regNo": "15409",
+        "class": "XII",
+        "division": "B",
+        "name": "Dawn Siju",
+        "baptism": "",
+        "house": "Perumbully",
+        "father": "Siju",
+        "mother": "Beena",
+        "dob": "2009-08-06",
+        "baptismDate": "2009-10-18"
+    },
+    {
+        "regNo": "15384",
+        "class": "XII",
+        "division": "B",
+        "name": "Emmanuel Biju",
+        "baptism": "",
+        "house": "Kannamkunni",
+        "father": "Biju",
+        "mother": "Rini",
+        "dob": "2009-09-05",
+        "baptismDate": ""
+    },
+    {
+        "regNo": "15856",
+        "class": "XII",
+        "division": "B",
+        "name": "Eismon Martin",
+        "baptism": "",
+        "house": "Kallivalappil",
+        "father": "Martin",
+        "mother": "Mini",
+        "dob": "2009-07-11",
+        "baptismDate": "2009-10-03"
+    },
+    {
+        "regNo": "15383",
+        "class": "XII",
+        "division": "B",
+        "name": "Manuel Shaijo",
+        "baptism": "",
+        "house": "Panthalookaran",
+        "father": "Shaijo",
+        "mother": "July",
+        "dob": "2008-04-24",
+        "baptismDate": ""
+    },
+    {
+        "regNo": "15379",
+        "class": "XII",
+        "division": "B",
+        "name": "Richard Rinson",
+        "baptism": "",
+        "house": "Kozhikadan",
+        "father": "Rinson",
+        "mother": "Diby",
+        "dob": "2009-08-06",
+        "baptismDate": "2009-09-21"
+    },
+    {
+        "regNo": "15411",
+        "class": "XII",
+        "division": "B",
+        "name": "Amulya P.B.",
+        "baptism": "",
+        "house": "Payammal",
+        "father": "Biju",
+        "mother": "Jincy",
+        "dob": "2009-06-02",
+        "baptismDate": "2009-09-06"
+    },
+    {
+        "regNo": "15390",
+        "class": "XII",
+        "division": "B",
+        "name": "Aisal Mary Jimmy",
+        "baptism": "",
+        "house": "Thandakkal",
+        "father": "Jimmy",
+        "mother": "Bini",
+        "dob": "2009-05-16",
+        "baptismDate": "2009-08-16"
+    },
+    {
+        "regNo": "15418",
+        "class": "XII",
+        "division": "B",
+        "name": "Christeena Raju",
+        "baptism": "",
+        "house": "Kallivalappil",
+        "father": "Raju",
+        "mother": "Printy",
+        "dob": "2009-03-15",
+        "baptismDate": "2010-08-01"
+    },
+    {
+        "regNo": "15388",
+        "class": "XII",
+        "division": "B",
+        "name": "Delmy Mariya Denny",
+        "baptism": "",
+        "house": "Panthallookaran",
+        "father": "Denny",
+        "mother": "Manju",
+        "dob": "2008-09-17",
+        "baptismDate": "2009-01-16"
+    },
+    {
+        "regNo": "15416",
+        "class": "XII",
+        "division": "B",
+        "name": "Riya Gijin",
+        "baptism": "",
+        "house": "Kandamkullathy",
+        "father": "Gijin",
+        "mother": "Aleena",
+        "dob": "2009-09-17",
+        "baptismDate": "2009-11-26"
+    },
+    {
+        "regNo": "15417",
+        "class": "XII",
+        "division": "B",
+        "name": "Saniya Sunny",
+        "baptism": "",
+        "house": "Kanninmel",
+        "father": "Sunny",
+        "mother": "Jancy",
+        "dob": "2009-09-26",
+        "baptismDate": "2010-01-24"
+    },
+    {
+        "regNo": "15392",
+        "class": "XII",
+        "division": "B",
+        "name": "Aleena Rose",
+        "baptism": "",
+        "house": "Thuluvath",
+        "father": "Antony",
+        "mother": "Gracy",
+        "dob": "2009-02-09",
+        "baptismDate": "2009-04-19"
+    },
+    {
+        "regNo": "15420",
+        "class": "XII",
+        "division": "B",
+        "name": "Anet Jose",
+        "baptism": "",
+        "house": "Nambadiyadan",
+        "father": "Jose",
+        "mother": "Bophy",
+        "dob": "2009-05-28",
+        "baptismDate": "2009-07-18"
+    },
+    {
+        "regNo": "15562",
+        "class": "XII",
+        "division": "B",
+        "name": "Irine Sunny",
+        "baptism": "",
+        "house": "Chirakkal",
+        "father": "Sunny",
+        "mother": "",
+        "dob": "2008-04-16",
+        "baptismDate": "2008-07-13"
+    },
+    {
+        "regNo": "15959",
+        "class": "XII",
+        "division": "B",
+        "name": "Anna Jimmy",
+        "baptism": "",
+        "house": "Pottankal",
+        "father": "Jimmy",
+        "mother": "Sona",
+        "dob": "2009-08-31",
+        "baptismDate": "2009-11-15"
+    },
+    {
+        "regNo": "15992",
+        "class": "XII",
+        "division": "B",
+        "name": "Abhiya Rajesh",
+        "baptism": "",
+        "house": "Chakkalackal",
+        "father": "Rajesh",
+        "mother": "Alphonsa John",
+        "dob": "2008-06-16",
+        "baptismDate": "2014-05-24"
+    }
+
+
+];
+
+
+// ===========================================
+// 5. UPPERCASE FORMATTING
+// ===========================================
+
+function normalizeRecords(records, dateFields) {
+    return records.map(record => {
+        const result = {};
+
+        for (const key in record) {
+            const value = record[key];
+
+            if (dateFields.includes(key)) {
+                result[key] = value ?? "";
+            } else if (typeof value === "string") {
+                result[key] = value.toUpperCase().trim();
+            } else {
+                result[key] = value;
+            }
+        }
+
+        return result;
+    });
+}
+
+students = normalizeRecords(
+    students,
+    ["dob", "baptismDate"]
+);
+
+teachers = normalizeRecords(
+    teachers,
+    ["dob"]
+);
+
+
+// ===========================================
+// 6. DATE FORMAT
+// ===========================================
+
+function formatDate(value) {
+    if (!value) return "-";
+
+    const parts = String(value).trim().split(/[-/.]/);
+
+    if (parts.length !== 3) return value;
+
+    let day, month, year;
+
+    if (parts[0].length === 4) {
+        year = Number(parts[0]);
+        month = Number(parts[1]);
+        day = Number(parts[2]);
+    } else {
+        day = Number(parts[0]);
+        month = Number(parts[1]);
+        year = Number(parts[2]);
+    }
+
+    if (
+        !Number.isInteger(day) ||
+        !Number.isInteger(month) ||
+        !Number.isInteger(year) ||
+        year < 1000 ||
+        year > 9999 ||
+        month < 1 ||
+        month > 12 ||
+        day < 1 ||
+        day > new Date(year, month, 0).getDate()
+    ) {
+        return value;
+    }
+
+    return String(day).padStart(2, "0") + "-" +
+        String(month).padStart(2, "0") + "-" + year;
+}
+
+
+// ===========================================
+// 7. SAFE HTML
+// ===========================================
+
+function safe(value) {
+    return String(value ?? "-").replace(/[&<>"']/g, char => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;"
+    })[char]);
+}
+
+
+// ===========================================
+// 8. DASHBOARD COUNTS
+// ===========================================
+
+function updateDashboard() {
+    document.getElementById("dashboardStudents").textContent =
+        students.length;
+
+    document.getElementById("dashboardTeachers").textContent =
+        teachers.length;
+
+    document.getElementById("dashboardClasses").textContent =
+        romanClasses.length;
+}
+
+
+// ===========================================
+// 9. SECTION NAVIGATION
+// ===========================================
+
+function showSection(sectionId, clickedButton) {
+
+    document.querySelectorAll(".register-section")
+        .forEach(section => section.classList.remove("active"));
+
+    document.getElementById(sectionId).classList.add("active");
+
+    document.querySelectorAll(".nav-btn")
+        .forEach(button => button.classList.remove("active"));
+
+    if (clickedButton) {
+        clickedButton.classList.add("active");
+    } else {
+        const matchingButton = [...document.querySelectorAll(".nav-btn")]
+            .find(button =>
+                button.getAttribute("onclick")?.includes(sectionId)
+            );
+
+        if (matchingButton) {
+            matchingButton.classList.add("active");
+        }
+    }
+
+    if (sectionId === "students") renderStudents();
+    if (sectionId === "teachers") renderTeachers();
+
+    window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+
+// ===========================================
+// 10. RENDER STUDENTS
+// ===========================================
+
+function renderStudents() {
+
+    const selectedClass = classSelect.value;
+    const selectedDivision =
+        document.getElementById("divisionSelect").value;
+
+    const search =
+        document.getElementById("studentSearch")
+            .value.toUpperCase().trim();
+
+    const sortBy =
+        document.getElementById("studentSort").value;
+
+    let filtered = students.filter(s => {
+
+        const matchesClass =
+            selectedClass === "all" ||
+            s.class === selectedClass;
+
+        const matchesDivision =
+            selectedDivision === "all" ||
+            s.division === selectedDivision;
+
+        const searchText = [
+            s.regNo, s.name, s.house, s.unit,
+            s.baptism, s.father, s.mother
+        ].join(" ").toUpperCase();
+
+        return matchesClass &&
+            matchesDivision &&
+            searchText.includes(search);
+    });
+
+    filtered.sort((a, b) => {
+        if (sortBy === "name") {
+            return String(a.name).localeCompare(String(b.name));
+        }
+
+        if (sortBy === "regNo") {
+            return String(a.regNo).localeCompare(String(b.regNo));
+        }
+
+        return romanClasses.indexOf(a.class) -
+            romanClasses.indexOf(b.class) ||
+            String(a.division).localeCompare(String(b.division));
+    });
+
+    const tbody = document.getElementById("studentBody");
+    tbody.innerHTML = "";
+
+    filtered.forEach((s, index) => {
+
+        const row = document.createElement("tr");
+
+        row.innerHTML = `
+            <td>${index + 1}</td>
+            <td>${safe(s.regNo)}</td>
+            <td>${safe(s.class)}</td>
+            <td>${safe(s.division)}</td>
+            <td>${safe(s.name)}</td>
+            <td>${safe(s.baptism)}</td>
+            <td>${safe(s.house)}</td>
+            <td>${safe(s.unit)}</td>
+            <td>${safe(s.father)}</td>
+            <td>${safe(s.mother)}</td>
+            <td>${formatDate(s.dob)}</td>
+            <td>${formatDate(s.baptismDate)}</td>
+            <td><button class="view-btn">View</button></td>
+        `;
+
+        row.querySelector(".view-btn").addEventListener(
+            "click",
+            () => viewStudent(s)
+        );
+
+        tbody.appendChild(row);
+    });
+
+    document.getElementById("studentCount").textContent =
+        filtered.length;
+
+    document.getElementById("studentEmpty").style.display =
+        filtered.length ? "none" : "block";
+}
+
+
+// ===========================================
+// 11. VIEW STUDENT DETAILS
+// ===========================================
+
+function viewStudent(s) {
+
+    const teacher = getAssignedTeacher(s);
+
+    const details = [
+        ["Register Number", s.regNo],
+        ["Class", s.class],
+        ["Division", s.division],
+        ["Student Name", s.name],
+        ["Unit", s.unit],
+        ["Assigned Teacher", teacher],
+        ["Baptism Name", s.baptism],
+        ["House Name", s.house],
+        ["Father Name", s.father],
+        ["Mother Name", s.mother],
+        ["Date of Birth", formatDate(s.dob)],
+        ["Date of Baptism", formatDate(s.baptismDate)]
+    ];
+
+    showDetailsModal(
+        "STUDENT DETAILS",
+        s.name,
+        `${s.class} ${s.division}`,
+        details
+    );
+}
+
+
+// ===========================================
+// 12. TEACHER UNIT FILTER
+// ===========================================
+
+function populateTeacherUnits() {
+
+    const select = document.getElementById("teacherUnitFilter");
+
+    const currentValue = select.value;
+
+    const units = [...new Set(
+        teachers.map(t => t.unit).filter(Boolean)
+    )].sort();
+
+    select.innerHTML = '<option value="all">All Units</option>';
+
+    units.forEach(unit => {
+        const option = document.createElement("option");
+        option.value = unit;
+        option.textContent = unit;
+        select.appendChild(option);
+    });
+
+    if (units.includes(currentValue)) {
+        select.value = currentValue;
+    }
+}
+
+
+// ===========================================
+// 13. RENDER TEACHERS
+// ===========================================
+
+function renderTeachers() {
+
+    populateTeacherUnits();
+
+    const search =
+        document.getElementById("teacherSearch")
+            .value.toUpperCase().trim();
+
+    const unitFilter =
+        document.getElementById("teacherUnitFilter").value;
+
+    const chargeFilter =
+        document.getElementById("teacherChargeFilter")
+            .value.toUpperCase().trim();
+
+    const sortBy =
+        document.getElementById("teacherSort").value;
+
+    let filtered = teachers.filter(t => {
+
+        const searchText = [
+            t.name, t.unit, t.charge, t.house, t.phone
+        ].join(" ").toUpperCase();
+
+        const matchesSearch = searchText.includes(search);
+
+        const matchesUnit =
+            unitFilter === "all" || t.unit === unitFilter;
+
+        const matchesCharge =
+            String(t.charge || "").toUpperCase()
+                .includes(chargeFilter);
+
+        return matchesSearch && matchesUnit && matchesCharge;
+    });
+
+    filtered.sort((a, b) => {
+        return String(a[sortBy] || "")
+            .localeCompare(String(b[sortBy] || ""));
+    });
+
+    const tbody = document.getElementById("teacherBody");
+    tbody.innerHTML = "";
+
+    filtered.forEach((t, index) => {
+
+        const row = document.createElement("tr");
+
+        row.innerHTML = `
+            <td>${index + 1}</td>
+            <td>${safe(t.name)}</td>
+            <td>${safe(t.unit)}</td>
+            <td>${safe(t.charge)}</td>
+            <td>${safe(t.house)}</td>
+            <td>${formatDate(t.dob)}</td>
+            <td>${safe(t.phone)}</td>
+            <td><button class="view-btn">View</button></td>
+        `;
+
+        row.querySelector(".view-btn").addEventListener(
+            "click",
+            () => viewTeacher(t)
+        );
+
+        tbody.appendChild(row);
+    });
+
+    document.getElementById("teacherCount").textContent =
+        filtered.length;
+
+    document.getElementById("teacherEmpty").style.display =
+        filtered.length ? "none" : "block";
+}
+
+
+// ===========================================
+// 14. VIEW TEACHER DETAILS
+// ===========================================
+
+function viewTeacher(t) {
+
+    const details = [
+        ["Teacher Name", t.name],
+        ["Unit", t.unit],
+        ["Charge", t.charge],
+        ["House Name", t.house],
+        ["Date of Birth", formatDate(t.dob)],
+        ["Phone Number", t.phone]
+    ];
+
+    showDetailsModal(
+        "TEACHER DETAILS",
+        t.name,
+        "TEACHER INFORMATION",
+        details
+    );
+}
+
+
+// ===========================================
+// 15. COMMON DETAILS MODAL
+// ===========================================
+
+function showDetailsModal(title, name, subtitle, details) {
+
+    document.getElementById("detailsModal")?.remove();
+
+    const overlay = document.createElement("div");
+    overlay.className = "modal-overlay";
+    overlay.id = "detailsModal";
+
+    overlay.innerHTML = `
+        <div class="modal">
+
+            <div class="modal-header">
+                <h2>${safe(title)}</h2>
+                <button class="close-btn" id="modalClose">✕</button>
+            </div>
+
+            <div class="modal-content">
+
+                <h2 class="modal-name">${safe(name)}</h2>
+
+                <p class="modal-subtitle">${safe(subtitle)}</p>
+
+                <div class="details-grid">
+
+                    ${details.map(([label, value]) => `
+                        <div class="detail-box">
+                            <div class="detail-label">
+                                ${safe(label)}
+                            </div>
+
+                            <div class="detail-value">
+                                ${safe(value)}
+                            </div>
+                        </div>
+                    `).join("")}
+
+                </div>
+
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn btn-light" id="modalCloseBottom">
+                    Close
+                </button>
+            </div>
+
+        </div>
+    `;
+
+    document.body.appendChild(overlay);
+
+    function closeModal() {
+        overlay.remove();
+        document.removeEventListener("keydown", escapeHandler);
+    }
+
+    function escapeHandler(e) {
+        if (e.key === "Escape") closeModal();
+    }
+
+    overlay.querySelector("#modalClose")
+        .addEventListener("click", closeModal);
+
+    overlay.querySelector("#modalCloseBottom")
+        .addEventListener("click", closeModal);
+
+    overlay.addEventListener("click", e => {
+        if (e.target === overlay) closeModal();
+    });
+
+    document.addEventListener("keydown", escapeHandler);
+}
+
+
+// ===========================================
+// 16. CSV EXPORT HELPER
+// ===========================================
+
+function downloadCSV(headers, rows, filename) {
+
+    const csv = [headers, ...rows]
+        .map(row => row.map(value =>
+            '"' + String(value ?? "").replace(/"/g, '""') + '"'
+        ).join(","))
+        .join("\r\n");
+
+    const blob = new Blob(
+        ["\uFEFF" + csv],
+        { type: "text/csv;charset=utf-8;" }
+    );
+
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+
+    link.href = url;
+    link.download = filename;
+
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+
+    URL.revokeObjectURL(url);
+}
+
+
+// ===========================================
+// 17. EXPORT STUDENTS
+// ===========================================
+
+function exportStudents() {
+
+    const headers = [
+        "Sl No",
+        "Reg No",
+        "Class",
+        "Division",
+        "Student Name",
+        "Baptism Name",
+        "House Name",
+        "Unit",
+        "Father Name",
+        "Mother Name",
+        "Date of Birth",
+        "Date of Baptism",
+        "Assigned Teacher"
+    ];
+
+    const rows = students.map((s, index) => [
+        index + 1,
+        s.regNo,
+        s.class,
+        s.division,
+        s.name,
+        s.baptism,
+        s.house,
+        s.unit,
+        s.father,
+        s.mother,
+        formatDate(s.dob),
+        formatDate(s.baptismDate),
+        getAssignedTeacher(s)
+    ]);
+
+    downloadCSV(
+        headers,
+        rows,
+        "student_register_2026-27.csv"
+    );
+}
+
+
+// ===========================================
+// 18. EXPORT TEACHERS
+// ===========================================
+
+function exportTeachers() {
+
+    const headers = [
+        "Sl No",
+        "Teacher Name",
+        "Unit",
+        "Charge",
+        "House Name",
+        "Date of Birth",
+        "Phone Number"
+    ];
+
+    const rows = teachers.map((t, index) => [
+        index + 1,
+        t.name,
+        t.unit,
+        t.charge,
+        t.house,
+        formatDate(t.dob),
+        t.phone
+    ]);
+
+    downloadCSV(
+        headers,
+        rows,
+        "teacher_register_2026-27.csv"
+    );
+}
+
+
+// ===========================================
+// 19. INITIALIZATION
+// ===========================================
+
+updateDashboard();
+renderStudents();
+populateTeacherUnits();
+
+</script>
+
+</body>
+</html>
